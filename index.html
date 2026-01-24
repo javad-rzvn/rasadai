@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادار ایران | Iran Radar</title>
+    
+    <!-- Fonts: Vazirmatn (Persian) & Inter (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Vazirmatn:wght@100;300;500;700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f0f2f5;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-sub: #6b7280;
+            --accent: #dc2626; /* Iran Red */
+            --accent-hover: #b91c1c;
+            --green: #10b981;
+            --border: #e5e7eb;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f3f4f6;
+            --text-sub: #94a3b8;
+            --accent: #ef4444;
+            --border: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --glass: rgba(30, 41, 59, 0.8);
+        }
+
+        * { box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        /* --- HEADER & NAV --- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flag-img {
+            height: 45px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        
+        .logo-text small {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .icon-btn:hover { background: rgba(0,0,0,0.1); }
+        [data-theme="dark"] .icon-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* --- SEARCH BAR --- */
+        .search-container {
+            max-width: 600px;
+            margin: 25px auto 10px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border-radius: 15px;
+            border: 2px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-family: 'Vazirmatn';
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .search-input:focus { border-color: var(--accent); }
+        .search-icon {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+        }
+
+        /* --- GRID --- */
+        .grid {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* --- NEWS CARD --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: fadeIn 0.5s ease-up;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-top-accent {
+            height: 4px;
+            background: linear-gradient(90deg, var(--green), #ffffff, var(--accent));
+        }
+
+        .card-body {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            font-family: 'Inter';
+        }
+
+        .source-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .card h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-weight: 800;
+        }
+
+        .summary {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-sub);
+            text-align: justify;
+        }
+
+        /* --- CARD FOOTER (ACTIONS) --- */
+        .card-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: 'Vazirmatn';
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .action-btn:hover { background: rgba(0,0,0,0.05); color: var(--accent); }
+        [data-theme="dark"] .action-btn:hover { background: rgba(255,255,255,0.05); }
+
+        /* --- ENGLISH EXPAND SECTION --- */
+        .english-content {
+            background: var(--bg-body);
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            font-family: 'Inter';
+            direction: ltr;
+            text-align: left;
+            display: none; /* Hidden by default */
+        }
+
+        .english-content.active { display: block; animation: slideDown 0.3s; }
+
+        @keyframes slideDown { from {opacity: 0; transform: translateY(-10px);} to {opacity: 1; transform: translateY(0);} }
+
+        .original-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* --- LOADING SKELETON --- */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--border) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        @keyframes shimmer { 0% {background-position: 200% 0;} 100% {background-position: -200% 0;} }
+        
+        .s-title { height: 24px; width: 80%; }
+        .s-text { height: 16px; width: 100%; }
+        .s-text-short { height: 16px; width: 60%; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/State_flag_of_Iran_%281964%E2%80%931980%29.svg/960px-State_flag_of_Iran_%281964%E2%80%931980%29.svg.png?20250704113349" alt="Iran Flag" class="flag-img">
+                <div class="logo-text">
+                    <h1>رادار ایران</h1>
+                    <small>IRAN NEWS RADAR</small>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="icon-btn" onclick="toggleTheme()" title="تغییر تم">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="جستجو در اخبار (مثلا: هسته‌ای، اسرائیل)...">
+    </div>
+
+    <div id="grid-container" class="grid">
+        <!-- Loading Skeletons -->
+        <div class="card"><div class="card-body"><div class="skeleton s-title"></div><div class="skeleton s-text"></div><div class="skeleton s-text"></div><div class="skeleton s-text-short"></div></div></div>
+        <div class="card"><div class="card-body"><div class="skeleton s-title"></div><div class="skeleton s-text"></div><div class="skeleton s-text"></div></div></div>
+        <div class="card"><div class="card-body"><div class="skeleton s-title"></div><div class="skeleton s-text"></div><div class="skeleton s-text"></div></div></div>
+    </div>
+
+    <script>
+        let allNews = [];
+
+        // --- 1. THEME LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const current = html.getAttribute('data-theme');
+            
+            if (current === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        if(localStorage.getItem('theme') === 'dark') toggleTheme();
+
+        // --- 2. TIME AGO LOGIC ---
+        function timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.floor((now - date) / 1000);
+            
+            let interval = seconds / 31536000;
+            if (interval > 1) return Math.floor(interval) + " سال پیش";
+            interval = seconds / 2592000;
+            if (interval > 1) return Math.floor(interval) + " ماه پیش";
+            interval = seconds / 86400;
+            if (interval > 1) return Math.floor(interval) + " روز پیش";
+            interval = seconds / 3600;
+            if (interval > 1) return Math.floor(interval) + " ساعت پیش";
+            interval = seconds / 60;
+            if (interval > 1) return Math.floor(interval) + " دقیقه پیش";
+            return "لحظاتی پیش";
+        }
+
+        // --- 3. FETCH DATA ---
+        fetch('news.json')
+            .then(res => res.json())
+            .then(data => {
+                allNews = data;
+                renderNews(data);
+            })
+            .catch(err => {
+                document.getElementById('grid-container').innerHTML = '<p style="text-align:center">خطا در دریافت اخبار</p>';
+            });
+
+        // --- 4. RENDER FUNCTION ---
+        function renderNews(newsItems) {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+
+            if (newsItems.length === 0) {
+                container.innerHTML = '<p style="text-align:center; width:100%">موردی یافت نشد.</p>';
+                return;
+            }
+
+            newsItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                const uniqueId = `details-${index}`;
+
+                card.innerHTML = `
+                    <div class="card-top-accent"></div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="source-badge">${item.source}</span>
+                            <span>${timeAgo(item.date)} <i class="far fa-clock"></i></span>
+                        </div>
+                        <h2>${item.title_fa}</h2>
+                        <div class="summary">${item.summary_fa}</div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <button class="action-btn" onclick="toggleDetails('${uniqueId}')">
+                            <i class="fas fa-language"></i> متن اصلی
+                        </button>
+                        <button class="action-btn" onclick="shareLink('${item.url}')">
+                            <i class="fas fa-share-alt"></i> اشتراک
+                        </button>
+                    </div>
+
+                    <div id="${uniqueId}" class="english-content">
+                        <strong>Original Title:</strong><br>
+                        <span style="color:var(--text-sub)">${item.title_en}</span>
+                        <br>
+                        <a href="${item.url}" target="_blank" class="original-link">
+                            Read Full Article <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- 5. INTERACTIONS ---
+        function toggleDetails(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('active');
+        }
+
+        function shareLink(url) {
+            navigator.clipboard.writeText(url);
+            alert("لینک کپی شد!");
+        }
+
+        // --- 6. SEARCH FILTER ---
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allNews.filter(item => 
+                item.title_fa.includes(term) || 
+                item.summary_fa.includes(term) ||
+                item.title_en.toLowerCase().includes(term)
+            );
+            renderNews(filtered);
+        });
+
+    </script>
+</body>
+</html>
