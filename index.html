@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRAN LIVE FEED | رادار زنده</title>
     
-    <!-- Fonts: Vazirmatn (Persian) & JetBrains Mono (English/Numbers) -->
+    <!-- Fonts -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@33.003/misc/Farsi-Digits/Vazirmatn-FD-font-face.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -17,8 +17,7 @@
             --border: #27272a;
             --text-main: #e4e4e7;
             --text-mute: #a1a1aa;
-            --accent: #ef4444; /* Red for alerts */
-            --accent-glow: rgba(239, 68, 68, 0.3);
+            --accent: #ef4444;
             --primary: #3b82f6;
             
             --tag-danger: #7f1d1d;
@@ -37,18 +36,22 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER & TICKER --- */
+        /* --- STICKY WRAPPER (Keeps Nav + Ticker at top) --- */
+        .sticky-top-group {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+        }
+
+        /* --- HEADER --- */
         .header-bar {
-            background: rgba(9, 9, 11, 0.95);
+            background: rgba(9, 9, 11, 0.98); /* Less transparent for readability */
             border-bottom: 1px solid var(--border);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -58,6 +61,7 @@
             align-items: center;
             gap: 12px;
             letter-spacing: -1px;
+            color: #fff;
         }
         
         .live-dot {
@@ -67,34 +71,44 @@
             box-shadow: 0 0 10px var(--accent);
             animation: pulse 1.5s infinite;
         }
-
         @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.4;} 100% {opacity: 1;} }
 
+        /* --- SLOWER TICKER --- */
         .ticker-wrap {
             width: 100%;
             background: var(--panel);
             border-bottom: 1px solid var(--border);
             overflow: hidden;
-            height: 40px;
+            height: 36px;
             display: flex;
             align-items: center;
+            /* Ensure it sits on top of content below */
+            position: relative; 
+            z-index: 99; 
         }
 
         .ticker {
             display: inline-block;
             white-space: nowrap;
             padding-right: 100%;
-            animation: marquee 40s linear infinite;
-            font-size: 0.9rem;
+            /* Changed from 40s to 120s for slower speed */
+            animation: marquee 120s linear infinite; 
+            font-size: 0.85rem;
             color: var(--text-mute);
         }
+
+        /* Pause on Hover */
+        .ticker-wrap:hover .ticker {
+            animation-play-state: paused;
+            cursor: default;
+        }
         
-        .ticker-item { margin-left: 40px; display: inline-flex; align-items: center; gap: 8px; }
+        .ticker-item { margin-left: 50px; display: inline-flex; align-items: center; gap: 8px; }
         .ticker-item::before { content: "●"; color: var(--accent); font-size: 0.6rem; }
 
         @keyframes marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
 
-        /* --- LAYOUT --- */
+        /* --- CONTENT LAYOUT --- */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -260,22 +274,25 @@
 </head>
 <body>
 
-    <nav class="header-bar">
-        <div class="logo">
-            <div class="live-dot"></div>
-            رادار ایران
-        </div>
-        <div style="font-family: 'JetBrains Mono'; font-size: 0.9rem; color: var(--text-mute);">
-            <i class="far fa-clock"></i> <span id="clock">00:00</span>
-        </div>
-    </nav>
+    <!-- STICKY GROUP: NAV + TICKER -->
+    <div class="sticky-top-group">
+        
+        <nav class="header-bar">
+            <div class="logo">
+                <div class="live-dot"></div>
+                رادار ایران
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.9rem; color: var(--text-mute);">
+                <i class="far fa-clock"></i> <span id="clock">00:00</span>
+            </div>
+        </nav>
 
-    <!-- Scrolling Ticker -->
-    <div class="ticker-wrap">
-        <div class="ticker" id="ticker-content">
-            <!-- JS will fill this -->
-            <span class="ticker-item">در حال دریافت اخبار...</span>
+        <div class="ticker-wrap">
+            <div class="ticker" id="ticker-content">
+                <span class="ticker-item">در حال دریافت اخبار...</span>
+            </div>
         </div>
+
     </div>
 
     <div class="container">
@@ -285,9 +302,8 @@
         </div>
 
         <div class="feed-list" id="feed-root">
-            <!-- News Items Go Here -->
             <div style="text-align: center; padding: 40px; color: var(--text-mute);">
-                <i class="fas fa-satellite-dish fa-spin fa-2x"></i><br><br>در حال برقراری ارتباط با سرور...
+                <i class="fas fa-satellite-dish fa-spin fa-2x"></i><br><br>در حال اتصال به سرور...
             </div>
         </div>
     </div>
@@ -312,7 +328,7 @@
         // --- 3. COPY FUNCTION ---
         function copyLink(url) {
             navigator.clipboard.writeText(url);
-            alert("لینک کپی شد"); // Simple alert fits the "Terminal" vibe
+            alert("لینک کپی شد");
         }
 
         // --- 4. RENDER ---
@@ -330,8 +346,8 @@
                 }
 
                 data.forEach((item, index) => {
-                    // Add to Feed
-                    const delay = index * 0.05; // Staggered animation
+                    // Feed
+                    const delay = index * 0.05;
                     const tagClass = item.tag_color || 'primary';
                     const tagLabel = item.tag || 'خبر';
 
@@ -365,13 +381,13 @@
                     </div>`;
                     root.innerHTML += html;
 
-                    // Add to Ticker (Only first 10)
+                    // Ticker (Top 10 items)
                     if (index < 10) {
                         ticker.innerHTML += `<span class="ticker-item">${item.title_fa}</span>`;
                     }
                 });
                 
-                // Duplicate ticker content for smooth infinite loop
+                // Duplicate for smooth loop
                 ticker.innerHTML += ticker.innerHTML; 
             })
             .catch(err => {
