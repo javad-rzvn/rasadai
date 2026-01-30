@@ -57,9 +57,9 @@
             background: #000; border-bottom: 1px solid var(--border);
             padding: 5px 0; font-family: 'JetBrains Mono'; font-size: 0.75rem;
             display: flex; justify-content: center; gap: 20px; color: var(--text-mute);
-            direction: ltr; /* Keep numbers LTR for readability */
+            direction: ltr; 
         }
-        .market-item { direction: rtl; } /* Flip text back for Farsi labels */
+        .market-item { direction: rtl; } 
         .market-item span { color: var(--success); font-weight: bold; margin-left: 5px; font-family: 'JetBrains Mono'; }
 
         .ticker-wrap { background: var(--panel); border-bottom: 1px solid var(--border); height: 32px; display: flex; align-items: center; overflow: hidden; }
@@ -91,8 +91,10 @@
         .level-fill { height: 100%; transition: width 0.5s, background 0.5s; width: 0%; }
 
         /* --- OSINT TOOLKIT --- */
+        .section-label { font-size: 0.8rem; color: var(--text-mute); margin-bottom: 10px; font-weight: bold; display: block; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        
         .osint-tools {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 25px;
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 20px;
         }
         .tool-btn {
             background: #000; border: 1px solid var(--border); color: var(--text-mute);
@@ -101,6 +103,10 @@
         }
         .tool-btn:hover { border-color: var(--primary); color: var(--text-main); transform: translateY(-2px); }
         .tool-btn i { color: var(--primary); margin-left: 5px; }
+        
+        /* Twitter/X Special Color */
+        .tool-btn.social:hover { border-color: #1da1f2; }
+        .tool-btn.social i { color: #1da1f2; }
 
         /* --- FEED STYLES --- */
         .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
@@ -204,22 +210,43 @@
             </div>
         </div>
 
-        <!-- OSINT TOOLKIT BUTTONS -->
+        <!-- OSINT TOOLKIT - MAPS & DATA -->
+        <span class="section-label">ابزارهای رصد زنده (Maps & Data)</span>
         <div class="osint-tools">
+            <a href="https://firms.modaps.eosdis.nasa.gov/map/#d:today;@53.7,32.4,6z" target="_blank" class="tool-btn">
+                <i class="fas fa-fire"></i> ناسا (آتش/انفجار)
+            </a>
+            <a href="https://cybermap.kaspersky.com/" target="_blank" class="tool-btn">
+                <i class="fas fa-shield-virus"></i> حملات سایبری
+            </a>
             <a href="https://www.flightradar24.com/32.42,53.68/5" target="_blank" class="tool-btn">
                 <i class="fas fa-plane"></i> رادار هوایی
             </a>
             <a href="https://www.vesselfinder.com/" target="_blank" class="tool-btn">
                 <i class="fas fa-ship"></i> ردیاب دریایی
             </a>
-            <a href="https://netblocks.org/regions/ir" target="_blank" class="tool-btn">
-                <i class="fas fa-wifi"></i> وضعیت اینترنت
-            </a>
-            <a href="https://apps.sentinel-hub.com/eo-browser/" target="_blank" class="tool-btn">
-                <i class="fas fa-satellite"></i> ماهواره سنتینل
+            <a href="https://netblocks.org/" target="_blank" class="tool-btn">
+                <i class="fas fa-wifi"></i> نت‌بلاکس (اینترنت)
             </a>
             <a href="https://earth.google.com/web/" target="_blank" class="tool-btn">
                 <i class="fas fa-globe"></i> گوگل ارث
+            </a>
+        </div>
+
+        <!-- SOCIAL INTEL (TWITTER) -->
+        <span class="section-label">شبکه‌های اجتماعی (Live Social Feeds)</span>
+        <div class="osint-tools">
+            <a href="https://twitter.com/search?q=Iran%20(explosion%20OR%20attack%20OR%20conflict)&src=typed_query&f=live" target="_blank" class="tool-btn social">
+                <i class="fab fa-twitter"></i> اخبار فوری (Global)
+            </a>
+            <a href="https://twitter.com/search?q=%23Iran%20video&src=typed_query&f=live" target="_blank" class="tool-btn social">
+                <i class="fab fa-twitter"></i> تصاویر و ویدیو
+            </a>
+            <a href="https://twitter.com/search?q=%23Israel%20%23Iran&src=typed_query&f=live" target="_blank" class="tool-btn social">
+                <i class="fab fa-twitter"></i> اسرائیل/ایران
+            </a>
+            <a href="https://twitter.com/search?q=(Rial%20OR%20Toman)%20price&src=typed_query&f=live" target="_blank" class="tool-btn social">
+                <i class="fab fa-twitter"></i> بازار ارز
             </a>
         </div>
 
@@ -261,20 +288,15 @@
 
         // --- 2. CALCULATE CONFLICT LEVEL (PERSIAN) ---
         function updateTensionMeter(news) {
-            // Take last 20 news items
             const recent = news.slice(0, 20);
             if(recent.length === 0) return;
 
-            // Average sentiment (TextBlob polarity: -1.0 to 1.0)
             const avgSentiment = recent.reduce((sum, n) => sum + (n.sentiment || 0), 0) / recent.length;
-            
-            // Count "Danger" tags
             const dangerCount = recent.filter(n => n.tag === 'نظامی' || n.tag === 'هسته‌ای').length;
             
             const textEl = document.getElementById('tension-text');
             const fillEl = document.getElementById('tension-fill');
             
-            // Logic for Tension Level
             if (dangerCount > 8 || avgSentiment < -0.15) {
                 textEl.innerText = "بحرانی"; // CRITICAL
                 textEl.style.color = "var(--accent)";
@@ -384,7 +406,6 @@
             t.innerHTML = txt + txt; 
         }
 
-        // --- TRANSLATED TIME AGO ---
         function timeAgo(date) {
             const diff = (new Date() - new Date(date)) / 1000;
             if(isNaN(diff)) return "";
