@@ -17,7 +17,7 @@ NEWS_FILE = 'news.json'
 MARKET_FILE = 'market.json'
 HISTORY_FILE = 'seen_news.txt'
 
-# Robust Headers to look like a real browser
+# Robust Headers (Essential for scraping images from news sites)
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -39,54 +39,36 @@ def fetch_market_rates():
     
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
-        print(f"   > Status Code: {response.status_code}")
-        
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # METHOD 1: Look for the specific input field from your HTML
+            # METHOD 1: Look for input field
             input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
-            
             price_toman = 0
             
             if input_tag:
-                # Check data-price attribute
                 if input_tag.has_attr('data-price'):
-                    raw_price = int(input_tag['data-price']) # This is in Rials usually
-                    price_toman = int(raw_price / 10)
-                # Fallback to value attribute
+                    price_toman = int(int(input_tag['data-price']) / 10)
                 elif input_tag.has_attr('value'):
-                     raw_price = int(input_tag['value'].replace(',',''))
-                     price_toman = int(raw_price / 10)
+                     price_toman = int(int(input_tag['value'].replace(',','')) / 10)
 
-            # METHOD 2: JSON-LD (Structured Data) - Very Reliable
+            # METHOD 2: JSON-LD
             if price_toman == 0:
-                print("   > Input tag not found, trying JSON-LD...")
                 scripts = soup.find_all('script', type='application/ld+json')
                 for s in scripts:
                     if '"sku":"USD"' in s.text or '"name":"US Dollar"' in s.text:
                         data = json.loads(s.text)
-                        # Navigate the JSON structure based on your provided HTML
                         if 'offers' in data and 'price' in data['offers']:
-                            raw_price = float(data['offers']['price'])
-                            price_toman = int(raw_price / 10)
+                            price_toman = int(float(data['offers']['price']) / 10)
                             break
             
             if price_toman > 0:
                 print(f"   > Success! Price: {price_toman}")
-                return {
-                    "usd": f"{price_toman:,}", 
-                    "updated": time.strftime("%H:%M")
-                }
-            else:
-                print("   > Parse Error: Could not find price in HTML.")
-        else:
-            print("   > Site blocked the request (403/500).")
-
+                return {"usd": f"{price_toman:,}", "updated": time.strftime("%H:%M")}
+                
     except Exception as e:
         print(f"   > Market Scraping Error: {e}")
     
-    # Return default if everything fails so file is still created
     return {"usd": "Check Source", "updated": "--:--"}
 
 def get_category_and_sentiment(text):
@@ -99,19 +81,47 @@ def get_category_and_sentiment(text):
     blob = TextBlob(text)
     return tag, color, blob.sentiment.polarity
 
+# --- NEW FUNCTION: EXTRACT IMAGE ---
+def fetch_article_image(url):
+    """
+    Visits the article URL and extracts the Open Graph image (og:image).
+    """
+    try:
+        # Timeout is short (5s) so the script doesn't hang on slow sites
+        response = requests.get(url, headers=HEADERS, timeout=5)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # 1. Try Open Graph Image (Standard for social media)
+            og_image = soup.find('meta', property='og:image')
+            if og_image and og_image.get('content'):
+                return og_image['content']
+            
+            # 2. Try Twitter Image
+            twitter_image = soup.find('meta', name='twitter:image')
+            if twitter_image and twitter_image.get('content'):
+                return twitter_image['content']
+            
+            # 3. Fallback: First image tag in body (risky, often returns logos)
+            # img_tag = soup.find('img')
+            # if img_tag and img_tag.get('src'):
+            #    return img_tag['src']
+                
+    except Exception:
+        pass # If fails, return None
+    return None
+
 def main():
     print(">>> Starting Radar...")
     
-    # --- 1. MARKET DATA (Create file IMMEDIATELY) ---
+    # 1. MARKET DATA
     market_data = fetch_market_rates()
     try:
         with open(MARKET_FILE, 'w', encoding='utf-8') as f:
             json.dump(market_data, f)
-        print(">>> market.json created successfully.")
-    except Exception as e:
-        print(f">>> Failed to create market.json: {e}")
+    except: pass
 
-    # --- 2. NEWS DATA ---
+    # 2. NEWS DATA
     print(">>> Fetching News...")
     google_news = GNews(language=LANGUAGE, country=COUNTRY, period=PERIOD, max_results=MAX_RESULTS)
     
@@ -128,27 +138,44 @@ def main():
 
     for entry in results:
         url = entry.get('url')
+        
+        # Google News URLs sometimes need cleaning, but GNews lib usually handles it.
+        # If URL is missing https, simple fix:
+        if url and not url.startswith('http'):
+            url = 'https://' + url
+
         if url in seen: continue
         
         raw_title = entry.get('title').rsplit(' - ', 1)[0]
         publisher = entry.get('publisher', {}).get('title', 'Source')
         date = entry.get('published date')
         
-        print(f"   > News: {raw_title[:30]}...")
+        print(f"   > Processing: {raw_title[:30]}...")
 
         try:
+            # 1. Translate Title
             title_fa = translator.translate(raw_title)
+            
+            # 2. Analyze Sentiment
             tag, color, sentiment = get_category_and_sentiment(raw_title)
             
-            # Simple image logic: try to use the one from GNews if available, else None
-            # (Fetching full image takes too long, sticking to fast text for now)
+            # 3. Fetch Image (This is the fix)
+            # Check if GNews gave us one first (rare), otherwise fetch from site
+            img_url = entry.get('image')
+            if not img_url:
+                print("     - Extracting image...")
+                img_url = fetch_article_image(url)
             
+            # Default placeholder if no image found
+            if not img_url:
+                img_url = "https://placehold.co/600x400?text=News+Radar"
+
             new_entries.append({
                 "title_fa": title_fa,
                 "title_en": raw_title,
                 "source": publisher,
                 "url": url,
-                "image": None, 
+                "image": img_url, 
                 "date": date,
                 "tag": tag,
                 "tag_color": color,
@@ -156,9 +183,9 @@ def main():
             })
             new_urls.append(url)
         except Exception as e:
-            print(f"Translation Error: {e}")
+            print(f"     - Error processing item: {e}")
 
-    # --- 3. SAVE NEWS ---
+    # 3. SAVE NEWS
     if new_entries:
         try:
             with open(NEWS_FILE, 'r', encoding='utf-8') as f: old_data = json.load(f)
