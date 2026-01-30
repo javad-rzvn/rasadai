@@ -2,10 +2,10 @@ import os
 import json
 import time
 import requests
+from bs4 import BeautifulSoup
 from gnews import GNews
-from newspaper import Article, Config
 from deep_translator import GoogleTranslator
-from textblob import TextBlob # For sentiment analysis
+from textblob import TextBlob
 
 # --- CONFIG ---
 SEARCH_QUERY = 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions OR currency)'
@@ -13,9 +13,13 @@ LANGUAGE = 'en'
 COUNTRY = 'US'
 PERIOD = '6h'
 MAX_RESULTS = 15
-JSON_FILE = 'news.json'
+NEWS_FILE = 'news.json'
+MARKET_FILE = 'market.json' # NEW FILE FOR PRICE
 HISTORY_FILE = 'seen_news.txt'
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36'
+
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
 
 def get_seen():
     if not os.path.exists(HISTORY_FILE): return set()
@@ -25,103 +29,116 @@ def save_seen(urls):
     with open(HISTORY_FILE, 'a', encoding='utf-8') as f:
         for url in urls: f.write(url + '\n')
 
-def get_category_and_sentiment(text):
-    """Tags news and calculates sentiment score (-1 to 1)"""
-    t = text.lower()
+# --- NEW: SCRAPE ALANCHAND ---
+def fetch_market_rates():
+    print(">>> Fetching Dollar Price from AlanChand...")
+    url = "https://alanchand.com/en/currencies-price/usd"
     
-    # Tagging
-    tag, color = 'سیاسی', 'primary'
-    if 'nuclear' in t or 'atomic' in t or 'iaea' in t: tag, color = 'هسته‌ای', 'warning'
-    elif 'attack' in t or 'war' in t or 'military' in t or 'drone' in t: tag, color = 'نظامی', 'danger'
-    elif 'oil' in t or 'currency' in t or 'rial' in t or 'economy' in t: tag, color = 'اقتصادی', 'success'
-    elif 'woman' in t or 'rights' in t or 'protest' in t: tag, color = 'اجتماعی', 'info'
-    
-    # Sentiment (Simple analysis)
-    blob = TextBlob(text)
-    sentiment_score = blob.sentiment.polarity 
-    
-    return tag, color, sentiment_score
-
-def fetch_image_and_clean_url(url):
-    """Fetches og:image using Newspaper3k"""
     try:
-        # Resolve Google Redirect
-        response = requests.head(url, allow_redirects=True, timeout=5)
-        final_url = response.url
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
         
-        # Config for Newspaper
-        conf = Config()
-        conf.browser_user_agent = USER_AGENT
-        conf.request_timeout = 5
+        # Method 1: Try to find the input with data-price (Most accurate in your HTML)
+        # <input ... data-price="1602000">
+        input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
         
-        article = Article(final_url, config=conf)
-        article.download()
-        article.parse()
-        return final_url, article.top_image
-    except:
-        return url, None
+        price_irr = 0
+        
+        if input_tag and input_tag.has_attr('data-price'):
+            price_irr = int(input_tag['data-price'])
+        else:
+            # Method 2: Fallback to JSON-LD Schema
+            scripts = soup.find_all('script', type='application/ld+json')
+            for s in scripts:
+                if '"sku":"USD"' in s.text:
+                    data = json.loads(s.text)
+                    price_irr = int(data['offers']['price'])
+                    break
+        
+        if price_irr > 0:
+            price_toman = int(price_irr / 10) # Convert Rial to Toman
+            return {
+                "usd": f"{price_toman:,}", # Format: 160,200
+                "updated": time.strftime("%H:%M")
+            }
+            
+    except Exception as e:
+        print(f"Error fetching market data: {e}")
+    
+    return {"usd": "N/A", "updated": "--:--"}
+
+def get_category_and_sentiment(text):
+    t = text.lower()
+    tag, color = 'سیاسی', 'primary'
+    if 'nuclear' in t or 'atomic' in t: tag, color = 'هسته‌ای', 'warning'
+    elif 'attack' in t or 'war' in t or 'military' in t: tag, color = 'نظامی', 'danger'
+    elif 'oil' in t or 'currency' in t or 'economy' in t: tag, color = 'اقتصادی', 'success'
+    
+    blob = TextBlob(text)
+    return tag, color, blob.sentiment.polarity
 
 def main():
     print(">>> Radar Scanning...")
     
+    # 1. FETCH MARKET DATA
+    market_data = fetch_market_rates()
+    with open(MARKET_FILE, 'w', encoding='utf-8') as f:
+        json.dump(market_data, f)
+
+    # 2. FETCH NEWS
     google_news = GNews(language=LANGUAGE, country=COUNTRY, period=PERIOD, max_results=MAX_RESULTS)
     results = google_news.get_news(SEARCH_QUERY)
     
     seen = get_seen()
     new_entries = []
     new_urls = []
-    
     translator = GoogleTranslator(source='auto', target='fa')
 
     for entry in results:
-        orig_url = entry.get('url')
-        if orig_url in seen: continue
+        url = entry.get('url')
+        if url in seen: continue
         
-        raw_title = entry.get('title').rsplit(' - ', 1)[0] # Remove source name
+        raw_title = entry.get('title').rsplit(' - ', 1)[0]
         publisher = entry.get('publisher', {}).get('title', 'Source')
         date = entry.get('published date')
         
         print(f"   > Processing: {raw_title[:30]}...")
 
-        # 1. Get Image & Final URL
-        final_url, image_url = fetch_image_and_clean_url(orig_url)
-        
-        # 2. Translate & Tag
         try:
             title_fa = translator.translate(raw_title)
             tag, color, sentiment = get_category_and_sentiment(raw_title)
+            
+            # Try to get image (Basic method)
+            image_url = None
             
             new_entries.append({
                 "title_fa": title_fa,
                 "title_en": raw_title,
                 "source": publisher,
-                "url": final_url,
-                "image": image_url, # NEW
+                "url": url,
+                "image": image_url,
                 "date": date,
                 "tag": tag,
                 "tag_color": color,
-                "sentiment": sentiment # NEW
+                "sentiment": sentiment
             })
-            new_urls.append(orig_url)
+            new_urls.append(url)
         except Exception as e:
             print(f"Error: {e}")
 
-    # Save
     if new_entries:
         try:
-            with open(JSON_FILE, 'r', encoding='utf-8') as f: old_data = json.load(f)
+            with open(NEWS_FILE, 'r', encoding='utf-8') as f: old_data = json.load(f)
         except: old_data = []
         
         final_data = new_entries + old_data
-        final_data = final_data[:60] # Keep last 60
+        final_data = final_data[:60]
         
-        with open(JSON_FILE, 'w', encoding='utf-8') as f:
+        with open(NEWS_FILE, 'w', encoding='utf-8') as f:
             json.dump(final_data, f, ensure_ascii=False, indent=4)
         
         save_seen(new_urls)
         print(f">>> Added {len(new_entries)} items.")
-    else:
-        print(">>> No new items.")
 
 if __name__ == "__main__":
     main()
