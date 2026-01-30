@@ -1,17 +1,21 @@
 import os
 import json
 import time
+import requests
 from gnews import GNews
+from newspaper import Article, Config
 from deep_translator import GoogleTranslator
+from textblob import TextBlob # For sentiment analysis
 
 # --- CONFIG ---
-SEARCH_QUERY = 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions)'
+SEARCH_QUERY = 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions OR currency)'
 LANGUAGE = 'en'
 COUNTRY = 'US'
 PERIOD = '6h'
-MAX_RESULTS = 20
+MAX_RESULTS = 15
 JSON_FILE = 'news.json'
 HISTORY_FILE = 'seen_news.txt'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36'
 
 def get_seen():
     if not os.path.exists(HISTORY_FILE): return set()
@@ -21,25 +25,45 @@ def save_seen(urls):
     with open(HISTORY_FILE, 'a', encoding='utf-8') as f:
         for url in urls: f.write(url + '\n')
 
-def get_category(text):
-    """Auto-tags the news based on keywords"""
+def get_category_and_sentiment(text):
+    """Tags news and calculates sentiment score (-1 to 1)"""
     t = text.lower()
-    if 'nuclear' in t or 'atomic' in t: return 'هسته‌ای', 'warning'
-    if 'israel' in t or 'attack' in t or 'war' in t or 'strike' in t: return 'نظامی/امنیتی', 'danger'
-    if 'protest' in t or 'rights' in t or 'woman' in t: return 'اجتماعی', 'info'
-    if 'sanction' in t or 'oil' in t or 'currency' in t: return 'اقتصادی', 'success'
-    return 'سیاسی', 'primary'
+    
+    # Tagging
+    tag, color = 'سیاسی', 'primary'
+    if 'nuclear' in t or 'atomic' in t or 'iaea' in t: tag, color = 'هسته‌ای', 'warning'
+    elif 'attack' in t or 'war' in t or 'military' in t or 'drone' in t: tag, color = 'نظامی', 'danger'
+    elif 'oil' in t or 'currency' in t or 'rial' in t or 'economy' in t: tag, color = 'اقتصادی', 'success'
+    elif 'woman' in t or 'rights' in t or 'protest' in t: tag, color = 'اجتماعی', 'info'
+    
+    # Sentiment (Simple analysis)
+    blob = TextBlob(text)
+    sentiment_score = blob.sentiment.polarity 
+    
+    return tag, color, sentiment_score
 
-def clean_title(title):
-    """Removes the Source Name from the end of the title (e.g., '... - CNN')"""
-    if ' - ' in title:
-        return title.rsplit(' - ', 1)[0]
-    return title
+def fetch_image_and_clean_url(url):
+    """Fetches og:image using Newspaper3k"""
+    try:
+        # Resolve Google Redirect
+        response = requests.head(url, allow_redirects=True, timeout=5)
+        final_url = response.url
+        
+        # Config for Newspaper
+        conf = Config()
+        conf.browser_user_agent = USER_AGENT
+        conf.request_timeout = 5
+        
+        article = Article(final_url, config=conf)
+        article.download()
+        article.parse()
+        return final_url, article.top_image
+    except:
+        return url, None
 
 def main():
-    print(">>> Radar Update Started...")
+    print(">>> Radar Scanning...")
     
-    # 1. Fetch
     google_news = GNews(language=LANGUAGE, country=COUNTRY, period=PERIOD, max_results=MAX_RESULTS)
     results = google_news.get_news(SEARCH_QUERY)
     
@@ -50,51 +74,54 @@ def main():
     translator = GoogleTranslator(source='auto', target='fa')
 
     for entry in results:
-        url = entry.get('url')
-        if url in seen: continue
+        orig_url = entry.get('url')
+        if orig_url in seen: continue
         
-        raw_title = entry.get('title')
-        clean_tit = clean_title(raw_title)
-        publisher = entry.get('publisher', {}).get('title', 'News')
+        raw_title = entry.get('title').rsplit(' - ', 1)[0] # Remove source name
+        publisher = entry.get('publisher', {}).get('title', 'Source')
         date = entry.get('published date')
         
-        print(f"Translating: {clean_tit[:30]}...")
+        print(f"   > Processing: {raw_title[:30]}...")
+
+        # 1. Get Image & Final URL
+        final_url, image_url = fetch_image_and_clean_url(orig_url)
         
+        # 2. Translate & Tag
         try:
-            title_fa = translator.translate(clean_tit)
-            tag_label, tag_color = get_category(raw_title)
+            title_fa = translator.translate(raw_title)
+            tag, color, sentiment = get_category_and_sentiment(raw_title)
             
             new_entries.append({
                 "title_fa": title_fa,
-                "title_en": clean_tit,
+                "title_en": raw_title,
                 "source": publisher,
-                "url": url,
+                "url": final_url,
+                "image": image_url, # NEW
                 "date": date,
-                "tag": tag_label,
-                "tag_color": tag_color
+                "tag": tag,
+                "tag_color": color,
+                "sentiment": sentiment # NEW
             })
-            new_urls.append(url)
-            time.sleep(0.5) # Be nice to translator API
+            new_urls.append(orig_url)
         except Exception as e:
             print(f"Error: {e}")
 
-    # 2. Save (Prepend new items to existing list)
+    # Save
     if new_entries:
         try:
             with open(JSON_FILE, 'r', encoding='utf-8') as f: old_data = json.load(f)
         except: old_data = []
         
-        # Merge and limit to 60 items
         final_data = new_entries + old_data
-        final_data = final_data[:60]
+        final_data = final_data[:60] # Keep last 60
         
         with open(JSON_FILE, 'w', encoding='utf-8') as f:
             json.dump(final_data, f, ensure_ascii=False, indent=4)
         
         save_seen(new_urls)
-        print(f">>> Successfully added {len(new_entries)} headlines.")
+        print(f">>> Added {len(new_entries)} items.")
     else:
-        print(">>> No new headlines found.")
+        print(">>> No new items.")
 
 if __name__ == "__main__":
     main()
