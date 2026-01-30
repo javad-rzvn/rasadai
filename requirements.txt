@@ -4,3 +4,4 @@ requests
 nltk
 lxml_html_clean
 deep-translator
+textblob
