@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRAN INTEL DASHBOARD</title>
+    <title>سامانه رصد هوشمند</title>
     
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@33.003/misc/Farsi-Digits/Vazirmatn-FD-font-face.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -49,7 +49,7 @@
             align-items: center;
         }
 
-        .logo { font-weight: 900; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; color: #fff; }
+        .logo { font-weight: 900; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; color: #fff; }
         .live-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% {opacity:1; box-shadow:0 0 0 0 rgba(239,68,68,0.7);} 70% {opacity:1; box-shadow:0 0 0 10px rgba(239,68,68,0);} 100% {opacity:0;} }
 
@@ -57,8 +57,10 @@
             background: #000; border-bottom: 1px solid var(--border);
             padding: 5px 0; font-family: 'JetBrains Mono'; font-size: 0.75rem;
             display: flex; justify-content: center; gap: 20px; color: var(--text-mute);
+            direction: ltr; /* Keep numbers LTR for readability */
         }
-        .market-item span { color: var(--success); font-weight: bold; margin-right: 5px; }
+        .market-item { direction: rtl; } /* Flip text back for Farsi labels */
+        .market-item span { color: var(--success); font-weight: bold; margin-left: 5px; font-family: 'JetBrains Mono'; }
 
         .ticker-wrap { background: var(--panel); border-bottom: 1px solid var(--border); height: 32px; display: flex; align-items: center; overflow: hidden; }
         .ticker { white-space: nowrap; padding-right: 100%; animation: marquee 120s linear infinite; font-size: 0.8rem; color: var(--text-mute); display: inline-block; }
@@ -69,7 +71,7 @@
 
         .container { max-width: 950px; margin: 0 auto; padding: 20px; }
 
-        /* --- NEW: INTEL STATUS PANEL --- */
+        /* --- INTEL STATUS PANEL --- */
         .intel-panel {
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;
         }
@@ -79,16 +81,16 @@
         .clock-grid {
             display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center;
         }
-        .clock-item h4 { margin: 0; color: var(--text-mute); font-size: 0.7rem; font-family: 'JetBrains Mono'; }
-        .clock-item div { font-size: 1.1rem; font-weight: bold; font-family: 'JetBrains Mono'; margin-top: 5px; }
+        .clock-item h4 { margin: 0; color: var(--text-mute); font-size: 0.75rem; }
+        .clock-item div { font-size: 1.1rem; font-weight: bold; font-family: 'JetBrains Mono'; margin-top: 5px; direction: ltr; }
         
         .defcon-box { display: flex; align-items: center; justify-content: space-between; }
         .defcon-title { font-size: 0.9rem; color: var(--text-mute); }
-        .defcon-level { font-family: 'JetBrains Mono'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .defcon-level { font-weight: 900; font-size: 1.2rem; }
         .level-bar { height: 6px; background: #333; border-radius: 3px; margin-top: 10px; overflow: hidden; }
         .level-fill { height: 100%; transition: width 0.5s, background 0.5s; width: 0%; }
 
-        /* --- NEW: OSINT TOOLKIT --- */
+        /* --- OSINT TOOLKIT --- */
         .osint-tools {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 25px;
         }
@@ -98,7 +100,7 @@
             display: flex; align-items: center; gap: 8px; font-size: 0.8rem; white-space: nowrap; transition: 0.2s;
         }
         .tool-btn:hover { border-color: var(--primary); color: var(--text-main); transform: translateY(-2px); }
-        .tool-btn i { color: var(--primary); }
+        .tool-btn i { color: var(--primary); margin-left: 5px; }
 
         /* --- FEED STYLES --- */
         .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
@@ -131,7 +133,7 @@
         .tag.info { background: var(--tag-info); color: #93c5fd; }
         .tag.primary { background: var(--tag-primary); color: #e4e4e7; }
 
-        .time-ago { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-mute); }
+        .time-ago { font-size: 0.7rem; color: var(--text-mute); }
         h3 { margin: 0 0 5px 0; font-size: 1.1rem; line-height: 1.5; font-weight: 700; }
         .eng-title { font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-mute); direction: ltr; text-align: left; display: block; margin-bottom: 10px; }
         .bot-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 10px; }
@@ -152,18 +154,18 @@
 
     <div class="sticky-top-group">
         <div class="market-bar">
-            <div class="market-item">USD: <span id="usd-price">...</span></div>
-            <div class="market-item">BTC: <span id="btc-price">...</span></div>
-            <div class="market-item">GOLD: <span id="gold-price">...</span></div>
+            <div class="market-item">دلار (آزاد): <span id="usd-price">...</span></div>
+            <div class="market-item">بیت‌کوین: <span id="btc-price">...</span></div>
+            <div class="market-item">تهران: <span id="clock" style="color:white">00:00</span></div>
         </div>
 
         <nav class="header-bar">
-            <div class="logo"><div class="live-dot"></div> IRAN INTEL</div>
-            <div style="font-size: 0.8rem; color: var(--text-mute);" id="status-indicator">● ONLINE</div>
+            <div class="logo"><div class="live-dot"></div> سامانه رصد ایران</div>
+            <div style="font-size: 0.8rem; color: var(--text-mute);" id="status-indicator">● آنلاین</div>
         </nav>
 
         <div class="ticker-wrap">
-            <div class="ticker" id="ticker-content">Initializing...</div>
+            <div class="ticker" id="ticker-content">در حال دریافت اطلاعات...</div>
         </div>
     </div>
 
@@ -174,15 +176,15 @@
             <div class="intel-box">
                 <div class="clock-grid">
                     <div class="clock-item">
-                        <h4>DC (USA)</h4>
+                        <h4>واشنگتن</h4>
                         <div id="clock-dc">--:--</div>
                     </div>
                     <div class="clock-item">
-                        <h4 style="color:var(--text-main)">TEHRAN</h4>
+                        <h4 style="color:var(--text-main)">تهران</h4>
                         <div id="clock-tehran" style="color:var(--text-main)">--:--</div>
                     </div>
                     <div class="clock-item">
-                        <h4>TEL AVIV</h4>
+                        <h4>تل‌آویو</h4>
                         <div id="clock-tlv">--:--</div>
                     </div>
                 </div>
@@ -190,14 +192,14 @@
             
             <div class="intel-box">
                 <div class="defcon-box">
-                    <span class="defcon-title">CONFLICT LEVEL ESTIMATE</span>
-                    <span class="defcon-level" id="tension-text">ANALYZING</span>
+                    <span class="defcon-title">وضعیت تنش (تخمین)</span>
+                    <span class="defcon-level" id="tension-text">...</span>
                 </div>
                 <div class="level-bar">
                     <div class="level-fill" id="tension-fill"></div>
                 </div>
-                <div style="font-size: 0.7rem; color: #555; margin-top: 5px; text-align: left;">
-                    *Based on NLP sentiment analysis of last 20 news items.
+                <div style="font-size: 0.7rem; color: #555; margin-top: 5px; text-align: left; direction: ltr;">
+                    * Based on AI Sentiment Analysis
                 </div>
             </div>
         </div>
@@ -205,19 +207,19 @@
         <!-- OSINT TOOLKIT BUTTONS -->
         <div class="osint-tools">
             <a href="https://www.flightradar24.com/32.42,53.68/5" target="_blank" class="tool-btn">
-                <i class="fas fa-plane"></i> FlightRadar24 (Iran)
+                <i class="fas fa-plane"></i> رادار هوایی
             </a>
             <a href="https://www.vesselfinder.com/" target="_blank" class="tool-btn">
-                <i class="fas fa-ship"></i> Marine Traffic
+                <i class="fas fa-ship"></i> ردیاب دریایی
             </a>
             <a href="https://netblocks.org/regions/ir" target="_blank" class="tool-btn">
-                <i class="fas fa-wifi"></i> NetBlocks (Internet)
+                <i class="fas fa-wifi"></i> وضعیت اینترنت
             </a>
             <a href="https://apps.sentinel-hub.com/eo-browser/" target="_blank" class="tool-btn">
-                <i class="fas fa-satellite"></i> Sentinel Satellite
+                <i class="fas fa-satellite"></i> ماهواره سنتینل
             </a>
             <a href="https://earth.google.com/web/" target="_blank" class="tool-btn">
-                <i class="fas fa-globe"></i> Google Earth
+                <i class="fas fa-globe"></i> گوگل ارث
             </a>
         </div>
 
@@ -251,12 +253,13 @@
 
             document.getElementById('clock-dc').innerText = fmt('America/New_York');
             document.getElementById('clock-tehran').innerText = fmt('Asia/Tehran');
+            document.getElementById('clock').innerText = fmt('Asia/Tehran');
             document.getElementById('clock-tlv').innerText = fmt('Asia/Jerusalem');
         }
         setInterval(updateClocks, 1000);
         updateClocks();
 
-        // --- 2. CALCULATE CONFLICT LEVEL ---
+        // --- 2. CALCULATE CONFLICT LEVEL (PERSIAN) ---
         function updateTensionMeter(news) {
             // Take last 20 news items
             const recent = news.slice(0, 20);
@@ -273,17 +276,17 @@
             
             // Logic for Tension Level
             if (dangerCount > 8 || avgSentiment < -0.15) {
-                textEl.innerText = "CRITICAL";
+                textEl.innerText = "بحرانی"; // CRITICAL
                 textEl.style.color = "var(--accent)";
                 fillEl.style.width = "100%";
                 fillEl.style.background = "var(--accent)";
             } else if (dangerCount > 4 || avgSentiment < -0.05) {
-                textEl.innerText = "ELEVATED";
+                textEl.innerText = "افزایش یافته"; // ELEVATED
                 textEl.style.color = "var(--warning)";
                 fillEl.style.width = "66%";
                 fillEl.style.background = "var(--warning)";
             } else {
-                textEl.innerText = "STABLE";
+                textEl.innerText = "پایدار"; // STABLE
                 textEl.style.color = "var(--success)";
                 fillEl.style.width = "33%";
                 fillEl.style.background = "var(--success)";
@@ -320,7 +323,7 @@
                 })
                 .catch(() => {
                     document.getElementById('status-indicator').style.color = 'var(--accent)';
-                    document.getElementById('status-indicator').innerText = "● OFFLINE";
+                    document.getElementById('status-indicator').innerText = "● آفلاین";
                 });
         }
 
@@ -381,13 +384,14 @@
             t.innerHTML = txt + txt; 
         }
 
+        // --- TRANSLATED TIME AGO ---
         function timeAgo(date) {
             const diff = (new Date() - new Date(date)) / 1000;
             if(isNaN(diff)) return "";
-            if(diff < 60) return "اکنون";
-            if(diff < 3600) return Math.floor(diff/60) + "m";
-            if(diff < 86400) return Math.floor(diff/3600) + "h";
-            return Math.floor(diff/86400) + "d";
+            if(diff < 60) return "لحظاتی پیش";
+            if(diff < 3600) return Math.floor(diff/60) + " دقیقه پیش";
+            if(diff < 86400) return Math.floor(diff/3600) + " ساعت پیش";
+            return Math.floor(diff/86400) + " روز پیش";
         }
 
         function filterFeed(tag, btn) {
