@@ -3,595 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Latest news aggregation regarding Iran, USA, and Israel.">
     <title>رادار ایران | Iran Radar</title>
-    
-    <!-- Font: Vazirmatn (With Farsi Digits support) & Roboto -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@33.003/misc/Farsi-Digits/Vazirmatn-FD-font-face.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@33.003/misc/Farsi-Digits/Vazirmatn-FD-font-face.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <style>
         :root {
-            /* Light Theme */
             --bg-body: #f3f4f6;
             --bg-card: #ffffff;
-            --bg-header: rgba(255, 255, 255, 0.85);
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --text-tertiary: #9ca3af;
-            --accent: #dc2626; /* Deep Red */
-            --accent-soft: rgba(220, 38, 38, 0.1);
+            --bg-modal: #ffffff;
+            --text-main: #111827;
+            --text-sub: #4b5563;
+            --accent: #dc2626;
             --border: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-
         [data-theme="dark"] {
-            /* Dark Theme */
             --bg-body: #0f172a;
             --bg-card: #1e293b;
-            --bg-header: rgba(15, 23, 42, 0.85);
-            --text-primary: #f3f4f6;
-            --text-secondary: #94a3b8;
-            --text-tertiary: #64748b;
+            --bg-modal: #1e293b;
+            --text-main: #f3f4f6;
+            --text-sub: #94a3b8;
             --accent: #ef4444;
-            --accent-soft: rgba(239, 68, 68, 0.15);
             --border: #334155;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
-        * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
-
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            margin: 0;
-            padding-bottom: 80px;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- HEADER --- */
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg-header);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 0.8rem 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
-        .brand-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #dc2626, #991b1b);
-            color: white;
-            border-radius: 8px;
-            font-size: 1.2rem;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-title {
-            font-weight: 900;
-            font-size: 1.3rem;
-            line-height: 1;
-            letter-spacing: -0.5px;
-        }
-
-        .brand-subtitle {
-            font-size: 0.75rem;
-            color: var(--accent);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-family: 'Roboto', sans-serif;
-            margin-top: 2px;
-        }
-
-        .theme-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-        .theme-btn:hover { background: var(--border); }
-
-        /* --- SEARCH --- */
-        .search-section {
-            padding: 30px 0 20px 0;
-        }
-
-        .search-wrapper {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 16px 55px 16px 20px;
-            border-radius: 16px;
-            border: 2px solid transparent;
-            background: var(--bg-card);
-            color: var(--text-primary);
-            font-family: 'Vazirmatn';
-            font-size: 1rem;
-            outline: none;
-            box-shadow: var(--shadow-md);
-        }
-
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-tertiary);
-            font-size: 1.1rem;
-            pointer-events: none;
-        }
-
-        /* --- NEWS GRID --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
-            padding-top: 10px;
-        }
-
-        /* --- CARD DESIGN --- */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
-        }
-
-        .card-header {
-            padding: 20px 20px 0 20px;
-        }
-
-        .meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.8rem;
-        }
-
-        .source-tag {
-            background: var(--accent-soft);
-            color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .time-tag {
-            color: var(--text-tertiary);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-family: 'Vazirmatn'; /* Ensures numbers are Farsi */
-        }
-
-        .card-title {
-            margin: 0;
-            font-size: 1.15rem;
-            font-weight: 800;
-            line-height: 1.5;
-            color: var(--text-primary);
-        }
-
-        .card-body {
-            padding: 15px 20px;
-            flex: 1;
-        }
-
-        .summary {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            text-align: justify;
-            margin: 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 4; /* Show max 4 lines initially */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding-bottom: 50px; }
         
-        /* Make summary full text if needed or keep clamped */
-        .summary.expanded { -webkit-line-clamp: unset; }
+        /* Nav */
+        nav { background: var(--bg-card); padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index:10; }
+        .brand { font-weight: 900; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .brand i { color: var(--accent); }
 
-        .card-footer {
-            padding: 15px 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.01);
-        }
-
-        .action-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .icon-btn:hover {
-            background: var(--bg-body);
-            color: var(--accent);
-        }
-
-        .expand-btn {
-            font-family: 'Vazirmatn';
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .expand-btn:hover { color: var(--text-primary); }
-
-        /* --- ENGLISH CONTENT --- */
-        .eng-content {
-            background: var(--bg-body);
-            border-top: 1px solid var(--border);
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            direction: ltr;
-            text-align: left;
-        }
-
-        .eng-content.open {
-            max-height: 500px; /* Arbitrary large height */
-            transition: max-height 0.5s ease-in;
-        }
-
-        .eng-inner {
-            padding: 20px;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .eng-title {
-            color: var(--text-primary);
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .read-more-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .read-more-link:hover { text-decoration: underline; }
-
-        /* --- TOAST NOTIFICATION --- */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text-primary);
-            color: var(--bg-card);
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 500;
-            box-shadow: var(--shadow-lg);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        /* Grid */
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        /* Card */
+        .card { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+        .card-body { padding: 20px; flex: 1; }
+        .meta { font-size: 0.8rem; color: var(--text-sub); display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .source-badge { background: rgba(220, 38, 38, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 6px; }
+        h2 { margin: 0 0 10px 0; font-size: 1.1rem; line-height: 1.5; }
+        p.summary { font-size: 0.9rem; color: var(--text-sub); line-height: 1.8; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* --- SKELETON LOADING --- */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-card) 25%, var(--border) 50%, var(--bg-card) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 6px;
+        .card-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+        button { background: none; border: none; cursor: pointer; font-family: inherit; color: var(--text-sub); transition: 0.3s; }
+        button:hover { color: var(--accent); }
+        .read-btn { font-weight: bold; display: flex; align-items: center; gap: 5px; }
+
+        /* --- MODAL FOR FULL TEXT --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+            z-index: 100; opacity: 0; visibility: hidden; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center;
         }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: var(--bg-modal); width: 90%; max-width: 700px; height: 85vh;
+            border-radius: 16px; position: relative; display: flex; flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px); transition: 0.3s;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+        .close-btn { font-size: 1.5rem; color: var(--text-sub); padding: 0 10px; }
+        
+        .modal-body { padding: 30px; overflow-y: auto; line-height: 2; font-size: 1.05rem; white-space: pre-line; text-align: justify; }
+        
+        .modal-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 10px; }
+        .modal-meta { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 20px; border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 5px; }
+        
+        .skeleton { background: linear-gradient(90deg, var(--bg-card), var(--border), var(--bg-card)); background-size: 200%; animation: shimmer 1.5s infinite; border-radius: 6px; height: 15px; margin-bottom: 8px; }
         @keyframes shimmer { 0% {background-position: 200% 0;} 100% {background-position: -200% 0;} }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            .brand-title { font-size: 1.1rem; }
-            .search-section { padding: 20px 0; }
-        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="container nav-content">
-            <a href="#" class="brand">
-                <div class="brand-icon">
-                    <i class="fas fa-radar"></i>
-                </div>
-                <div class="brand-text">
-                    <span class="brand-title">رادار ایران</span>
-                    <span class="brand-subtitle">Iran News Radar</span>
-                </div>
-            </a>
-            <button class="theme-btn" onclick="toggleTheme()" title="تغییر پوسته">
-                <i class="fas fa-moon" id="theme-icon"></i>
-            </button>
-        </div>
+        <div class="brand"><i class="fas fa-radar"></i> رادار ایران</div>
+        <button onclick="toggleTheme()"><i class="fas fa-moon" id="theme-icon"></i></button>
     </nav>
 
     <div class="container">
-        <!-- Search -->
-        <div class="search-section">
-            <div class="search-wrapper">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="جستجو در تیترها و خلاصه اخبار...">
-            </div>
-        </div>
-
-        <!-- News Grid -->
-        <div id="news-grid" class="grid">
-            <!-- Skeletons (Loading State) -->
-            <div class="card" style="height: 300px; padding: 20px;">
-                <div class="skeleton" style="width: 30%; height: 20px; margin-bottom: 20px;"></div>
-                <div class="skeleton" style="width: 80%; height: 30px; margin-bottom: 15px;"></div>
-                <div class="skeleton" style="width: 100%; height: 15px; margin-bottom: 8px;"></div>
-                <div class="skeleton" style="width: 90%; height: 15px; margin-bottom: 8px;"></div>
-                <div class="skeleton" style="width: 60%; height: 15px;"></div>
-            </div>
-            <div class="card" style="height: 300px; padding: 20px;">
-                <div class="skeleton" style="width: 30%; height: 20px; margin-bottom: 20px;"></div>
-                <div class="skeleton" style="width: 80%; height: 30px; margin-bottom: 15px;"></div>
-                <div class="skeleton" style="width: 100%; height: 15px; margin-bottom: 8px;"></div>
-            </div>
+        <div id="grid" class="grid">
+            <!-- Loading State -->
+            <div class="card"><div class="card-body"><div class="skeleton" style="height:20px; width:60%"></div><div class="skeleton" style="height:100px"></div></div></div>
+            <div class="card"><div class="card-body"><div class="skeleton" style="height:20px; width:60%"></div><div class="skeleton" style="height:100px"></div></div></div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <i class="fas fa-check-circle"></i>
-        <span>لینک خبر کپی شد</span>
+    <!-- FULL TEXT MODAL -->
+    <div class="modal-overlay" id="newsModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModalDirect()">&times;</button>
+                <div style="flex:1; padding-left:15px">
+                    <h2 id="m-title" class="modal-title"></h2>
+                    <span id="m-source" class="modal-meta"></span>
+                </div>
+            </div>
+            <div id="m-body" class="modal-body">
+                <!-- Text goes here -->
+            </div>
+        </div>
     </div>
 
     <script>
-        let allNewsData = [];
+        let allData = [];
 
-        // --- THEME LOGIC ---
         function toggleTheme() {
             const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
             const current = html.getAttribute('data-theme');
-            
-            if (current === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'light');
-            }
+            const target = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
         }
-        
-        // Init Theme
         if(localStorage.getItem('theme') === 'dark') toggleTheme();
 
-        // --- UTILS ---
-        function timeAgo(dateString) {
-            // Using Persian Date formatter would be complex without library
-            // We use simple math + Farsi Digits
-            const date = new Date(dateString);
-            const now = new Date();
-            const diff = (now - date) / 1000; // seconds
-
-            const toFarsi = (n) => n.toString().replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
-
-            if (diff < 60) return "لحظاتی پیش";
-            if (diff < 3600) return `${toFarsi(Math.floor(diff/60))} دقیقه پیش`;
-            if (diff < 86400) return `${toFarsi(Math.floor(diff/3600))} ساعت پیش`;
-            return `${toFarsi(Math.floor(diff/86400))} روز پیش`;
-        }
-
-        function copyToClipboard(url) {
-            navigator.clipboard.writeText(url).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2500);
-            });
-        }
-
-        function toggleEng(id) {
-            const el = document.getElementById(id);
-            const btnIcon = document.getElementById(`btn-icon-${id}`);
-            
-            if (el.classList.contains('open')) {
-                el.classList.remove('open');
-                btnIcon.style.transform = 'rotate(0deg)';
-            } else {
-                el.classList.add('open');
-                btnIcon.style.transform = 'rotate(180deg)';
-            }
-        }
-
-        // --- RENDER ---
-        function renderNews(news) {
-            const grid = document.getElementById('news-grid');
-            grid.innerHTML = '';
-
-            if (news.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-tertiary);">
-                        <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                        <p>موردی یافت نشد.</p>
-                    </div>`;
-                return;
-            }
-
-            news.forEach((item, index) => {
-                const uniqueId = `eng-${index}`;
-                
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="meta-row">
-                            <span class="source-tag">
-                                <i class="far fa-newspaper"></i> ${item.source}
-                            </span>
-                            <span class="time-tag">
-                                ${timeAgo(item.date)} <i class="far fa-clock"></i>
-                            </span>
-                        </div>
-                        <h2 class="card-title">${item.title_fa}</h2>
-                    </div>
-                    
-                    <div class="card-body">
-                        <p class="summary">${item.summary_fa}</p>
-                    </div>
-
-                    <div class="card-footer">
-                        <button class="expand-btn" onclick="toggleEng('${uniqueId}')">
-                            مشاهده متن اصلی
-                            <i class="fas fa-chevron-down" id="btn-icon-${uniqueId}" style="transition: 0.3s"></i>
-                        </button>
-                        <div class="action-group">
-                            <button class="icon-btn" onclick="copyToClipboard('${item.url}')" title="کپی لینک">
-                                <i class="fas fa-link"></i>
-                            </button>
-                            <a href="${item.url}" target="_blank" class="icon-btn" title="باز کردن در تب جدید">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div id="${uniqueId}" class="eng-content">
-                        <div class="eng-inner">
-                            <span class="eng-title">${item.title_en}</span>
-                            <p>${item.summary_en}</p>
-                            <a href="${item.url}" target="_blank" class="read-more-link">
-                                Read Full Article on ${item.source} &rarr;
-                            </a>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // --- FETCH ---
-        // Add a timestamp to prevent caching issues
-        fetch('news.json?t=' + new Date().getTime())
-            .then(res => res.json())
-            .then(data => {
-                allNewsData = data;
-                renderNews(data);
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('news-grid').innerHTML = '<p style="text-align:center; color:red">خطا در بارگذاری اخبار</p>';
-            });
-
-        // --- FILTER ---
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = allNewsData.filter(item => 
-                (item.title_fa && item.title_fa.includes(term)) || 
-                (item.summary_fa && item.summary_fa.includes(term)) ||
-                (item.title_en && item.title_en.toLowerCase().includes(term))
-            );
-            renderNews(filtered);
+        // 1. Fetch
+        fetch('news.json?t='+Date.now()).then(r=>r.json()).then(data => {
+            allData = data;
+            render(data);
         });
 
+        // 2. Render Grid
+        function render(news) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            news.forEach((item, idx) => {
+                grid.innerHTML += `
+                <div class="card">
+                    <div class="card-body">
+                        <div class="meta">
+                            <span class="source-badge">${item.source}</span>
+                            <span>${new Date(item.date).toLocaleDateString('fa-IR')}</span>
+                        </div>
+                        <h2>${item.title_fa}</h2>
+                        <p class="summary">${item.summary_fa}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="read-btn" onclick="openModal(${idx})">
+                            <i class="fas fa-book-open"></i> مطالعه کامل خبر
+                        </button>
+                        <a href="${item.url}" target="_blank"><button><i class="fas fa-external-link-alt"></i></button></a>
+                    </div>
+                </div>`;
+            });
+        }
+
+        // 3. Modal Logic
+        function openModal(idx) {
+            const item = allData[idx];
+            document.getElementById('m-title').innerText = item.title_fa;
+            document.getElementById('m-source').innerText = item.source + " | " + new Date(item.date).toLocaleDateString('fa-IR');
+            
+            // Handle Full Text formatting
+            const textContent = item.full_text_fa ? item.full_text_fa : "متن کامل در دسترس نیست.";
+            document.getElementById('m-body').innerText = textContent;
+
+            document.getElementById('newsModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
+        }
+
+        function closeModal(e) {
+            if (e.target.id === 'newsModal') closeModalDirect();
+        }
+
+        function closeModalDirect() {
+            document.getElementById('newsModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
