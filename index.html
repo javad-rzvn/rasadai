@@ -73,13 +73,47 @@
 
         .container { max-width: 950px; margin: 0 auto; padding: 20px; }
 
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; }
+        /* --- NEW MAP STYLES --- */
+        .map-section {
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--panel);
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s;
+        }
+        .map-section.active { display: block; }
+        .map-header {
+            padding: 10px 15px;
+            background: #000;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-mute);
+        }
+        .map-frame {
+            width: 100%;
+            height: 450px;
+            border: none;
+            background: #09090b;
+        }
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; align-items: center; }
+        
         .filter-btn {
             background: var(--panel); border: 1px solid var(--border); color: var(--text-mute);
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 0.85rem;
             transition: 0.2s; white-space: nowrap;
         }
         .filter-btn:hover, .filter-btn.active { background: var(--text-main); color: var(--bg); border-color: var(--text-main); font-weight: bold; }
+        
+        /* Special styles for Map Buttons */
+        .filter-btn.map-toggle { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.map-toggle:hover, .filter-btn.map-toggle.active { background: var(--primary); color: white; }
 
         .feed-list { display: flex; flex-direction: column; gap: 15px; }
 
@@ -127,6 +161,7 @@
             .feed-item { flex-direction: column; }
             .feed-img { width: 100%; height: 120px; }
             .market-bar { display: none; }
+            .map-frame { height: 350px; }
         }
     </style>
 </head>
@@ -150,12 +185,27 @@
     </div>
 
     <div class="container">
+        
+        <!-- --- NEW: MAP CONTAINER --- -->
+        <div id="map-viewer" class="map-section">
+            <div class="map-header">
+                <span id="map-title"><i class="fas fa-plane"></i> رادار هوایی</span>
+                <button onclick="closeMap()" style="background:none; border:none; color:var(--text-mute); cursor:pointer;"><i class="fas fa-times"></i> بستن</button>
+            </div>
+            <!-- Iframe source will be injected by JS -->
+            <iframe id="map-frame" class="map-frame" src=""></iframe>
+        </div>
+
         <div class="filter-bar">
             <button class="filter-btn active" onclick="filterFeed('all', this)">همه</button>
-            <button class="filter-btn" onclick="filterFeed('نظامی', this)">نظامی / امنیتی</button>
+            <button class="filter-btn" onclick="filterFeed('نظامی', this)">نظامی</button>
             <button class="filter-btn" onclick="filterFeed('هسته‌ای', this)">هسته‌ای</button>
             <button class="filter-btn" onclick="filterFeed('اقتصادی', this)">اقتصادی</button>
-            <button class="filter-btn" onclick="filterFeed('سیاسی', this)">سیاسی</button>
+            
+            <!-- --- NEW: MAP BUTTONS --- -->
+            <div style="width:1px; height:20px; background:var(--border); margin:0 5px;"></div>
+            <button class="filter-btn map-toggle" onclick="toggleMap('air')"><i class="fas fa-plane"></i> هوایی</button>
+            <button class="filter-btn map-toggle" onclick="toggleMap('sea')"><i class="fas fa-ship"></i> دریایی</button>
         </div>
 
         <div class="feed-list" id="feed-root">
@@ -169,34 +219,71 @@
         let allNews = [];
         let currentFilter = 'all';
 
+        // --- MAP CONFIGURATION ---
+        const maps = {
+            // RadarBox is very iframe friendly and dark themed
+            'air': 'https://www.radarbox.com/embed/widget?lat=32.42&lng=53.68&z=5&style=dark&layers=labels',
+            // VesselFinder focused on Persian Gulf
+            'sea': 'https://www.vesselfinder.com/aismap?zoom=6&lat=27.0&lon=52.0&width=100%&height=450&names=true'
+        };
+
+        function toggleMap(type) {
+            const container = document.getElementById('map-viewer');
+            const frame = document.getElementById('map-frame');
+            const title = document.getElementById('map-title');
+
+            // If already open on the same type, close it
+            if (container.style.display === 'block' && frame.getAttribute('data-type') === type) {
+                closeMap();
+                return;
+            }
+
+            // Set content
+            frame.src = maps[type];
+            frame.setAttribute('data-type', type);
+            
+            if(type === 'air') title.innerHTML = '<i class="fas fa-plane" style="color:var(--primary)"></i> ترافیک هوایی (زنده)';
+            if(type === 'sea') title.innerHTML = '<i class="fas fa-ship" style="color:var(--accent)"></i> ترافیک دریایی (خلیج فارس)';
+
+            // Show
+            container.style.display = 'block';
+            container.classList.add('active');
+
+            // Scroll to map
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        }
+
+        function closeMap() {
+            const container = document.getElementById('map-viewer');
+            const frame = document.getElementById('map-frame');
+            
+            container.style.display = 'none';
+            frame.src = ''; // Clear src to stop using bandwidth
+            frame.setAttribute('data-type', '');
+        }
+
+        // --- EXISTING LOGIC ---
+
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone: 'Asia/Tehran', hour:'2-digit', minute:'2-digit'});
         }, 1000);
 
-        // --- FETCH PRICES (Combined) ---
         function fetchMarketData() {
-            // 1. Get Crypto from CoinGecko
             fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-                .then(r => r.json())
-                .then(d => {
+                .then(r => r.json()).then(d => {
                     document.getElementById('btc-price').innerText = "$" + d.bitcoin.usd.toLocaleString();
-                })
-                .catch(e => console.log("Crypto Error"));
+                }).catch(e => console.log("Crypto Error"));
 
-            // 2. Get Scraped Dollar Price (From local JSON file)
             fetch('market.json?t=' + Date.now())
-                .then(r => r.json())
-                .then(d => {
+                .then(r => r.json()).then(d => {
                     document.getElementById('usd-price').innerText = d.usd + " T";
-                })
-                .catch(e => {
-                    console.log("Market File Error");
+                }).catch(e => {
                     document.getElementById('usd-price').innerText = "N/A";
                 });
         }
         
         fetchMarketData();
-        setInterval(fetchMarketData, 60000); // Refresh every minute
+        setInterval(fetchMarketData, 60000);
 
         function loadData() {
             document.getElementById('status-indicator').style.color = 'var(--success)';
@@ -283,7 +370,9 @@
 
         function filterFeed(tag, btn) {
             currentFilter = tag;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if(!b.classList.contains('map-toggle')) b.classList.remove('active');
+            });
             btn.classList.add('active');
             renderFeed();
         }
