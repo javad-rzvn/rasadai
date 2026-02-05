@@ -1,207 +1,265 @@
 import os
 import json
 import time
+import logging
 import requests
+import concurrent.futures
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from gnews import GNews
 from deep_translator import GoogleTranslator
 from textblob import TextBlob
-from urllib.parse import urljoin
+from fake_useragent import UserAgent
 
-# --- CONFIG ---
-SEARCH_QUERY = 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions OR currency)'
-LANGUAGE = 'en'
-COUNTRY = 'US'
-PERIOD = '12h'
-MAX_RESULTS = 30
-NEWS_FILE = 'news.json'
-MARKET_FILE = 'market.json'
-HISTORY_FILE = 'seen_news.txt'
-
-# Robust Headers to look like a real browser (Essential for images)
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Referer': 'https://www.google.com/'
+# --- CONFIGURATION ---
+CONFIG = {
+    'SEARCH_QUERY': 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions OR currency)',
+    'LANGUAGE': 'en',
+    'COUNTRY': 'US',
+    'PERIOD': '12h',
+    'MAX_RESULTS': 30,
+    'FILES': {
+        'NEWS': 'news.json',
+        'MARKET': 'market.json',
+        'HISTORY': 'seen_news.txt'
+    },
+    'TIMEOUT': 10,
+    'MAX_WORKERS': 5  # Number of parallel threads
 }
 
-def get_seen():
-    if not os.path.exists(HISTORY_FILE): return set()
-    with open(HISTORY_FILE, 'r', encoding='utf-8') as f: return set(f.read().splitlines())
+# Setup Logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
 
-def save_seen(urls):
-    with open(HISTORY_FILE, 'a', encoding='utf-8') as f:
-        for url in urls: f.write(url + '\n')
+class IranNewsRadar:
+    def __init__(self):
+        self.ua = UserAgent()
+        self.translator = GoogleTranslator(source='auto', target='fa')
+        self.seen_urls = self._load_seen()
 
-def fetch_market_rates():
-    print(">>> Fetching Dollar Price...")
-    url = "https://alanchand.com/en/currencies-price/usd"
-    
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Method 1: Input
-            price_toman = 0
-            input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
-            if input_tag:
-                if input_tag.has_attr('data-price'):
-                    price_toman = int(int(input_tag['data-price']) / 10)
-                elif input_tag.has_attr('value'):
-                     price_toman = int(int(input_tag['value'].replace(',','')) / 10)
+    def _get_headers(self):
+        """Generates random headers to avoid bot detection."""
+        return {
+            'User-Agent': self.ua.random,
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Referer': 'https://www.google.com/'
+        }
 
-            # Method 2: JSON-LD
-            if price_toman == 0:
-                scripts = soup.find_all('script', type='application/ld+json')
-                for s in scripts:
-                    if '"sku":"USD"' in s.text:
-                        data = json.loads(s.text)
-                        if 'offers' in data and 'price' in data['offers']:
-                            price_toman = int(float(data['offers']['price']) / 10)
+    def _load_seen(self):
+        if not os.path.exists(CONFIG['FILES']['HISTORY']):
+            return set()
+        with open(CONFIG['FILES']['HISTORY'], 'r', encoding='utf-8') as f:
+            return set(f.read().splitlines())
+
+    def _save_seen(self, new_urls):
+        with open(CONFIG['FILES']['HISTORY'], 'a', encoding='utf-8') as f:
+            for url in new_urls:
+                f.write(url + '\n')
+
+    def fetch_market_rates(self):
+        """Fetches USD price from AlanChand with fallback logic."""
+        logger.info("Fetching Dollar Price...")
+        url = "https://alanchand.com/en/currencies-price/usd"
+        
+        try:
+            response = requests.get(url, headers=self._get_headers(), timeout=CONFIG['TIMEOUT'])
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                price_toman = 0
+
+                # Strategy 1: Input field
+                input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
+                if input_tag:
+                    val = input_tag.get('data-price') or input_tag.get('value')
+                    if val:
+                        price_toman = int(int(val.replace(',', '')) / 10)
+
+                # Strategy 2: JSON-LD (Fallback)
+                if not price_toman:
+                    scripts = soup.find_all('script', type='application/ld+json')
+                    for s in scripts:
+                        if '"sku":"USD"' in s.text:
+                            data = json.loads(s.text)
+                            try:
+                                price_toman = int(float(data['offers']['price']) / 10)
+                                break
+                            except (KeyError, ValueError):
+                                continue
+                
+                if price_toman > 0:
+                    logger.info(f"Market Success: {price_toman}")
+                    return {"usd": f"{price_toman:,}", "updated": time.strftime("%H:%M")}
+                    
+        except Exception as e:
+            logger.error(f"Market Fetch Error: {e}")
+        
+        return {"usd": "N/A", "updated": "--:--"}
+
+    def resolve_url(self, url):
+        """
+        Follows Google News redirects to get the actual publisher URL.
+        Important for scraping the correct OpenGraph image.
+        """
+        try:
+            # allow_redirects=True will follow the google link to the destination
+            response = requests.head(url, allow_redirects=True, timeout=5)
+            return response.url
+        except:
+            return url
+
+    def extract_metadata(self, url):
+        """
+        Fetches the high-res image from the resolved URL.
+        """
+        image_url = None
+        try:
+            response = requests.get(url, headers=self._get_headers(), timeout=5)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Priority list for images
+                meta_checks = [
+                    {'property': 'og:image'},
+                    {'property': 'og:image:secure_url'},
+                    {'name': 'twitter:image'},
+                    {'name': 'thumbnail'}
+                ]
+                
+                for check in meta_checks:
+                    tag = soup.find('meta', check)
+                    if tag and tag.get('content'):
+                        img_candidate = tag['content']
+                        # Filter out tiny tracking pixels or icons
+                        if 'icon' not in img_candidate and len(img_candidate) > 10:
+                            image_url = urljoin(url, img_candidate)
                             break
+        except Exception:
+            pass
             
-            if price_toman > 0:
-                print(f"   > Success! Price: {price_toman}")
-                return {"usd": f"{price_toman:,}", "updated": time.strftime("%H:%M")}
-                
-    except Exception as e:
-        print(f"   > Market Error: {e}")
-    
-    return {"usd": "Check Source", "updated": "--:--"}
+        return image_url
 
-def get_category_and_sentiment(text):
-    t = text.lower()
-    tag, color = 'سیاسی', 'primary'
-    if 'nuclear' in t or 'atomic' in t: tag, color = 'هسته‌ای', 'warning'
-    elif 'attack' in t or 'war' in t or 'military' in t or 'strike' in t: tag, color = 'نظامی', 'danger'
-    elif 'oil' in t or 'currency' in t or 'economy' in t or 'sanction' in t: tag, color = 'اقتصادی', 'success'
-    
-    blob = TextBlob(text)
-    return tag, color, blob.sentiment.polarity
-
-# --- IMPROVED IMAGE EXTRACTOR ---
-def fetch_article_image(url):
-    """
-    Forces a visit to the site to get the High-Res OpenGraph image.
-    """
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=4) # 4s timeout to keep it fast
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # List of meta tags to check in order of quality
-            meta_checks = [
-                {'property': 'og:image'},
-                {'name': 'twitter:image'},
-                {'property': 'og:image:secure_url'},
-                {'name': 'thumbnail'}
-            ]
-            
-            image_url = None
-            for check in meta_checks:
-                tag = soup.find('meta', check)
-                if tag and tag.get('content'):
-                    image_url = tag['content']
-                    break
-            
-            # If we found an image, make sure it's a full URL
-            if image_url:
-                # Fix relative URLs (e.g. "/uploads/img.jpg" -> "https://site.com/uploads/img.jpg")
-                return urljoin(url, image_url)
-                
-    except Exception:
-        pass 
-    return None
-
-def main():
-    print(">>> Starting Radar...")
-    
-    # 1. MARKET
-    market_data = fetch_market_rates()
-    try:
-        with open(MARKET_FILE, 'w', encoding='utf-8') as f: json.dump(market_data, f)
-    except: pass
-
-    # 2. NEWS
-    print(">>> Fetching News...")
-    google_news = GNews(language=LANGUAGE, country=COUNTRY, period=PERIOD, max_results=MAX_RESULTS)
-    
-    try:
-        results = google_news.get_news(SEARCH_QUERY)
-    except Exception as e:
-        print(f"News API Error: {e}")
-        return
-
-    seen = get_seen()
-    new_entries = []
-    new_urls = []
-    translator = GoogleTranslator(source='auto', target='fa')
-
-    for entry in results:
-        url = entry.get('url')
-        if url and not url.startswith('http'): url = 'https://' + url
+    def analyze_content(self, text):
+        t = text.lower()
+        tag, color = 'سیاسی', 'primary'
         
-        if url in seen: continue
+        if any(x in t for x in ['nuclear', 'atomic', 'iaea', 'uranium']):
+            tag, color = 'هسته‌ای', 'warning'
+        elif any(x in t for x in ['attack', 'war', 'military', 'strike', 'missile', 'drone']):
+            tag, color = 'نظامی', 'danger'
+        elif any(x in t for x in ['oil', 'currency', 'economy', 'sanction', 'inflation']):
+            tag, color = 'اقتصادی', 'success'
         
-        raw_title = entry.get('title').rsplit(' - ', 1)[0]
+        polarity = TextBlob(text).sentiment.polarity
+        return tag, color, polarity
+
+    def process_single_news_item(self, entry):
+        """
+        Worker function to process one news item.
+        """
+        original_url = entry.get('url')
+        
+        # 1. Check history first to save processing time
+        if original_url in self.seen_urls:
+            return None
+
+        # 2. Resolve Google Redirect to Real URL
+        real_url = self.resolve_url(original_url)
+        
+        # Double check seen after resolving (sometimes different google links go to same place)
+        if real_url in self.seen_urls:
+            return None
+
+        raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
         publisher = entry.get('publisher', {}).get('title', 'Source')
         date = entry.get('published date')
-        
-        print(f"   > Processing: {raw_title[:30]}...")
 
         try:
-            # A. Translate
-            title_fa = translator.translate(raw_title)
+            # 3. Parallel Tasks (Translate, Scrape, Analyze)
+            title_fa = self.translator.translate(raw_title)
+            tag, color, sentiment = self.analyze_content(raw_title)
             
-            # B. Sentiment
-            tag, color, sentiment = get_category_and_sentiment(raw_title)
-            
-            # C. Images (THE FIX)
-            # 1. Attempt to Scrape Real Image first (High Priority)
-            print("     - Scraping high-res image...")
-            final_image = fetch_article_image(url)
-            
-            # 2. If Scrape fails, use Google Thumbnail (Low Priority)
-            if not final_image:
-                final_image = entry.get('image')
-                
-            # 3. If both fail, use placeholder
-            if not final_image:
-                final_image = "https://placehold.co/600x400?text=No+Image"
+            # 4. Get Image (Try scraper, fallback to GNews thumb, fallback to placeholder)
+            image = self.extract_metadata(real_url)
+            if not image:
+                image = entry.get('image') # The tiny thumbnail from Google
+            if not image:
+                image = "https://placehold.co/600x400?text=No+Image"
 
-            new_entries.append({
+            return {
                 "title_fa": title_fa,
                 "title_en": raw_title,
                 "source": publisher,
-                "url": url,
-                "image": final_image, 
+                "url": real_url,
+                "image": image,
                 "date": date,
                 "tag": tag,
                 "tag_color": color,
-                "sentiment": sentiment
-            })
-            new_urls.append(url)
+                "sentiment": sentiment,
+                "_original_url": original_url # Used for updating seen list
+            }
         except Exception as e:
-            print(f"     - Error: {e}")
+            logger.error(f"Error processing {raw_title[:20]}: {e}")
+            return None
 
-    # 3. SAVE
-    if new_entries:
+    def run(self):
+        logger.info(">>> Starting Radar...")
+
+        # 1. Fetch Market Data
+        market_data = self.fetch_market_rates()
+        with open(CONFIG['FILES']['MARKET'], 'w', encoding='utf-8') as f:
+            json.dump(market_data, f)
+
+        # 2. Fetch GNews
+        logger.info(">>> Querying GNews...")
+        google_news = GNews(language=CONFIG['LANGUAGE'], country=CONFIG['COUNTRY'], 
+                           period=CONFIG['PERIOD'], max_results=CONFIG['MAX_RESULTS'])
         try:
-            with open(NEWS_FILE, 'r', encoding='utf-8') as f: old_data = json.load(f)
-        except: old_data = []
-        
-        final_data = new_entries + old_data
-        final_data = final_data[:60]
-        
-        with open(NEWS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(final_data, f, ensure_ascii=False, indent=4)
-        
-        save_seen(new_urls)
-        print(f">>> Added {len(new_entries)} news items.")
-    else:
-        print(">>> No new news.")
+            results = google_news.get_news(CONFIG['SEARCH_QUERY'])
+        except Exception as e:
+            logger.critical(f"GNews API Failed: {e}")
+            return
+
+        # 3. Process Items in Parallel
+        logger.info(f">>> Processing {len(results)} items with {CONFIG['MAX_WORKERS']} threads...")
+        new_entries = []
+        urls_to_save = []
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=CONFIG['MAX_WORKERS']) as executor:
+            # Submit all tasks
+            future_to_entry = {executor.submit(self.process_single_news_item, entry): entry for entry in results}
+            
+            for future in concurrent.futures.as_completed(future_to_entry):
+                result = future.result()
+                if result:
+                    # Separate the internal tracking URL from the data
+                    orig_url = result.pop('_original_url')
+                    urls_to_save.append(orig_url)
+                    # Also save the real resolved URL to history to prevent duplicates
+                    urls_to_save.append(result['url']) 
+                    
+                    new_entries.append(result)
+                    logger.info(f"   + Processed: {result['title_en'][:30]}...")
+
+        # 4. Save Data
+        if new_entries:
+            try:
+                with open(CONFIG['FILES']['NEWS'], 'r', encoding='utf-8') as f:
+                    old_data = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                old_data = []
+
+            # Merge and Sort (Optional: sort by date if needed, currently simply appending new on top)
+            final_data = new_entries + old_data
+            final_data = final_data[:60] # Keep file size manageable
+
+            with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f:
+                json.dump(final_data, f, ensure_ascii=False, indent=4)
+
+            self._save_seen(urls_to_save)
+            logger.info(f">>> Successfully added {len(new_entries)} news items.")
+        else:
+            logger.info(">>> No new news found.")
 
 if __name__ == "__main__":
-    main()
+    radar = IranNewsRadar()
+    radar.run()
