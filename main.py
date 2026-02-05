@@ -69,32 +69,25 @@ class IranNewsRadar:
         except: pass
         return {"usd": "N/A", "updated": "--:--"}
 
-    # --- 2. SCRAPER (BANS GOOGLE IMAGES) ---
+    # --- 2. SCRAPER (TEXT ONLY - NO IMAGES) ---
     def scrape_article(self, url):
         try:
             resp = requests.get(url, headers=self._get_headers(), timeout=10)
             final_url = resp.url
             soup = BeautifulSoup(resp.text, 'html.parser')
             
-            # Extract Image
-            image_url = None
-            meta_img = soup.find('meta', property='og:image')
-            if meta_img:
-                candidate = urllib.parse.urljoin(final_url, meta_img['content'])
-                # CRITICAL FIX: Reject Google's tiny thumbnails
-                if "googleusercontent" not in candidate and "ggpht" not in candidate:
-                    image_url = candidate
-
-            # Extract Text
-            for tag in soup(["script", "style", "nav", "footer", "header", "aside"]): tag.extract()
+            # Remove junk to get clean text
+            for tag in soup(["script", "style", "nav", "footer", "header", "aside", "figure", "img"]): 
+                tag.extract()
+            
             paragraphs = [p.get_text().strip() for p in soup.find_all('p') if len(p.get_text()) > 60]
             clean_text = " ".join(paragraphs)[:4000]
             
-            return final_url, image_url, clean_text
+            return final_url, clean_text
         except:
-            return url, None, ""
+            return url, ""
 
-    # --- 3. AI ANALYST (TRUMP CONTEXT FIXED) ---
+    # --- 3. AI ANALYST ---
     def analyze_with_ai(self, headline, full_text):
         if not self.api_key: return None
         context_text = full_text if len(full_text) > 100 else headline
@@ -129,36 +122,24 @@ class IranNewsRadar:
             logger.error(f"AI Error: {e}")
         return None
 
-    # --- 4. IMAGE GENERATOR ---
-    def generate_ai_image(self, prompt):
-        try:
-            safe_prompt = urllib.parse.quote(f"Editorial news art, {prompt}, dark geopolitical style, 4k")
-            return f"https://gen.pollinations.ai/image/{safe_prompt}?model=flux&width=800&height=600&nologo=true"
-        except:
-            return "https://placehold.co/800x600?text=News"
-
     # --- PROCESSOR ---
     def process_item(self, entry):
         orig_url = entry.get('url')
         if orig_url in self.seen_urls: return None
 
         raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
+        publisher_name = entry.get('publisher', {}).get('title', 'Source')
         
-        # A. Scrape
-        real_url, real_img, full_text = self.scrape_article(orig_url)
+        # A. Scrape (Text Only)
+        real_url, full_text = self.scrape_article(orig_url)
         if real_url in self.seen_urls: return None
 
         # B. Analyze
         ai = self.analyze_with_ai(raw_title, full_text)
         if not ai: 
-            # Fallback if AI fails (prevents crash)
             ai = {"title_fa": raw_title, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "عمومی", "sentiment": 0}
 
-        # C. Image Logic
-        if not real_img:
-            real_img = self.generate_ai_image(raw_title)
-
-        # D. Time
+        # C. Time
         try:
             ts = parser.parse(entry.get('published date')).timestamp()
         except:
@@ -171,16 +152,16 @@ class IranNewsRadar:
             "impact": ai.get('impact'),
             "tag": ai.get('tag'),
             "sentiment": ai.get('sentiment'),
-            "source": entry.get('publisher', {}).get('title', 'Source'),
+            "source": publisher_name,
             "url": real_url,
-            "image": real_img,
+            "image": None, # Force No Image
             "date": entry.get('published date'),
             "timestamp": ts,
             "_orig_url": orig_url
         }
 
     def run(self):
-        logger.info(">>> Radar Started...")
+        logger.info(">>> Radar Started (No Images Mode)...")
         
         # 1. Market
         with open(CONFIG['FILES']['MARKET'], 'w') as f: json.dump(self.fetch_market_rates(), f)
@@ -209,15 +190,14 @@ class IranNewsRadar:
                 with open(CONFIG['FILES']['NEWS'], 'r') as f: old = json.load(f)
             except: old = []
 
-            # Filter out Bad Data from Old JSON (The Fix)
+            # Clean old data (Simplified - no image checking needed)
             clean_old = []
             for item in old:
-                # Keep if it has AI summary AND Image is NOT google
-                if 'summary' in item and 'googleusercontent' not in str(item.get('image', '')):
+                # Only check if summary exists (AI success)
+                if 'summary' in item:
                     clean_old.append(item)
 
             combined = new_items + clean_old
-            # Sort by Time
             combined.sort(key=lambda x: x.get('timestamp', 0), reverse=True)
             
             with open(CONFIG['FILES']['NEWS'], 'w') as f: json.dump(combined[:50], f, indent=4)
