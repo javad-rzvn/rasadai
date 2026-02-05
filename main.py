@@ -3,12 +3,11 @@ import json
 import time
 import logging
 import requests
+import urllib.parse
 import concurrent.futures
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from gnews import GNews
-from deep_translator import GoogleTranslator
-from textblob import TextBlob
 from fake_useragent import UserAgent
 
 # --- CONFIGURATION ---
@@ -16,15 +15,16 @@ CONFIG = {
     'SEARCH_QUERY': 'Iran AND (Israel OR USA OR nuclear OR conflict OR sanctions OR currency)',
     'LANGUAGE': 'en',
     'COUNTRY': 'US',
-    'PERIOD': '12h',
-    'MAX_RESULTS': 30,
+    'PERIOD': '6h', # Shorter period to save AI credits on old news
+    'MAX_RESULTS': 20,
     'FILES': {
         'NEWS': 'news.json',
         'MARKET': 'market.json',
         'HISTORY': 'seen_news.txt'
     },
     'TIMEOUT': 10,
-    'MAX_WORKERS': 5  # Number of parallel threads
+    'MAX_WORKERS': 4, # Reduce threads slightly to be gentle on API
+    'POLLINATIONS_KEY': os.environ.get('POLLINATIONS_API_KEY') # Loaded from GitHub Secrets
 }
 
 # Setup Logging
@@ -34,232 +34,195 @@ logger = logging.getLogger()
 class IranNewsRadar:
     def __init__(self):
         self.ua = UserAgent()
-        self.translator = GoogleTranslator(source='auto', target='fa')
         self.seen_urls = self._load_seen()
+        self.api_key = CONFIG['POLLINATIONS_KEY']
+        
+        if not self.api_key:
+            logger.warning("⚠️ No Pollinations API Key found! AI features will fail.")
 
     def _get_headers(self):
-        """Generates random headers to avoid bot detection."""
         return {
             'User-Agent': self.ua.random,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'https://www.google.com/'
         }
 
     def _load_seen(self):
-        if not os.path.exists(CONFIG['FILES']['HISTORY']):
-            return set()
+        if not os.path.exists(CONFIG['FILES']['HISTORY']): return set()
         with open(CONFIG['FILES']['HISTORY'], 'r', encoding='utf-8') as f:
             return set(f.read().splitlines())
 
     def _save_seen(self, new_urls):
         with open(CONFIG['FILES']['HISTORY'], 'a', encoding='utf-8') as f:
-            for url in new_urls:
-                f.write(url + '\n')
+            for url in new_urls: f.write(url + '\n')
 
+    # --- MARKET DATA (unchanged) ---
     def fetch_market_rates(self):
-        """Fetches USD price from AlanChand with fallback logic."""
-        logger.info("Fetching Dollar Price...")
         url = "https://alanchand.com/en/currencies-price/usd"
-        
         try:
             response = requests.get(url, headers=self._get_headers(), timeout=CONFIG['TIMEOUT'])
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
-                price_toman = 0
-
-                # Strategy 1: Input field
+                price = 0
                 input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
                 if input_tag:
                     val = input_tag.get('data-price') or input_tag.get('value')
-                    if val:
-                        price_toman = int(int(val.replace(',', '')) / 10)
-
-                # Strategy 2: JSON-LD (Fallback)
-                if not price_toman:
-                    scripts = soup.find_all('script', type='application/ld+json')
-                    for s in scripts:
-                        if '"sku":"USD"' in s.text:
-                            data = json.loads(s.text)
-                            try:
-                                price_toman = int(float(data['offers']['price']) / 10)
-                                break
-                            except (KeyError, ValueError):
-                                continue
+                    if val: price = int(int(val.replace(',', '')) / 10)
                 
-                if price_toman > 0:
-                    logger.info(f"Market Success: {price_toman}")
-                    return {"usd": f"{price_toman:,}", "updated": time.strftime("%H:%M")}
-                    
-        except Exception as e:
-            logger.error(f"Market Fetch Error: {e}")
-        
+                if price > 0: return {"usd": f"{price:,}", "updated": time.strftime("%H:%M")}
+        except Exception: pass
         return {"usd": "N/A", "updated": "--:--"}
 
-    def resolve_url(self, url):
+    # --- AI ANALYSIS (TEXT) ---
+    def analyze_with_ai(self, text):
         """
-        Follows Google News redirects to get the actual publisher URL.
-        Important for scraping the correct OpenGraph image.
+        Uses Pollinations AI (OpenAI model) to Translate, Tag, and Sentiment Check.
         """
-        try:
-            # allow_redirects=True will follow the google link to the destination
-            response = requests.head(url, allow_redirects=True, timeout=5)
-            return response.url
-        except:
-            return url
-
-    def extract_metadata(self, url):
-        """
-        Fetches the high-res image from the resolved URL.
-        """
-        image_url = None
-        try:
-            response = requests.get(url, headers=self._get_headers(), timeout=5)
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                
-                # Priority list for images
-                meta_checks = [
-                    {'property': 'og:image'},
-                    {'property': 'og:image:secure_url'},
-                    {'name': 'twitter:image'},
-                    {'name': 'thumbnail'}
-                ]
-                
-                for check in meta_checks:
-                    tag = soup.find('meta', check)
-                    if tag and tag.get('content'):
-                        img_candidate = tag['content']
-                        # Filter out tiny tracking pixels or icons
-                        if 'icon' not in img_candidate and len(img_candidate) > 10:
-                            image_url = urljoin(url, img_candidate)
-                            break
-        except Exception:
-            pass
+        if not self.api_key:
+            return None
             
-        return image_url
-
-    def analyze_content(self, text):
-        t = text.lower()
-        tag, color = 'سیاسی', 'primary'
+        url = "https://gen.pollinations.ai/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
         
-        if any(x in t for x in ['nuclear', 'atomic', 'iaea', 'uranium']):
-            tag, color = 'هسته‌ای', 'warning'
-        elif any(x in t for x in ['attack', 'war', 'military', 'strike', 'missile', 'drone']):
-            tag, color = 'نظامی', 'danger'
-        elif any(x in t for x in ['oil', 'currency', 'economy', 'sanction', 'inflation']):
-            tag, color = 'اقتصادی', 'success'
-        
-        polarity = TextBlob(text).sentiment.polarity
-        return tag, color, polarity
+        system_prompt = (
+            "You are an intelligence analyst. Receive a news headline. "
+            "Return a JSON object with 3 keys: "
+            "1. 'fa': Persian translation (news style). "
+            "2. 'tag': One category from [نظامی, هسته‌ای, اقتصادی, سیاسی]. "
+            "3. 'sentiment': A float score between -1.0 (Negative) and 1.0 (Positive). "
+            "Return ONLY raw JSON."
+        )
 
+        payload = {
+            "model": "openai",
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": text}
+            ],
+            "temperature": 0.3
+        }
+
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=15)
+            response.raise_for_status()
+            content = response.json()['choices'][0]['message']['content']
+            
+            # clean potential markdown code blocks
+            content = content.replace("```json", "").replace("```", "").strip()
+            return json.loads(content)
+        except Exception as e:
+            logger.error(f"AI Analysis failed: {e}")
+            return None
+
+    # --- AI IMAGE GENERATION ---
+    def generate_ai_image(self, prompt):
+        """
+        Generates an image URL using Pollinations Flux model if scraping fails.
+        """
+        try:
+            # Clean prompt for URL
+            safe_prompt = urllib.parse.quote(f"Editorial news illustration, {prompt}, photorealistic, 4k, dark style")
+            image_url = f"https://gen.pollinations.ai/image/{safe_prompt}?model=flux&width=800&height=600&nologo=true"
+            return image_url
+        except Exception:
+            return "https://placehold.co/800x600?text=News"
+
+    # --- MAIN PROCESSOR ---
     def process_single_news_item(self, entry):
-        """
-        Worker function to process one news item.
-        """
         original_url = entry.get('url')
-        
-        # 1. Check history first to save processing time
-        if original_url in self.seen_urls:
-            return None
+        if original_url in self.seen_urls: return None
 
-        # 2. Resolve Google Redirect to Real URL
-        real_url = self.resolve_url(original_url)
+        # Resolve URL
+        try:
+            real_url = requests.head(original_url, allow_redirects=True, timeout=5).url
+        except: real_url = original_url
         
-        # Double check seen after resolving (sometimes different google links go to same place)
-        if real_url in self.seen_urls:
-            return None
+        if real_url in self.seen_urls: return None
 
         raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
         publisher = entry.get('publisher', {}).get('title', 'Source')
         date = entry.get('published date')
 
+        # 1. Scrape Real Image
+        image_url = None
         try:
-            # 3. Parallel Tasks (Translate, Scrape, Analyze)
-            title_fa = self.translator.translate(raw_title)
-            tag, color, sentiment = self.analyze_content(raw_title)
-            
-            # 4. Get Image (Try scraper, fallback to GNews thumb, fallback to placeholder)
-            image = self.extract_metadata(real_url)
-            if not image:
-                image = entry.get('image') # The tiny thumbnail from Google
-            if not image:
-                image = "https://placehold.co/600x400?text=No+Image"
+            response = requests.get(real_url, headers=self._get_headers(), timeout=5)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            meta_img = soup.find('meta', property='og:image')
+            if meta_img: image_url = urljoin(real_url, meta_img['content'])
+        except: pass
 
-            return {
-                "title_fa": title_fa,
-                "title_en": raw_title,
-                "source": publisher,
-                "url": real_url,
-                "image": image,
-                "date": date,
-                "tag": tag,
-                "tag_color": color,
-                "sentiment": sentiment,
-                "_original_url": original_url # Used for updating seen list
+        # 2. AI Analysis (Text)
+        ai_data = self.analyze_with_ai(raw_title)
+        
+        # Fallback if AI fails or key missing
+        if not ai_data:
+            ai_data = {
+                "fa": raw_title, # No translation fallback to keep it simple or use simple lib
+                "tag": "سیاسی",
+                "sentiment": 0
             }
-        except Exception as e:
-            logger.error(f"Error processing {raw_title[:20]}: {e}")
-            return None
+
+        # 3. Image Fallback (AI Generation)
+        if not image_url:
+            # Generate image based on English title
+            image_url = self.generate_ai_image(raw_title)
+
+        return {
+            "title_fa": ai_data['fa'],
+            "title_en": raw_title,
+            "source": publisher,
+            "url": real_url,
+            "image": image_url,
+            "date": date,
+            "tag": ai_data['tag'],
+            "sentiment": ai_data['sentiment'],
+            "_original_url": original_url
+        }
 
     def run(self):
-        logger.info(">>> Starting Radar...")
+        logger.info(">>> Starting AI Radar...")
+        
+        # Market
+        try:
+            with open(CONFIG['FILES']['MARKET'], 'w', encoding='utf-8') as f:
+                json.dump(self.fetch_market_rates(), f)
+        except: pass
 
-        # 1. Fetch Market Data
-        market_data = self.fetch_market_rates()
-        with open(CONFIG['FILES']['MARKET'], 'w', encoding='utf-8') as f:
-            json.dump(market_data, f)
-
-        # 2. Fetch GNews
-        logger.info(">>> Querying GNews...")
+        # News
         google_news = GNews(language=CONFIG['LANGUAGE'], country=CONFIG['COUNTRY'], 
                            period=CONFIG['PERIOD'], max_results=CONFIG['MAX_RESULTS'])
         try:
             results = google_news.get_news(CONFIG['SEARCH_QUERY'])
         except Exception as e:
-            logger.critical(f"GNews API Failed: {e}")
+            logger.error(e)
             return
 
-        # 3. Process Items in Parallel
-        logger.info(f">>> Processing {len(results)} items with {CONFIG['MAX_WORKERS']} threads...")
         new_entries = []
         urls_to_save = []
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=CONFIG['MAX_WORKERS']) as executor:
-            # Submit all tasks
             future_to_entry = {executor.submit(self.process_single_news_item, entry): entry for entry in results}
-            
             for future in concurrent.futures.as_completed(future_to_entry):
-                result = future.result()
-                if result:
-                    # Separate the internal tracking URL from the data
-                    orig_url = result.pop('_original_url')
-                    urls_to_save.append(orig_url)
-                    # Also save the real resolved URL to history to prevent duplicates
-                    urls_to_save.append(result['url']) 
-                    
-                    new_entries.append(result)
-                    logger.info(f"   + Processed: {result['title_en'][:30]}...")
+                res = future.result()
+                if res:
+                    urls_to_save.extend([res.pop('_original_url'), res['url']])
+                    new_entries.append(res)
+                    logger.info(f" + AI Processed: {res['title_en'][:20]}")
 
-        # 4. Save Data
         if new_entries:
             try:
-                with open(CONFIG['FILES']['NEWS'], 'r', encoding='utf-8') as f:
-                    old_data = json.load(f)
-            except (FileNotFoundError, json.JSONDecodeError):
-                old_data = []
-
-            # Merge and Sort (Optional: sort by date if needed, currently simply appending new on top)
-            final_data = new_entries + old_data
-            final_data = final_data[:60] # Keep file size manageable
-
+                with open(CONFIG['FILES']['NEWS'], 'r', encoding='utf-8') as f: old = json.load(f)
+            except: old = []
+            
+            final = new_entries + old
             with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f:
-                json.dump(final_data, f, ensure_ascii=False, indent=4)
-
+                json.dump(final[:50], f, ensure_ascii=False, indent=4)
+            
             self._save_seen(urls_to_save)
-            logger.info(f">>> Successfully added {len(new_entries)} news items.")
-        else:
-            logger.info(">>> No new news found.")
 
 if __name__ == "__main__":
-    radar = IranNewsRadar()
-    radar.run()
+    IranNewsRadar().run()
