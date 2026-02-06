@@ -2,7 +2,7 @@ import os
 import json
 import time
 import logging
-import requests
+import cloudscraper # NEW: Bypasses Cloudflare
 import html
 import concurrent.futures
 from datetime import datetime
@@ -36,16 +36,17 @@ logger = logging.getLogger()
 
 class IranNewsRadar:
     def __init__(self):
-        self.ua = UserAgent()
+        # Cloudscraper allows us to read sites that block normal bots
+        self.scraper = cloudscraper.create_scraper(browser='chrome') 
         self.api_key = CONFIG['POLLINATIONS_KEY']
         self.existing_news = self._load_existing_news()
         self.seen_urls = {item.get('url') for item in self.existing_news if item.get('url')}
 
     def _get_headers(self):
+        ua = UserAgent()
         return {
-            'User-Agent': self.ua.random,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Referer': 'https://www.google.com/',
+            'User-Agent': ua.random,
+            'Referer': 'https://www.google.com/'
         }
 
     def _load_existing_news(self):
@@ -56,114 +57,139 @@ class IranNewsRadar:
                 return data if isinstance(data, list) else []
         except: return []
 
-    # --- NEW TELEGRAM DIGEST SENDER ---
+    # --- ENHANCED MARKET DATA ---
+    def fetch_market_rates(self):
+        """Fetches USD (Toman), Gold, and Oil."""
+        data = {"usd": "N/A", "gold": "N/A", "oil": "N/A", "updated": "--:--"}
+        
+        # 1. USD & Gold (AlanChand)
+        try:
+            resp = self.scraper.get("https://alanchand.com/en/currencies-price/usd", timeout=10)
+            if resp.status_code == 200:
+                soup = BeautifulSoup(resp.text, 'html.parser')
+                
+                # USD
+                usd_tag = soup.find('input', attrs={'data-curr': 'tmn'})
+                if usd_tag:
+                    val = usd_tag.get('data-price') or usd_tag.get('value')
+                    if val: data["usd"] = f"{int(int(val.replace(',', '')) / 10):,}"
+
+                # Gold (18k) - finding by general structure or specific tag if available
+                # Note: This is an example selector, might need adjustment based on site changes
+                gold_tag = soup.find('input', attrs={'data-curr': 'geram18'})
+                if gold_tag:
+                    val = gold_tag.get('data-price')
+                    if val: data["gold"] = f"{int(int(val.replace(',', '')) / 10):,}"
+        except Exception as e: logger.error(f"Market Error: {e}")
+
+        # 2. Oil (OilPrice.com API or Scraping - Simplified scraping here)
+        try:
+            resp = self.scraper.get("https://oilprice.com/oil-price-charts/46", timeout=10) # 46 is Brent
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            oil_tag = soup.select_one(".last_price")
+            if oil_tag:
+                data["oil"] = oil_tag.get_text().strip()
+        except: pass
+
+        data["updated"] = time.strftime("%H:%M")
+        return data
+
+    # --- TELEGRAM DIGEST ---
     def send_digest_to_telegram(self, items):
         token = CONFIG['TELEGRAM']['BOT_TOKEN']
         chat_id = CONFIG['TELEGRAM']['CHANNEL_ID']
+        if not token or not chat_id: return
 
-        if not token or not chat_id:
-            logger.warning("Telegram credentials missing.")
-            return
+        # Load Market Data for Header
+        try:
+            with open(CONFIG['FILES']['MARKET'], 'r') as f: mkt = json.load(f)
+            market_text = f"💵 <b>USD:</b> {mkt.get('usd')} | 🛢 <b>Brent:</b> {mkt.get('oil')}"
+        except: market_text = "Market Data Unavailable"
 
-        # Header for the message
         current_time = datetime.now().strftime("%H:%M")
-        header = f"📡 <b>Rasad AI Feed</b> | 🕒 {current_time}\n\n"
-        footer = "\n📊 <a href='https://itsyebekhe.github.io/rasadai/'>Visit Rasad AI Dashboard</a>"
+        header = f"📡 <b>Rasad AI Feed</b> | 🕒 {current_time}\n{market_text}\n\n"
+        footer = "\n📊 <a href='https://itsyebekhe.github.io/rasadai/'>Visit Dashboard</a>"
 
-        # We need to build the message. Telegram limit is 4096 chars.
-        # We will build chunks to stay safe.
         messages_to_send = []
         current_message = header
 
-        for i, item in enumerate(items):
-            # 1. Prepare Data
-            title_fa = str(item.get('title_fa', 'News Update'))
-            source = str(item.get('source', 'Unknown'))
-            url = str(item.get('url', ''))
-            impact = str(item.get('impact', ''))
+        for item in items:
+            title_fa = str(item.get('title_fa'))
+            source = str(item.get('source'))
+            url = str(item.get('url'))
+            impact = str(item.get('impact'))
+            urgency = item.get('urgency', 0)
             
-            # Fix Tag
-            raw_tag = item.get('tag')
-            tag_str = str(raw_tag[0]) if isinstance(raw_tag, list) and raw_tag else str(raw_tag) if raw_tag else 'General'
+            # Urgency Icons
+            icon = "🔹"
+            if urgency >= 8: icon = "🚨"
+            elif urgency >= 6: icon = "⚠️"
 
-            # 2. Escape HTML
+            raw_tag = item.get('tag', 'General')
+            tag_str = str(raw_tag[0]) if isinstance(raw_tag, list) and raw_tag else str(raw_tag)
+
             safe_title = html.escape(title_fa)
             safe_source = html.escape(source)
             safe_impact = html.escape(impact)
             safe_tag = html.escape(tag_str).replace(' ', '_')
             
-            # Format Summary
             summary_list = item.get('summary', [])
             if isinstance(summary_list, str): summary_list = [summary_list]
             safe_summary = "\n".join([f"• {html.escape(str(s))}" for s in summary_list])
 
-            # 3. Construct Item Block
-            # Format: Link(Title - Source) \n Blockquote \n Hashtag
             item_html = (
-                f"🔹 <b><a href='{url}'>{safe_title} - {safe_source}</a></b>\n"
+                f"{icon} <b><a href='{url}'>{safe_title} - {safe_source}</a></b>\n"
                 f"<blockquote>{safe_summary}\n"
                 f"🎯 {safe_impact}</blockquote>\n"
                 f"#{safe_tag}\n\n"
             )
 
-            # 4. Check Length (Safety buffer of 200 chars for footer)
             if len(current_message) + len(item_html) + len(footer) > 3900:
-                # Close current message and start new one
                 messages_to_send.append(current_message + footer)
                 current_message = header + item_html
             else:
                 current_message += item_html
 
-        # Append the final message
         if current_message != header:
             messages_to_send.append(current_message + footer)
 
-        # 5. Send All Chunks
         api_url = f"https://api.telegram.org/bot{token}/sendMessage"
-        
         for msg in messages_to_send:
-            payload = {
-                "chat_id": chat_id,
-                "text": msg,
-                "parse_mode": "HTML",
-                "disable_web_page_preview": True 
-            }
             try:
-                requests.post(api_url, json=payload, timeout=10)
-                time.sleep(1) # Short pause between chunks
-            except Exception as e:
-                logger.error(f"Telegram Send Error: {e}")
-        
-        logger.info(f" -> Sent {len(items)} items in {len(messages_to_send)} message(s).")
+                requests.post(api_url, json={
+                    "chat_id": chat_id, "text": msg, "parse_mode": "HTML", "disable_web_page_preview": True
+                }, timeout=10)
+                time.sleep(1)
+            except: pass
 
-    # --- MARKET ---
-    def fetch_market_rates(self):
-        url = "https://alanchand.com/en/currencies-price/usd"
+    # --- ROBUST SCRAPER ---
+    def scrape_article(self, url, fallback_snippet):
+        """Scrapes with Cloudscraper. Returns Snippet if scrape fails."""
         try:
-            response = requests.get(url, headers=self._get_headers(), timeout=10)
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                input_tag = soup.find('input', attrs={'data-curr': 'tmn'})
-                if input_tag:
-                    val = input_tag.get('data-price') or input_tag.get('value')
-                    if val:
-                        price = int(int(val.replace(',', '')) / 10)
-                        return {"usd": f"{price:,}", "updated": time.strftime("%H:%M")}
-        except: pass
-        return {"usd": "N/A", "updated": "--:--"}
+            # Check for files (PDFs)
+            if url.lower().endswith('.pdf'):
+                return url, fallback_snippet
 
-    # --- SCRAPER ---
-    def scrape_article(self, url):
-        try:
-            resp = requests.get(url, headers=self._get_headers(), timeout=10)
+            resp = self.scraper.get(url, timeout=15)
             final_url = resp.url
             soup = BeautifulSoup(resp.text, 'html.parser')
-            for tag in soup(["script", "style", "nav", "footer", "header", "aside", "figure", "img"]): tag.extract()
+            
+            for tag in soup(["script", "style", "nav", "footer", "header", "aside", "figure", "img", "iframe"]): 
+                tag.extract()
+            
             paragraphs = [p.get_text().strip() for p in soup.find_all('p') if len(p.get_text()) > 60]
-            return final_url, " ".join(paragraphs)[:4000]
-        except: return url, ""
+            clean_text = " ".join(paragraphs)[:4500]
+            
+            # If scraping got nothing (paywall?), return the fallback snippet
+            if len(clean_text) < 100:
+                return final_url, fallback_snippet
+            
+            return final_url, clean_text
+        except Exception as e:
+            # logger.warning(f"Scrape failed for {url}: {e}")
+            return url, fallback_snippet
 
-    # --- AI ANALYST ---
+    # --- IMPROVED AI ANALYST ---
     def analyze_with_ai(self, headline, full_text):
         if not self.api_key: return None
         context_text = full_text if len(full_text) > 100 else headline
@@ -172,16 +198,17 @@ class IranNewsRadar:
         url = "https://gen.pollinations.ai/v1/chat/completions"
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         
+        # Enhanced Prompt with Urgency
         system_prompt = (
-            f"Current Date: {current_date_str}.\n"
-            "CONTEXT: Donald Trump is the CURRENT President of the USA. "
-            "Role: Intelligence Analyst. "
-            "Output strictly valid JSON:\n"
+            f"Date: {current_date_str}.\n"
+            "CONTEXT: Iran/US/Israel relations. Trump is US President.\n"
+            "Output valid JSON only:\n"
             "1. 'title_fa': Professional Persian headline.\n"
-            "2. 'summary': Array of 3 short Persian bullet points.\n"
-            "3. 'impact': One sentence on strategic impact on Iran (Persian).\n"
+            "2. 'summary': [3 Persian bullet points].\n"
+            "3. 'impact': Strategic impact (Persian, 1 sentence).\n"
             "4. 'sentiment': Float -1.0 to 1.0.\n"
-            "5. 'tag': [نظامی, هسته‌ای, اقتصادی, سیاسی, اجتماعی].\n"
+            "5. 'tag': [Economy, Military, Nuclear, Politics, Energy].\n"
+            "6. 'urgency': Int 1-10 (10=War/Crash, 1=Opinion).\n"
         )
 
         try:
@@ -190,28 +217,30 @@ class IranNewsRadar:
                 "messages": [{"role": "system", "content": system_prompt}, 
                              {"role": "user", "content": f"HEADLINE: {headline}\nTEXT: {context_text}"}],
                 "temperature": 0.1
-            }, timeout=30)
+            }, timeout=35)
             if resp.status_code == 200:
                 raw = resp.json()['choices'][0]['message']['content']
-                clean_raw = raw.replace("```json", "").replace("```", "").strip()
-                return json.loads(clean_raw)
-        except Exception as e: logger.error(f"AI Error: {e}")
+                return json.loads(raw.replace("```json", "").replace("```", "").strip())
+        except: pass
         return None
 
-    # --- MAIN PROCESS ---
     def process_item(self, entry):
         orig_url = entry.get('url')
         if orig_url in self.seen_urls: return None
 
         raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
-        publisher_name = entry.get('publisher', {}).get('title', 'Source')
+        publisher = entry.get('publisher', {}).get('title', 'Source')
+        snippet = entry.get('description', raw_title) # Get fallback snippet
         
-        real_url, full_text = self.scrape_article(orig_url)
+        # Pass snippet to scrape function
+        real_url, full_text = self.scrape_article(orig_url, snippet)
+        
         if real_url in self.seen_urls: return None
 
         ai = self.analyze_with_ai(raw_title, full_text)
         if not ai: 
-            ai = {"title_fa": raw_title, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "عمومی", "sentiment": 0}
+            # Basic fallback if AI fails
+            ai = {"title_fa": raw_title, "summary": [snippet], "impact": "تحلیل خودکار ناموفق", "tag": "News", "urgency": 3}
 
         try: ts = parser.parse(entry.get('published date')).timestamp()
         except: ts = time.time()
@@ -222,20 +251,19 @@ class IranNewsRadar:
             "summary": ai.get('summary'),
             "impact": ai.get('impact'),
             "tag": ai.get('tag'),
-            "sentiment": ai.get('sentiment'),
-            "source": publisher_name,
+            "sentiment": ai.get('sentiment', 0),
+            "urgency": ai.get('urgency', 5),
+            "source": publisher,
             "url": real_url,
             "date": entry.get('published date'),
             "timestamp": ts
         }
 
     def run(self):
-        logger.info(">>> Radar Started...")
+        logger.info(">>> Radar Started (Enhanced Mode)...")
         
-        # 1. Market
         with open(CONFIG['FILES']['MARKET'], 'w') as f: json.dump(self.fetch_market_rates(), f)
 
-        # 2. News
         try:
             results = GNews(language=CONFIG['LANGUAGE'], country=CONFIG['COUNTRY'], 
                            period=CONFIG['PERIOD'], max_results=CONFIG['MAX_RESULTS']).get_news(CONFIG['SEARCH_QUERY'])
@@ -250,24 +278,21 @@ class IranNewsRadar:
                 res = fut.result()
                 if res:
                     new_items.append(res)
-                    logger.info(f" + Found: {res['title_en'][:20]}")
+                    logger.info(f" + Analyzed: {res['title_en'][:25]}")
 
-        # 3. Send & Save
         if new_items:
-            # Sort by timestamp ascending for the Telegram Digest
-            new_items.sort(key=lambda x: x.get('timestamp', 0))
-
-            # Send One Digest Message
+            # Sort by urgency (Highest first) then timestamp
+            new_items.sort(key=lambda x: (x.get('urgency', 0), x.get('timestamp', 0)), reverse=True)
+            
             self.send_digest_to_telegram(new_items)
 
-            # Update Database (Sorted Newest First for JSON)
             updated_list = new_items + self.existing_news
             updated_list.sort(key=lambda x: x.get('timestamp', 0), reverse=True)
             
             with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f: 
                 json.dump(updated_list[:100], f, indent=4, ensure_ascii=False)
             
-            logger.info(">>> Database updated.")
+            logger.info(">>> Completed.")
         else:
             logger.info(">>> No new news.")
 
