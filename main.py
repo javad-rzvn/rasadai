@@ -202,7 +202,8 @@ class IranNewsRadar:
     def analyze_with_ai(self, headline, full_text):
         if not self.api_key: return None
         context = full_text if len(full_text) > 100 else headline
-        fallback = {"title_fa": headline, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "News", "urgency": 3}
+        # Default fallback now includes sentiment
+        fallback = {"title_fa": headline, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "News", "urgency": 3, "sentiment": 0}
 
         try:
             resp = self.scraper.post(
@@ -212,7 +213,8 @@ class IranNewsRadar:
                     "model": "openai",
                     "messages": [{
                         "role": "system", 
-                        "content": "You are a Persian News Analyst. Output valid JSON: {title_fa, summary[3 bullet points], impact(1 sentence), tag(1 word), urgency(1-10)}."
+                        # UPDATED PROMPT BELOW: Added sentiment(float -1.0 to 1.0)
+                        "content": "You are a Persian News Analyst. Output valid JSON: {title_fa, summary[3 bullet points], impact(1 sentence), tag(1 word), urgency(1-10), sentiment(float between -1.0 and 1.0)}."
                     }, {
                         "role": "user", 
                         "content": f"HEADLINE: {headline}\nTEXT: {context}"
@@ -251,6 +253,7 @@ class IranNewsRadar:
             "impact": ai.get('impact', '...'),
             "tag": ai.get('tag', 'General'),
             "urgency": ai.get('urgency', 3),
+            "sentiment": ai.get('sentiment', 0), 
             "source": entry.get('publisher', {}).get('title', 'Source'),
             "url": real_url,
             "date": entry.get('published date'),
