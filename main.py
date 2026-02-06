@@ -17,7 +17,7 @@ CONFIG = {
     'LANGUAGE': 'en',
     'COUNTRY': 'US',
     'PERIOD': '4h',
-    'MAX_RESULTS': 5,
+    'MAX_RESULTS': 30,
     'FILES': {
         'NEWS': 'news.json',
         'MARKET': 'market.json'
@@ -38,8 +38,6 @@ class IranNewsRadar:
     def __init__(self):
         self.ua = UserAgent()
         self.api_key = CONFIG['POLLINATIONS_KEY']
-        
-        # Load existing data to check for duplicates
         self.existing_news = self._load_existing_news()
         self.seen_urls = {item.get('url') for item in self.existing_news if item.get('url')}
 
@@ -51,19 +49,15 @@ class IranNewsRadar:
         }
 
     def _load_existing_news(self):
-        """Loads the JSON file to use as history."""
-        if not os.path.exists(CONFIG['FILES']['NEWS']):
-            return []
+        if not os.path.exists(CONFIG['FILES']['NEWS']): return []
         try:
             with open(CONFIG['FILES']['NEWS'], 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 return data if isinstance(data, list) else []
-        except Exception as e:
-            logger.error(f"Error loading news.json: {e}")
-            return []
+        except: return []
 
-    # --- TELEGRAM SENDER ---
-    def send_to_telegram(self, item):
+    # --- NEW TELEGRAM DIGEST SENDER ---
+    def send_digest_to_telegram(self, items):
         token = CONFIG['TELEGRAM']['BOT_TOKEN']
         chat_id = CONFIG['TELEGRAM']['CHANNEL_ID']
 
@@ -71,55 +65,78 @@ class IranNewsRadar:
             logger.warning("Telegram credentials missing.")
             return
 
-        # 1. Prepare Data & Fix Types
-        title_fa = str(item.get('title_fa', 'News Update'))
-        url = str(item.get('url', ''))
-        impact = str(item.get('impact', ''))
-        
-        # Fix Tag: Handle if AI returns a list OR a string
-        raw_tag = item.get('tag')
-        if isinstance(raw_tag, list):
-            # If list ['Politics'], take first item
-            tag_str = str(raw_tag[0]) if raw_tag else 'General'
-        else:
-            tag_str = str(raw_tag) if raw_tag else 'General'
+        # Header for the message
+        current_time = datetime.now().strftime("%H:%M")
+        header = f"📡 <b>Rasad AI Feed</b> | 🕒 {current_time}\n\n"
+        footer = "\n📊 <a href='https://itsyebekhe.github.io/rasadai/'>Visit Rasad AI Dashboard</a>"
 
-        # 2. Escape HTML characters ( < > & )
-        safe_title = html.escape(title_fa)
-        safe_impact = html.escape(impact)
-        safe_tag = html.escape(tag_str)
-        
-        # 3. Format Summary
-        summary_list = item.get('summary', [])
-        if isinstance(summary_list, str): summary_list = [summary_list] # Safety check
-        safe_summary = "\n".join([f"• {html.escape(str(s))}" for s in summary_list])
+        # We need to build the message. Telegram limit is 4096 chars.
+        # We will build chunks to stay safe.
+        messages_to_send = []
+        current_message = header
 
-        # 4. Construct Message HTML
-        message_html = (
-            f"<b><a href='{url}'>{safe_title}</a></b>\n\n"
-            f"<blockquote>{safe_summary}\n\n"
-            f"🎯 <b>تأثیر:</b> {safe_impact}</blockquote>\n\n"
-            f"#{safe_tag.replace(' ', '_')}"
-        )
+        for i, item in enumerate(items):
+            # 1. Prepare Data
+            title_fa = str(item.get('title_fa', 'News Update'))
+            source = str(item.get('source', 'Unknown'))
+            url = str(item.get('url', ''))
+            impact = str(item.get('impact', ''))
+            
+            # Fix Tag
+            raw_tag = item.get('tag')
+            tag_str = str(raw_tag[0]) if isinstance(raw_tag, list) and raw_tag else str(raw_tag) if raw_tag else 'General'
 
-        api_url = f"https://api.telegram.org/bot{token}/sendMessage"
-        payload = {
-            "chat_id": chat_id,
-            "text": message_html,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True 
-        }
+            # 2. Escape HTML
+            safe_title = html.escape(title_fa)
+            safe_source = html.escape(source)
+            safe_impact = html.escape(impact)
+            safe_tag = html.escape(tag_str).replace(' ', '_')
+            
+            # Format Summary
+            summary_list = item.get('summary', [])
+            if isinstance(summary_list, str): summary_list = [summary_list]
+            safe_summary = "\n".join([f"• {html.escape(str(s))}" for s in summary_list])
 
-        try:
-            resp = requests.post(api_url, json=payload, timeout=10)
-            if resp.status_code != 200:
-                logger.error(f"Telegram Error {resp.status_code}: {resp.text}")
+            # 3. Construct Item Block
+            # Format: Link(Title - Source) \n Blockquote \n Hashtag
+            item_html = (
+                f"🔹 <b><a href='{url}'>{safe_title} - {safe_source}</a></b>\n"
+                f"<blockquote>{safe_summary}\n"
+                f"🎯 {safe_impact}</blockquote>\n"
+                f"#{safe_tag}\n\n"
+            )
+
+            # 4. Check Length (Safety buffer of 200 chars for footer)
+            if len(current_message) + len(item_html) + len(footer) > 3900:
+                # Close current message and start new one
+                messages_to_send.append(current_message + footer)
+                current_message = header + item_html
             else:
-                logger.info(f" -> Sent to Telegram: {safe_title[:20]}")
-        except Exception as e:
-            logger.error(f"Telegram Exception: {e}")
+                current_message += item_html
 
-    # --- 1. MARKET DATA ---
+        # Append the final message
+        if current_message != header:
+            messages_to_send.append(current_message + footer)
+
+        # 5. Send All Chunks
+        api_url = f"https://api.telegram.org/bot{token}/sendMessage"
+        
+        for msg in messages_to_send:
+            payload = {
+                "chat_id": chat_id,
+                "text": msg,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True 
+            }
+            try:
+                requests.post(api_url, json=payload, timeout=10)
+                time.sleep(1) # Short pause between chunks
+            except Exception as e:
+                logger.error(f"Telegram Send Error: {e}")
+        
+        logger.info(f" -> Sent {len(items)} items in {len(messages_to_send)} message(s).")
+
+    # --- MARKET ---
     def fetch_market_rates(self):
         url = "https://alanchand.com/en/currencies-price/usd"
         try:
@@ -135,24 +152,18 @@ class IranNewsRadar:
         except: pass
         return {"usd": "N/A", "updated": "--:--"}
 
-    # --- 2. SCRAPER ---
+    # --- SCRAPER ---
     def scrape_article(self, url):
         try:
             resp = requests.get(url, headers=self._get_headers(), timeout=10)
             final_url = resp.url
             soup = BeautifulSoup(resp.text, 'html.parser')
-            
-            for tag in soup(["script", "style", "nav", "footer", "header", "aside", "figure", "img"]): 
-                tag.extract()
-            
+            for tag in soup(["script", "style", "nav", "footer", "header", "aside", "figure", "img"]): tag.extract()
             paragraphs = [p.get_text().strip() for p in soup.find_all('p') if len(p.get_text()) > 60]
-            clean_text = " ".join(paragraphs)[:4000]
-            
-            return final_url, clean_text
-        except:
-            return url, ""
+            return final_url, " ".join(paragraphs)[:4000]
+        except: return url, ""
 
-    # --- 3. AI ANALYST ---
+    # --- AI ANALYST ---
     def analyze_with_ai(self, headline, full_text):
         if not self.api_key: return None
         context_text = full_text if len(full_text) > 100 else headline
@@ -184,33 +195,26 @@ class IranNewsRadar:
                 raw = resp.json()['choices'][0]['message']['content']
                 clean_raw = raw.replace("```json", "").replace("```", "").strip()
                 return json.loads(clean_raw)
-        except Exception as e:
-            logger.error(f"AI Error: {e}")
+        except Exception as e: logger.error(f"AI Error: {e}")
         return None
 
-    # --- PROCESSOR ---
+    # --- MAIN PROCESS ---
     def process_item(self, entry):
         orig_url = entry.get('url')
-        
-        if orig_url in self.seen_urls: 
-            return None
+        if orig_url in self.seen_urls: return None
 
         raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
         publisher_name = entry.get('publisher', {}).get('title', 'Source')
         
         real_url, full_text = self.scrape_article(orig_url)
-        
-        if real_url in self.seen_urls: 
-            return None
+        if real_url in self.seen_urls: return None
 
         ai = self.analyze_with_ai(raw_title, full_text)
         if not ai: 
             ai = {"title_fa": raw_title, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "عمومی", "sentiment": 0}
 
-        try:
-            ts = parser.parse(entry.get('published date')).timestamp()
-        except:
-            ts = time.time()
+        try: ts = parser.parse(entry.get('published date')).timestamp()
+        except: ts = time.time()
 
         return {
             "title_fa": ai.get('title_fa'),
@@ -226,7 +230,7 @@ class IranNewsRadar:
         }
 
     def run(self):
-        logger.info(">>> Radar Started (History via news.json)...")
+        logger.info(">>> Radar Started...")
         
         # 1. Market
         with open(CONFIG['FILES']['MARKET'], 'w') as f: json.dump(self.fetch_market_rates(), f)
@@ -240,37 +244,32 @@ class IranNewsRadar:
             return
 
         new_items = []
-
-        # 3. Process
         with concurrent.futures.ThreadPoolExecutor(max_workers=CONFIG['MAX_WORKERS']) as exc:
             futures = {exc.submit(self.process_item, i): i for i in results}
             for fut in concurrent.futures.as_completed(futures):
                 res = fut.result()
                 if res:
                     new_items.append(res)
-                    logger.info(f" + Processed: {res['title_en'][:20]}")
+                    logger.info(f" + Found: {res['title_en'][:20]}")
 
-        # 4. Send & Save
+        # 3. Send & Save
         if new_items:
+            # Sort by timestamp ascending for the Telegram Digest
             new_items.sort(key=lambda x: x.get('timestamp', 0))
 
-            logger.info(f"Sending {len(new_items)} new items...")
-            
-            for item in new_items:
-                self.send_to_telegram(item)
-                time.sleep(2) 
+            # Send One Digest Message
+            self.send_digest_to_telegram(new_items)
 
-            # Update Database
+            # Update Database (Sorted Newest First for JSON)
             updated_list = new_items + self.existing_news
             updated_list.sort(key=lambda x: x.get('timestamp', 0), reverse=True)
-            final_list = updated_list[:100] 
-
-            with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f: 
-                json.dump(final_list, f, indent=4, ensure_ascii=False)
             
-            logger.info(">>> News.json updated.")
+            with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f: 
+                json.dump(updated_list[:100], f, indent=4, ensure_ascii=False)
+            
+            logger.info(">>> Database updated.")
         else:
-            logger.info(">>> No new news found.")
+            logger.info(">>> No new news.")
 
 if __name__ == "__main__":
     IranNewsRadar().run()
