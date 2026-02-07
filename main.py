@@ -18,7 +18,7 @@ CONFIG = {
     'LANGUAGE': 'en',
     'COUNTRY': 'US',
     'PERIOD': '1h',
-    'MAX_RESULTS': 10,  # LIMITED TO 10 AS REQUESTED
+    'MAX_RESULTS': 5,  # LIMITED TO 10 AS REQUESTED
     'FILES': {
         'NEWS': 'news.json',
         'MARKET': 'market.json'
