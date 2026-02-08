@@ -1,5 +1,56 @@
 [
     {
+        "title_fa": "اسرائیل نگران توافقی است که ممکن است تهدید ایران را تشدید کند و خطرات موشکی و هسته‌ای را بدون تغییر رها سازد",
+        "title_en": "Israel fears a deal that could worsen the Iran threat, leaving missile and nuclear risks intact",
+        "summary": [
+            "مقامات اسرائیلی می‌گویند پیش‌نویس توافق با ایران احتمالاً محدودیت کافی بر برنامه هسته‌ای و به‌ویژه برنامه موشکی این کشور اعمال نمی‌کند.",
+            "نگرانی‌ها شامل بندهای غیرفعال‌شدن، نظارت بین‌المللی ضعیف و فقدان محدودیت روی توسعه موشک‌های دوربرد است که تهدیدات منطقه‌ای را حفظ می‌کند.",
+            "اسرائیل از طریق فشار دیپلماتیک خواستار اصلاح شروط توافق شده و در صورت لزوم تهدید به اقدامات امنیتی یا نظامی برای حفاظت از خود کرده است."
+        ],
+        "impact": "این نگرانی می‌تواند تنش‌های منطقه‌ای را افزایش داده و محاسبات امنیتی اسرائیل را تغییر دهد، که احتمالاً به تشدید رقابت نظامی و کاهش ثبات در خاورمیانه می‌انجامد.",
+        "tag": "امنیت",
+        "urgency": 7,
+        "sentiment": -0.6,
+        "source": "Ynetnews",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFA4TF9iNTFSU1ZBVnpwb0xMa19SbndMT3lpX19iWEtsRXRsSFI5UU1ZRmhyZVBaeW9jYXJxd1J2dFE3ZEVYb19FZmw3b0NsZ1ktOVlBcEVaR3liWWVWRmhVVnNGTU1aOWs5SFNCRER3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 20:34:02 GMT",
+        "timestamp": 1770582842.0
+    },
+    {
+        "title_fa": "بنری در تهران هشدار به حمله موشکی بالستیک علیه اسرائیل",
+        "title_en": "Tehran banner warns of ballistic missile attack on Israel",
+        "summary": [
+            "بنری در تهران هشدار به انجام حمله موشکی بالستیک علیه اسرائیل را به نمایش گذاشت.",
+            "این اقدام نمادین می‌تواند به تشدید تنش‌ها در خاورمیانه و افزایش نگرانی‌ها درباره احتمال واکنش نظامی منجر شود.",
+            "انتظار می‌رود واکنش‌های بین‌المللی و منطقه‌ای، از جمله درخواست خویشتنداری یا محکومیت، در پی این تهدید مطرح شود."
+        ],
+        "impact": "این هشدار می‌تواند موجب بالاگرفتن تنش‌ها، افزایش اقدامات امنیتی و افزایش خطر بروز درگیری نظامی در منطقه شود.",
+        "tag": "تهدید",
+        "urgency": 8,
+        "sentiment": -0.7,
+        "source": "The Jerusalem Post",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE91NDVmbWc0M1V4a19MaU1KeDczU0RmT0J3c0NwWEhES0FSNXRxTk0xS2lSME9oY3BGSWpFLVpzVkNSS1VmdDhGY2tGYlV2WW93UWNkTXotNUhGY3FIQnJYdEtOQ2l3Z1l6Nmc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 20:28:33 GMT",
+        "timestamp": 1770582513.0
+    },
+    {
+        "title_fa": "نرگس محمدی، برنده جایزه نوبل، به هفت سال زندان دیگر محکوم شد",
+        "title_en": "Iran sentences Nobel laureate Narges Mohammadi to seven more years in prison",
+        "summary": [
+            "دادگاه ایران نرگس محمدی، فعال حقوق بشر و برنده جایزه نوبل، را به هفت سال زندان اضافی محکوم کرد.",
+            "محمدی از چهره‌های برجسته مدافع حقوق زنان و زندانیان سیاسی است و پیش از این نیز با پرونده‌ها و محکومیت‌های متعدد مواجه بوده است.",
+            "این حکم احتمالاً به‌عنوان بخشی از سرکوب منتقدان و فعالان مدنی در داخل کشور دیده می‌شود و انتظار واکنش‌های بین‌المللی و سازمان‌های حقوق بشری را افزایش می‌دهد."
+        ],
+        "impact": "این حکم به بدتر شدن جایگاه بین‌المللی ایران و تشدید نگرانی‌ها درباره سرکوب مدافعان حقوق بشر منجر می‌شود.",
+        "tag": "حقوق‌بشر",
+        "urgency": 8,
+        "sentiment": -0.8,
+        "source": "The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQcHZNdGxyWmV0YzJBNzBlc1lSSTBXZURZd3JpcFdUVWpzY3A5WmprYlYyS3hndWF4RmN6R3lpNXIzbnVnMGtmT3gyR1lGWDM4Z01hQWFLY3Jsek9aZWs2SmlaVkJiNDFWNjFfT2lGTXBhcWZ1Nk9hdWMwTGxWTGMtVk5WRXZOa3NTa2M2OU9xclpmc0hISzByRjlWNzhNVjJ5NnNkSzVCU2RrVTBEOTBPWHZzRkR0YjdPdFB3OQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 20:26:00 GMT",
+        "timestamp": 1770582360.0
+    },
+    {
         "title_fa": "وارنر نگران است آمریکا «تمام ابزار فشار» علیه ایران را در اختیار ندارد",
         "title_en": "Warner fears US doesn’t have ‘full power of pressure’ to bring against Iran",
         "summary": [
@@ -1647,56 +1698,5 @@
         "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQaW82ektpNlRSV2UwdU5lLTNpLTNRTlZCOEdWdXZ3RUhCNVdrSFVsRTF0R1U4QXpEcXFldldhVzg2c1ctRmRvNVIyR25JN05EMDRwN2phWm9Rb2ZlUjJCOThKSm5nMUZKQWc5OWNyeFRLRU9wNDd5MWpJTEJFTlZTckNEYm4yN3ktbDBTQmpZVnBhbnhyOE9nVkFLYkFSQUtEMGFHRWcxeHBRLUZJVGV0a2hqYUFxRnZOZ1B5SDdiaXVnM3FLWlJaT1U4ZlZxNC1KdTViU9IB2wFBVV95cUxQNHdtV0lwRE12elBwWFN2ek01Y3BNV0lmUVJ4VzlrNTdSWEhiS2NmU09zM2FOZThpb09RbG9scFV2YVNldVB3d0NHXzhISWxNLWVWWWtONjBBMTQ2M0hNZjdPeTl5VHhuWEhhMlVrX2luQnVQTDhHSnU3NzlPRHcyTmhZU2tGc0MydUZsLXk5SEZiTnE4Yl9feExDUS1KTmRra09TSDBwenBTM3Nhc01JcGpiRXZKR01lemdnRDBKVnVReGJMWG5Ea0FWZG8zYXYwMVpTcWQweUVDWWc?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Sat, 07 Feb 2026 21:12:00 GMT",
         "timestamp": 1770498720.0
-    },
-    {
-        "title_fa": "«غیرقابل مذاکره»: ایران می‌گوید موشک‌ها در مذاکرات با آمریکا خارج از دستور هستند",
-        "title_en": "‘Non-negotiable’: Iran says missiles off the table in talks with the US",
-        "summary": [
-            "تهران اعلام کرد برنامه موشکی و توانمندی‌های موشکی‌اش موضوعی غیرقابل مذاکره با ایالات‌متحده است.",
-            "این موضع دامنه گفتگوها را محدود کرده و احتمال پیشرفت در موضوعات امنیتی و هسته‌ای میان ایران و آمریکا را کاهش می‌دهد.",
-            "پیامد آن می‌تواند تشدید تنش منطقه‌ای، ماندگاری تحریم‌ها و کاهش فضای اعتماد در میز مذاکرات باشد."
-        ],
-        "impact": "بی‌انعطافی تهران نسبت به بحث موشکی احتمال دستیابی به توافق‌های جامع‌تر را کاهش داده و می‌تواند به بن‌بست دیپلماتیک و تشدید تنش‌های منطقه‌ای بینجامد.",
-        "tag": "موشک‌ها",
-        "urgency": 7,
-        "sentiment": -0.35,
-        "source": "Al Jazeera",
-        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQZ2o5SjBHcldnZkItaDZlUU5nWU5qMjVmT3paTHh6RHlTU3ZXOTMxSjE0TXRxSzJndThIOUNmcE1lZE1TTWNCRTBGLVBCNkt0MVZKbnlIRW1UUmlDTzgzc0IweXlqbnVZSTNBMnpLUVhwTVIxSlltNTJTYXFuZzAyRU5QR18xcVdTODhfTk1ldjg5Uzl50gGaAUFVX3lxTFAwYUUtZFI5MlEtN094S3NkaVlIbURZUEI5eWZvVUFEbTdXMDM0eHpDTHY2bU0weHNKWHRQXzFLUjJKWjdwa19MSGxEM093aUxYd3VMb3dMbjkyMHo1cGZyd2JSX1lkbjg1UGZYMGJMNzVnbmlKZDQ5OUJ2R2ZxQ2V1bWE4RlBFa2NfYmtONWpFZkMtZmJXWkJpaVE?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 21:09:29 GMT",
-        "timestamp": 1770498569.0
-    },
-    {
-        "title_fa": "وزیر خارجه ایران: تهران به برنامه غنی‌سازی اورانیوم ادامه می‌دهد",
-        "title_en": "Iran’s Foreign Minister says Tehran will continue its uranium enrichment program.",
-        "summary": [
-            "وزیر امور خارجه ایران اعلام کرد که تهران به برنامه غنی‌سازی اورانیوم ادامه خواهد داد.",
-            "این اظهارات می‌تواند تنش‌ها با قدرت‌های غربی و طرف‌های مذاکره‌کننده را افزایش دهد.",
-            "ادامه غنی‌سازی احتمالاً بر چشم‌انداز احیای توافق هسته‌ای و تحریم‌های بین‌المللی تأثیر خواهد گذاشت."
-        ],
-        "impact": "این بیانیه احتمالاً مذاکرات هسته‌ای را پیچیده‌تر و روابط ایران با کشورهای غربی را پرتنش‌تر خواهد کرد.",
-        "tag": "هسته‌ای",
-        "urgency": 7,
-        "sentiment": -0.3,
-        "source": "Facebook",
-        "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQNXRUVmxpakgzYUQzZTkwZWdkZC1mTHlHWHB6UEZ1Sl90ZVA2YmtnRUNGdzlxTWZfYWZwdDA5QXBpbUo4Z1doc1FPR2VqLXZYTWt3RmdNSTh4V1BmM1JGRkxsNlR6UmlneEtxaDJwYmpDMEo5TkdDMzgyZTVPY2FuQzVyek5rM01TaUMteVQtRE4zSEkxdnRITTdKd3ZwOHJfb0xKY3VNd09kQWJDS05XZUV2bmxOSDZYRnpNZmJuRlBUVEU5TzM2YWlrSWd1dDJkWllqX1ctaE1LT0luZEE?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 21:01:32 GMT",
-        "timestamp": 1770498092.0
-    },
-    {
-        "title_fa": "اسرائیل: نتانیاهو در مذاکرات با ایران بر موضع سخت پافشاری کرد",
-        "title_en": "Israel: Netanyahu insists on hard line in Iran talks | blue News",
-        "summary": [
-            "نخست‌وزیر اسرائیل، بنیامین نتانیاهو، خواستار رویکرد سخت‌گیرانه‌ای در گفتگوها با ایران شد.",
-            "این موضع ممکن است فشار بر تلاش‌های دیپلماتیک برای کاهش تنش‌ها بر سر برنامه هسته‌ای ایران را افزایش دهد.",
-            "پافشاری نتانیاهو می‌تواند روابط با شرکای بین‌المللی و روند مذاکرات را تحت‌تأثیر قرار دهد."
-        ],
-        "impact": "پافشاری نتانیاهو احتمالاً فضای مذاکرات را سخت‌تر کرده و می‌تواند شانس دستیابی به توافق دیپلماتیک درباره پرونده هسته‌ای ایران را کاهش دهد.",
-        "tag": "ایران",
-        "urgency": 7,
-        "sentiment": -0.3,
-        "source": "blue News",
-        "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQWEFPMXE3RTItLTd2bHFaOTVOUTd3cmxMVHM4OEdpcFNSTmR4LVA5NlVUWHJ5dTkxaUJNaXFsNENaajhlWVZYSmpiNXJQWnV5RXl6WHFoUGd0aDdrNEh6WEI2NlNOUTZWRTdCb245aUxDVWRrRnNoR0lvMVhQTUNXdXVUeDNVNHJRSWxGalA3OTBSV2dpTFRWVnNXOFB3OWxvYjV4bg?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 20:41:00 GMT",
-        "timestamp": 1770496860.0
     }
 ]
