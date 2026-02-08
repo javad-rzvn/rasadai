@@ -1,5 +1,90 @@
 [
     {
+        "title_fa": "ایران بار دیگر توقف غنی‌سازی اورانیوم را رد کرد؛ آمریکا را غیرجدی در مذاکرات خواند",
+        "title_en": "Iran again rules out giving up uranium enrichment, suggests US not taking talks seriously",
+        "summary": [
+            "سخنگوی ایرانی تاکید کرده که تهران حاضر به کنار گذاشتن برنامه غنی‌سازی اورانیوم نیست.",
+            "ایران می‌گوید آمریکا مذاکرات را جدی نمی‌گیرد و به همین دلیل پیشرفت حاصل نشده است.",
+            "این موضع می‌تواند مذاکرات مربوط به برنامه هسته‌ای و احتمال احیای توافق را پیچیده‌تر کند."
+        ],
+        "impact": "تصریح ایران مبنی بر ادامه غنی‌سازی احتمال بن‌بست در مذاکرات هسته‌ای و تشدید تحریم‌ها و تنش‌های منطقه‌ای را افزایش می‌دهد.",
+        "tag": "هسته‌ای",
+        "urgency": 7,
+        "sentiment": -0.35,
+        "source": "The Times of Israel",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQ3BmNUxfbi00MWZ1RnJKZmFiaWdXV2xVUXR6QXl6dVd3LWJla2plNGRfNGxtNEFNUTZyNUxEME5XUEhQeGFFZkp6d25QRm5jc0taRG5Uajl5QzhHMWJIcDZOTjFMdHl1VGo2a1VMdVZTQ0Z2TkI4VkRFOHpTM0E4eXpsSDJ2cjBHeDUzSGJDcDNMLXo3clBMVTJIVURYR0J4eVNfcVR6OG1qbVRiVWo0cVNvRFhVUUhndHNB0gHAAUFVX3lxTE02MnpINWU2Y0xFSkQyMFAxdGtqWDl1YnktSEJ6M014MlRPd1Z3WkpHVGFkelUxYm13SkpqelBxU0JSNlZOVFdIdU1lbGg1bENzSVJQTXdyQlRhbThiUXlubmZPRU9YVzZIc3o0TTJRQ2lNUHZ6TnFBZFRPU25MNE5OLURINWdWRjhnZlRCNENzYlo1MVk3Mmx4b2NsRmtKZEhpMDFzTUpHQno1RUpNU2duYjEzaHhTZTA3OGJjYlN0NA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 12:26:49 GMT",
+        "timestamp": 1770553609.0
+    },
+    {
+        "title_fa": "نتانیاهو به واشنگتن می‌رود؛ نگرانی از توافق هسته‌ای محدود با ایران",
+        "title_en": "Netanyahu heads to Washington fearing limited Iran nuclear deal",
+        "summary": [
+            "نتانیاهو به‌منظور ابراز نگرانی نسبت به یک توافق هسته‌ای محدود احتمالی با ایران به واشنگتن سفر می‌کند.",
+            "او هشدار می‌دهد که توافق محدود ممکن است به ایران اجازه دهد ظرفیت‌های هسته‌ای حیاتی را حفظ یا بازیابی کند و زمان پیشرفت هسته‌ای را کوتاه نگه دارد.",
+            "هدف سفر جلب حمایت آمریکا و فشار بر طرف‌های مذاکره‌کننده برای سخت‌گیری بیشتر، حفظ تحریم‌ها یا تضمین‌های امنیتی برای متحدان منطقه‌ای است."
+        ],
+        "impact": "این سفر می‌تواند مواضع آمریکا و متحدان بین‌المللی را در مذاکرات هسته‌ای با ایران تحت‌تأثیر قرار دهد و به شکل‌گیری یا تضعیف هر توافق آینده کمک کند.",
+        "tag": "امنیت",
+        "urgency": 7,
+        "sentiment": -0.4,
+        "source": "www.israelhayom.com",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQZmczRDhKb1VfM3lEeUZpaEdabGRENnVnQVUtdDNVS2NQWkR1M2RtdEktcXRyakxNZ0NvX3BHQ0phVktvNVZGSDVoSWNPbzZ5Nl9mcG05c09qVE1FbWNzQTFtVFlzUDNQQ0ZsVUZkRXhBZEhyWGI4OTFPaFY2Qy00elFKWXVQVXNhTTAyWEs3RThxZmZ1UVhHWmdzbHFSQWkySFVCZHJB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 12:25:51 GMT",
+        "timestamp": 1770553551.0
+    },
+    {
+        "title_fa": "چرا امپراتوری سایه‌ای سپاه پاسداران حتی با سقوط اقتصاد ایران پابرجا خواهد ماند",
+        "title_en": "Why IRGC’s shadow empire is set to endure even as Iran’s economy spirals",
+        "summary": [
+            "سپاه پاسداران شبکه‌های گسترده اقتصادی و شرکت‌های تابعه‌ای را در بخش‌های کلیدی اقتصاد کشور ایجاد کرده است.",
+            "این نهاد از روابط سیاسی، دسترسی به منابع دولتی و توانایی‌های نظامی-امنیتی برای محافظت و تداوم فعالیت‌های اقتصادی‌اش بهره می‌برد.",
+            "بنابراین حتی در برابر سقوط اقتصادی، تحریم‌ها یا نارضایتی عمومی، ساختارهای مالی و نفوذ سیاسی سپاه به احتمال زیاد باقی خواهند ماند."
+        ],
+        "impact": "پایداری این سازوکارهای اقتصادی و نفوذ نهادی سپاه می‌تواند مانع اصلاحات ساختاری و تضعیف رقابت در اقتصاد شود و کنترل سیاسی و جریان منابع کشور را به نفع شبکه‌های وابسته به سپاه حفظ کند.",
+        "tag": "سپاه",
+        "urgency": 7,
+        "sentiment": -0.7,
+        "source": "AL-Monitor",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNUGdwNjNSc1ZRcXJOZHNSR2w3UjJXemNpOTJVcFpTNnEyR1BtYVRYeURxZFF5bFY3cFZYeDE0YVpRazJpaXJkb2lJQWtfLXBnV1RtOVdjcGt3Q3ZFWG1VSHdHdHpQRzVtWWJONkIxNUFmQmljVGEyMk05bWFvbGhxWjdiYzI1UEFRcXJuSUE3ZGdwNU5LUWFqQ25IVE5xNjVrbFFaRTNkMXA4dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 12:06:40 GMT",
+        "timestamp": 1770552400.0
+    },
+    {
+        "title_fa": "نتانیاهو چهارشنبه در واشنگتن درباره مذاکرات ایران با ترامپ گفت‌وگو می‌کند",
+        "title_en": "Netanyahu to discuss Iran talks with Trump in Washington Wednesday",
+        "summary": [
+            "بنیامین نتانیاهو، نخست‌وزیر اسرائیل، روز چهارشنبه در واشنگتن با دونالد ترامپ دیدار و درباره مذاکرات مرتبط با ایران گفتگو خواهد کرد.",
+            "محورهای مورد انتظار شامل هماهنگی مواضع نسبت به احیای برجام، اعمال فشار دیپلماتیک یا اقتصادی و بررسی گزینه‌های احتمالی علیه ایران است.",
+            "این دیدار پیام سیاسی مهمی به تهران و جامعه بین‌الملل دارد و می‌تواند مواضع طرفین را در مذاکرات آتی شکل دهد."
+        ],
+        "impact": "دیدار می‌تواند هماهنگی بیشتری میان واشنگتن و تل‌آویو در جهت رویکردی سخت‌تر نسبت به ایران ایجاد کرده و روند مذاکرات هسته‌ای و توازن منطقه‌ای را تحت تأثیر قرار دهد.",
+        "tag": "ایران",
+        "urgency": 6,
+        "sentiment": -0.1,
+        "source": "Naharnet",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPQkw1c1A5UVFNM1dRMEVWOE5nTkVlMkNIYkVub3RLNXpkdk9XaFVCbUdRMU03X2FCMTFTeFljbGVjU3lnLXBrbjl2WWJlSDVmaHdiMUdYTXctUERCaFMtTmVFU1VxQ0RWSUx0ckEzbmJjaVM2S1VQTzMwVDdpcEV1aUV4Rjl6VjZqQVpOTXAtd1RuLWpFRGp6LTN1WHV4ek1OV29OUVNRczlSZ05lb1E?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 11:49:00 GMT",
+        "timestamp": 1770551340.0
+    },
+    {
+        "title_fa": "ایران در برابر تهدیدهای آمریکا بر حق غنی‌سازی اورانیوم تأکید کرد",
+        "title_en": "Iran defies US threats to insist on right to enrich uranium",
+        "summary": [
+            "ایران به رغم تهدیدهای آمریکا تأکید کرده که حق غنی‌سازی اورانیوم را محفوظ می‌داند و ادامه خواهد داد.",
+            "اقدام تهران می‌تواند به تشدید تنش‌ها با واشنگتن و کشورهای غربی و پیچیده‌تر شدن مذاکرات هسته‌ای بینجامد.",
+            "ایالات متحده هشدار داده که در صورت ادامه برنامه غنی‌سازی ممکن است واکنش‌ها یا تحریم‌های بیشتری را در نظر بگیرد."
+        ],
+        "impact": "این اصرار ایران احتمال افزایش تنش‌های دیپلماتیک و دشوارتر شدن روند دستیابی به توافق هسته‌ای با قدرت‌های جهانی را بالا می‌برد.",
+        "tag": "هسته‌ای",
+        "urgency": 7,
+        "sentiment": -0.1,
+        "source": "Naharnet",
+        "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPeWxZdGpaODRGYnpOUUVHUlo3SjlzY3p5OE5vdTVCeWZIZXZIVTl6bGl0ZUZyVE9fVlc4Y1RteDNoWnRMdFdIN3BsVF9NSDNFTXV1Mi15bEVTTndSTHBxRHMtSDliaDZ6YVlucXZwbk16d2U3cmJuQmlVUExuZUxiTm9iSFE3SHV3czZsUFYyVVdZcWRkb2VPM1c1ZWhqdlhDSXhkVg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 11:46:00 GMT",
+        "timestamp": 1770551160.0
+    },
+    {
         "title_fa": "ایران: گفت‌وگوهای هسته‌ای با آمریکا گامی رو به جلو است اما فشار را رد می‌کنیم",
         "title_en": "Iran says nuclear talks with U.S. a step forward but rejects pressure",
         "summary": [
@@ -1611,90 +1696,5 @@
         "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9ZUHYtZzRZU0xuMHVyZGZQR0dUcHRpT2JhZEVBVEZmZTNKclFfQ0NPWDBTSmVPZk02eXlIbDFQQzBibmRsSTJRZkxuaXQwcUpmLUZkTUFRbXZiS2ZOZUJwNVZROFM3OEY1bmlCa0dyZXA2X2w0djhRUw?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Sat, 07 Feb 2026 12:22:02 GMT",
         "timestamp": 1770466922.0
-    },
-    {
-        "title_fa": "ایران: در صورت حمله آمریکا، پایگاه‌های آمریکایی در خاورمیانه را هدف قرار می‌دهیم",
-        "title_en": "Iran says it will strike American bases in Middle East if US attacks",
-        "summary": [
-            "ایران تهدید کرده که در پاسخ به هر حمله نظامی از سوی آمریکا، پایگاه‌های آمریکایی در خاورمیانه را هدف خواهد گرفت.",
-            "این اظهارات به‌عنوان پیامی بازدارنده برای جلوگیری از اقدام نظامی آمریکا و هشدار درباره افزایش تنش‌ها تعبیر می‌شود.",
-            "پیامدهای احتمالی شامل افزایش خطر برخورد مستقیم میان تهران و واشینگتن، تأثیر بر حضور نظامی آمریکا و تشدید درگیری‌های نیابتی در منطقه است."
-        ],
-        "impact": "این تهدید می‌تواند احتمال تشدید نظامی و بروز برخورد مستقیم بین ایران و آمریکا را بالا برده و ثبات امنیتی خاورمیانه را به خطر اندازد.",
-        "tag": "امنیتی",
-        "urgency": 8,
-        "sentiment": -0.7,
-        "source": "The Straits Times",
-        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOTUxsWEw5aEk3QktWaFRXZnNZY3VzUU5BRXhBNU1WTkgxejVENWFwVnJoZTAtT3E2NUJtOE9KMm1TWjBZV25vZEI5eVdMWmM0Y0QxeUZwZnl6bVdZa0lxc0R0aFdCLWJRLVRsX2tna2pLc3l3LXVvREd3NWQ5M1R6dmV3ZTNaVGZRaTMwYWJ6cWJlVXZWekMxT1lQdE5menVtekdWQVNFZ2MzY2N0?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 12:19:11 GMT",
-        "timestamp": 1770466751.0
-    },
-    {
-        "title_fa": "ترامپ به دیپلماسی با ایران بازمی‌گردد، اما راه باریک است",
-        "title_en": "Trump Reverts to Diplomacy With Iran, but the Road Is Narrow",
-        "summary": [
-            "ترامپ لحن خود را تغییر داده و بار دیگر به مسیر گفت‌وگو با تهران روی آورده، اما جزئیات توافق احتمالی روشن نیست.",
-            "محدودیت‌های سیاسی داخلی در آمریکا، بی‌اعتمادی ایران و مخالفت بازیگران منطقه‌ای مانع گسترش سریع دیپلماسی می‌شوند.",
-            "نتیجه این رویکرد می‌تواند شامل کاهش تحریم‌ها یا مذاکره درباره برنامه هسته‌ای باشد، اما شانس رسیدن به توافق پایدار پایین و پرمخاطره است."
-        ],
-        "impact": "این تغییر موضع می‌تواند پنجره‌ای برای کاهش تنش و بازگشت به مذاکرات هسته‌ای باز کند اما با موانع سیاسی و منطقه‌ای قابل‌توجهی روبه‌رو است.",
-        "tag": "دیپلماسی",
-        "urgency": 6,
-        "sentiment": 0.05,
-        "source": "The New York Times",
-        "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOMnNVMW5sMzhlR1pkeEhlaXV4QVNZaUxGZUZ1N0FWMHJ3Um1YZjZ4RDZ6UFJNOVNvR1o1bTNvbmVwT25yMTlFTk5SX2Z0UElwOUJWMFZaY2lNNlBtdHRQR3ZSZmp2QUJrLTZQMl9neGc5LWNjcEM0clc1OUc0QzlxX2Jn?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 12:10:27 GMT",
-        "timestamp": 1770466227.0
-    },
-    {
-        "title_fa": "وزیر خارجه ایران خواهان ازسرگیری مذاکرات هسته‌ای شد اما به آمریکا هشدار داد",
-        "title_en": "Iran FM looks to more nuclear talks, but warns US",
-        "summary": [
-            "وزیر خارجه ایران اعلام کرده آماده ادامه مذاکرات هسته‌ای است تا راه‌حل دیپلماتیک امکان‌پذیر شود.",
-            "همزمان او به آمریکا هشدار داده که اقدامات خصمانه یا فشار بیشتر می‌تواند به تنش‌ها دامن بزند.",
-            "بیانیه نشان‌دهنده تلاش تهران برای مذاکره همراه با اعلام خطوط قرمز و شروطی برای پیش‌رفت مذاکرات است."
-        ],
-        "impact": "این اعلام می‌تواند در صورت پذیرش آمریکا به کاهش تنش‌ها و احیای گفتگوها منجر شود، و در صورت ادامه فشارها به تشدید اختلافات بینجامد.",
-        "tag": "هسته‌ای",
-        "urgency": 6,
-        "sentiment": -0.2,
-        "source": "RFI",
-        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQM3IzSXd1bHZGN01GdW4xdmRyRHNMU2JoeFJZRlJERVZLNHZEcGhmZmRuZDBPVFBUZzFqQWE1MmZ3SW1fQm1Vclp0MzlnUTBoWjZvMnd4MjBGNXZMaXBJTU9tajdmYTRBRFVsQVZhS09WWDB4enY5VzctWS13ZmROWXl2aDJicGpyU05yR3l3WHI0SVl5TGJ5MTVwWVA2MUU?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 11:32:13 GMT",
-        "timestamp": 1770463933.0
-    },
-    {
-        "title_fa": "ایران بیش از ۲۰ نوآوری مبتنی بر فناوری هسته‌ای را رونمایی می‌کند",
-        "title_en": "Iran to unveil 20-plus nuclear-based innovations",
-        "summary": [
-            "مقام‌ها اعلام کرده‌اند که بیش از ۲۰ محصول و فناوری مبتنی بر فناوری‌های هسته‌ای در برنامه‌ای رسمی رونمایی خواهد شد.",
-            "تمرکز احتمالی این دستاوردها بر کاربردهای غیرنظامی مانند پزشکی هسته‌ای، کشاورزی، تحقیق و تولید انرژی است.",
-            "رونمایی می‌تواند موقعیت علمی-فناوری داخلی را تقویت کند اما ممکن است حساسیت‌ها و واکنش‌های بین‌المللی نسبت به فعالیت‌های هسته‌ای ایران را نیز افزایش دهد."
-        ],
-        "impact": "رونمایی از این نوآوری‌ها می‌تواند توانمندی‌های علمی و صنعتی داخلی را ارتقاء دهد و در عین حال نگرانی‌ها و نظارت بین‌المللی بر برنامه هسته‌ای ایران را تشدید کند.",
-        "tag": "هسته‌ای",
-        "urgency": 4,
-        "sentiment": 0.15,
-        "source": "muslimnetwork.tv",
-        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQbUhEQ2dQRjRlY0ZNb1pqeDB2WE5KVThpRk41Z2ZsN1gtZ1FFUXVNY0Q3QlEyY25RUURleHZVVzlCdDZBamh3NGdUems0aF9BbUk3WUlDR21nNF8yd3N0LVFpOVpCSW9FcDBOOWxXbG1mMkJrVHVVRm1xendTVEk2TGczLUI?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 11:29:56 GMT",
-        "timestamp": 1770463796.0
-    },
-    {
-        "title_fa": "عراقچی: دور جدید مذاکرات هسته‌ای ایران و آمریکا «به‌زودی» برگزار می‌شود",
-        "title_en": "Iran and US will hold new round of nuclear talks 'soon' — Araghchi",
-        "summary": [
-            "عباس عراقچی اعلام کرد که دور جدید مذاکرات هسته‌ای بین ایران و آمریکا به‌زودی برگزار خواهد شد.",
-            "تا کنون زمان، مکان و دستورکار مشخص نشده و اعلامیه جزئیات فنی مذاکرات را در بر ندارد.",
-            "از سرگیری گفتگوها می‌تواند تاثیر مستقیمی بر مسیر سیاسی و اقتصادی از جمله پرونده تحریم‌ها و بازار انرژی داشته باشد."
-        ],
-        "impact": "این خبر نشانه‌ای از تلاش برای بازگشت به مسیر دیپلماسی است که می‌تواند به کاهش تنش‌ها و تأثیرگذاری بر وضعیت تحریم‌ها منجر شود.",
-        "tag": "مذاکره",
-        "urgency": 6,
-        "sentiment": 0.3,
-        "source": "TRT World",
-        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5yUWtlbnhiNS1vWnQwM1ZFMHN3aUY5Z1RCZlpfRTNfMncwWUtJbk9QX2RoVi1KNzVoT1RhZnZxXzlpd1dDelUxZXhOdC1MWnN3VGZ0SXJRYlTSAV5BVV95cUxQYndKdUd5YkdYLWV0c085cjJBdkExak9ERVFBNk1HY2dnU0VKXy1EV1RaSlpkWDd6cjB5Z2lyVjRJeFJJR3ZiRVZ5bDl0SGJ6MDExek8wR2dSTUZZbUx3?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 11:17:44 GMT",
-        "timestamp": 1770463064.0
     }
 ]
