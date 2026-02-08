@@ -1,5 +1,73 @@
 [
     {
+        "title_fa": "کلودیوس بازگشته تا معامله را مسموم کند",
+        "title_en": "Claudius returns to poison the deal",
+        "summary": [
+            "بازگشت «کلودیوس» به‌عنوان عاملی که قصد دارد روند توافق را تضعیف یا نقض کند.",
+            "این مداخله می‌تواند اعتماد طرف‌ها را از بین ببرد و مسیر مذاکرات را به بن‌بست بکشاند.",
+            "پیامدها شامل احتمال فروپاشی توافق، تشدید تنش‌ها و نیاز به مکانیزم‌های حفاظتی جدید است."
+        ],
+        "impact": "احتمال بالایی وجود دارد که این مداخله توافق را مختل کرده و ثبات مذاکرات یا روابط میان طرف‌ها را کاهش دهد.",
+        "tag": "سیاست",
+        "urgency": 7,
+        "sentiment": -0.6,
+        "source": "Tehran Times",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPd0pucjRGNVIwcnd4Rl9DVldRRUNSQlZpbU14ZFAzMGNvNUVxZ2s1TElHUXpCbzNYc0stOWJIQWNPdkdlMUY4TnlhN0Nuc1RzQkNlc1RUcFFSS3VKcnlTZkJHeUgta1gtRlhiN3BBZ2hibnBkQlJhLXp5c0RBM29RUg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 18:36:45 GMT",
+        "timestamp": 1770575805.0
+    },
+    {
+        "title_fa": "تهدید «باران موشک‌ها»: ایران نقشه تل‌آویو را منتشر کرد و در بحبوحه بن‌بست هسته‌ای به اسرائیل هشدار داد",
+        "title_en": "‘Rain of missiles’ threat: Iran unveils Tel Aviv map as it warns Israel amid nuclear standoff",
+        "summary": [
+            "ایران نقشه‌ای از تل‌آویو منتشر کرد و آن را با هشدار «باران موشک‌ها» علیه اسرائیل همراه ساخت.",
+            "این اقدام در چارچوب تشدید تنش‌ها بر سر بن‌بست هسته‌ای میان تهران و اسرائیل صورت گرفته است.",
+            "انتشار نقشه به‌عنوان پیامی بازدارنده تفسیر می‌شود که احتمال تشدید تهدیدات نظامی در منطقه را بالا می‌برد."
+        ],
+        "impact": "این رخداد می‌تواند تنش‌های منطقه‌ای را تشدید کرده و خطر برخورد نظامی یا بحران امنیتی را افزایش دهد.",
+        "tag": "تهدید",
+        "urgency": 8,
+        "sentiment": -0.8,
+        "source": "Ynetnews",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFAwZHhsWE93UWRUWmRZQV8tb0pEVUtndEc4MFlBTHAtUHIzdkE5ejlOVUM4ZlFxU1pORl9TTEthS1Vlb1RrZ1hqQm0yajJsZzBpeDQwWDg1Yw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 18:33:26 GMT",
+        "timestamp": 1770575606.0
+    },
+    {
+        "title_fa": "آمریکا: ایران باید «امتیازات ملموس» بدهد؛ نتانیاهو راهی واشنگتن می‌شود",
+        "title_en": "US: Iran Must Bring 'substantive Concessions' As Netanyahu Heads To Washington",
+        "summary": [
+            "ایالات متحده اعلام کرده ایران باید «امتیازات ملموس» ارائه کند.",
+            "این اظهارات هم‌زمان با سفر بنیامین نتانیاهو، نخست‌وزیر اسرائیل، به واشنگتن مطرح شده است.",
+            "این موضع می‌تواند نشان‌دهنده افزایش فشار دیپلماتیک بر تهران و احتمال تأثیر بر تحرکات منطقه‌ای یا مذاکرات باشد."
+        ],
+        "impact": "این پیام ممکن است فشار دیپلماتیک بر ایران را تشدید کند و شانس تشدید تنش‌ها یا تغییر جهت مذاکرات منطقه‌ای را افزایش دهد.",
+        "tag": "دیپلماسی",
+        "urgency": 7,
+        "sentiment": -0.4,
+        "source": "i24NEWS",
+        "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPS3MyX0h2cjRnZGNLUGFhanA1M3JTb3Vjc3JZZllMdlNKdkJJOWVZQ3ViT1hVLUl1OHZpOEFmWVpXeDhlNXQwdDdNTkM2cWJoSUtTWmMwVm9Kb0ZWeHVlUXpNcVRVZzlNWWNzeFJGYzVVc1BOS3ZZZFdkWFBWYjBWY0JfUjdNdGFLaWprUXVZSkRmZTJjRlFReUFYY0pIV1ZZOVVuMlFaWVNBUU9hb05SdnRmcEgtNE80X25NZHFCeHV0NnhsbEtBU3cxbGdsOHFYMlplSzlycS1fcW8?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 18:23:18 GMT",
+        "timestamp": 1770574998.0
+    },
+    {
+        "title_fa": "آمریکا از ایران خواست در مذاکرات هسته‌ای بعدی امتیاز بیاورد",
+        "title_en": "US tells Iran to bring concessions to next nuclear talks",
+        "summary": [
+            "واشنگتن از تهران خواسته در دور بعدی مذاکرات هسته‌ای امتیازاتی ارائه کند تا پیشرفت ملموسی به دست آید.",
+            "این موضع نشان‌دهنده فشار آمریکا برای رسیدن به توافق سریع‌تر است و احتمالا محور گفت‌وگوها برنامه هسته‌ای و کاهش یا تعلیق تحریم‌ها خواهد بود.",
+            "واکنش ایران به این درخواست می‌تواند مسیر مذاکرات و سطح تنش‌های منطقه‌ای را تعیین کند؛ عدم توافق ممکن است به تشدید فشارهای اقتصادی یا افزایش تنش‌ها منجر شود."
+        ],
+        "impact": "این درخواست می‌تواند مذاکرات را تحت فشار قرار دهد و در صورت عدم حصول توافق، راه را برای تشدید تحریم‌ها و افزایش تنش در منطقه باز کند.",
+        "tag": "دیپلماسی",
+        "urgency": 7,
+        "sentiment": -0.2,
+        "source": "The Jerusalem Post",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE40bnIxbWFmY1U4QjBZdlpxekhuZWxwUXRBVXRydmltT1M1ZmtXQURHY1Y0aEdqWGhsVFVWQW4zenZUdVktcEtOVFhiMEF2TW1WZFBJdGdhVEhqMlYtaHN3NUl6MXQ4bURySlE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Sun, 08 Feb 2026 18:12:48 GMT",
+        "timestamp": 1770574368.0
+    },
+    {
         "title_fa": "چرا ترامپ معامله هسته‌ای سخت‌گیرانه‌تر با ایران را به جنگ ترجیح می‌دهد",
         "title_en": "Why Trump prefers a tougher Iran nuclear deal over conflict",
         "summary": [
@@ -1630,73 +1698,5 @@
         "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxPNFJzLWtKS0tVamo4TTFBYnZOLTNhYlBJU2VxVUtGekxsTnNPX3N6MGxzZE1mRHNaOVBUY1k2MUFMaHQ1ajhBaXJlRHVqNDlBY05pYXE0Y3Mzcl9mSF81cS1xSnJUYmFiNmF4aEdtbXlUOFVkMGozcFFaSXhWTTZ5eDhmTFg1bmYwdXRGY3drSkZCSGtKdzVVMVpadmF6U0MyMlFXUEd3RTU4V2VPWndpMmdxcHVpdE8yeC0xQnRxRHV1LWlsRjVMSkEwa25ySVUyQVVraTZkc0xwaUE4dUV4aEl1YldtOHBvYnQ2WlppLWdTN2laM3Q3MnUzNkZjMmJYeHc?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Sat, 07 Feb 2026 18:19:31 GMT",
         "timestamp": 1770488371.0
-    },
-    {
-        "title_fa": "نتانیاهو هفته آینده با ترامپ دیدار می‌کند؛ مذاکرات با ایران ادامه دارد",
-        "title_en": "Netanyahu to Meet Trump Next Week as Iran Talks Set to Continue",
-        "summary": [
-            "نخست‌وزیر اسرائیل هفته آینده با رئیس‌جمهور آمریکا، دونالد ترامپ، دیدار خواهد کرد.",
-            "این دیدار هم‌زمان با ادامه مذاکرات مرتبط با ایران برگزار می‌شود و احتمال دارد محور گفتگوها درباره برنامه هسته‌ای و سیاست‌های منطقه‌ای باشد.",
-            "ملاقات می‌تواند هماهنگی واشنگتن و تل‌آویو در قبال ایران را تقویت کند و بر جهت و سرعت مذاکرات تأثیر بگذارد."
-        ],
-        "impact": "این ملاقات می‌تواند جهت‌گیری سیاست منطقه‌ای و پیشرفت یا پیچیده‌شدن مذاکرات هسته‌ای ایران را تحت‌تأثیر قرار دهد.",
-        "tag": "دیپلماسی",
-        "urgency": 7,
-        "sentiment": -0.1,
-        "source": "Bloomberg.com",
-        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOS2dROWw3ZVBRamdSQUN2d3JtdlRrVDJCQUYxZnNBdEg1Tm1KeXJpOXFLalRHUjY5RVBVcWMtV3B6dHVvQkZIY0dZd3JkOXlELXdJWmF5MEZ6YnBEUHVVVXhEc0ltbm5hZ1pBZXp2UmRXMldTWWFNNXRETk9hSVNZOW9YZ3puY2ZnaWdRUVJIMGtpVzZ4WTdkbldaRkdWaUZpZEthZXJtTkJaLURrclZScUQzNko?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 18:11:17 GMT",
-        "timestamp": 1770487877.0
-    },
-    {
-        "title_fa": "انتظار می‌رود نتانیاهو چهارشنبه در آمریکا با ترامپ دیدار و درباره ایران گفتگو کند",
-        "title_en": "Israel's Netanyahu expected to meet Trump in US on Wednesday and discuss Iran",
-        "summary": [
-            "نخست‌وزیر اسرائیل، بنیامین نتانیاهو، قرار است چهارشنبه در ایالات متحده با رئیس‌جمهور سابق آمریکا، دونالد ترامپ، دیدار کند.",
-            "موضوع اصلی نشست اعلام‌شده، سیاست‌ها و تهدیدات مرتبط با برنامه هسته‌ای و نفوذ منطقه‌ای ایران است.",
-            "این دیدار می‌تواند هماهنگی‌های امنیتی و دیپلماتیک میان طرفین را تقویت کرده و احتمال تحریم‌ها یا اقدام‌های نظامی را در پی افزایش تنش‌ها تحت‌تأثیر قرار دهد."
-        ],
-        "impact": "دیدار می‌تواند تصمیمات مشترک درباره فشار حداکثری علیه ایران و افزایش تنش نظامی یا دیپلماتیک در خاورمیانه را تسریع کند.",
-        "tag": "امنیت",
-        "urgency": 7,
-        "sentiment": -0.15,
-        "source": "Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPUmd0c2g2djhIS2NhRXd0YmNQZ0JyS3JlbzFXbGpVNVl4R3R5V0g0SGJTdUhTX1JJNDZjUGdyTjk2VWE0X2o2UjRhbV9BTEFmZjYxSUZwMWhWcy1SUEFMcmd3SDdLX1F4THdOcHpVNVZnemZsN29wTC1fQ3dHT0s4RnhiY05VV2ktNDRMQlhRV0N4a3IwQ2toMEd3X1AyVjQzV3I0MFR4SFk1YVdiWmhEZ0xaRlRnZVVi?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 17:52:11 GMT",
-        "timestamp": 1770486731.0
-    },
-    {
-        "title_fa": "آمریکا و ایران مذاکرات غیرمستقیم هسته‌ای را در عمان برگزار کردند؛ تلاشی برای کاهش تنش‌ها",
-        "title_en": "US and Iran hold indirect nuclear talks in Oman, attempt to de-escalate tensions",
-        "summary": [
-            "مذاکرات بین آمریکا و ایران به‌صورت غیرمستقیم و در عمان برگزار شد.",
-            "هدف اعلام‌شده نشست کاهش تنش‌ها و پیشبرد پرونده هسته‌ای است.",
-            "نتایج گفتگو می‌تواند بر دیپلماسی منطقه‌ای، خطر درگیری و وضعیت تحریم‌ها تأثیر بگذارد."
-        ],
-        "impact": "این مذاکرات احتمال کاهش تنش‌های منطقه‌ای و جلوگیری از تشدید رویارویی نظامی را افزایش می‌دهد و می‌تواند مسیر مذاکرات هسته‌ای و فشارهای تحریمی را تحت‌تأثیر قرار دهد.",
-        "tag": "دیپلماسی",
-        "urgency": 7,
-        "sentiment": 0.2,
-        "source": "13WMAZ",
-        "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNUjhLUzlMRVEyZVlQc2txdkVkeU1PT3d4cUNEcG1FNEs3RkxRalRmbER2ejdGdlI1ZUhKeTl3Z2pCLS1KLUdTZnlBR1F1YTN6UVhYa2xGWHRYd19zSVFYMktnNDRRandkcjRXTjdzeGhILWV1YzlkTG5sUGo2cmJLZm5LNnIzQjBJUHE0bkxsYk9CakFMQnlmaS0wR1F2M0NLdXliYldmYVZibTBxMGt0V2NBckpWWl83TmlrbzBZTUlPS2xlY0VreWFleUExT0QwVWFIcm02ekc4MmxBQnhqdmRLU3p5QUUwZVQ1RE5RR3Y0NFV6dExmQlVB?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 17:52:00 GMT",
-        "timestamp": 1770486720.0
-    },
-    {
-        "title_fa": "آغاز مذاکرات محتاطانه هسته‌ای آمریکا و ایران در عمان",
-        "title_en": "US And Iran Launch Cautious Nuclear Talks In Oman",
-        "summary": [
-            "مذاکراتی محتاطانه بین آمریکا و ایران در عمان آغاز شده است؛ طرفین گفت‌وگوها را به صورت محدود و با تمرکز بر مسائل هسته‌ای پیگیری می‌کنند.",
-            "هدف احتمالی شامل بررسی احیای اجرای برجام یا توافق‌های گام به گام برای کاهش تنش‌ها و ایجاد اعتماد متقابل است.",
-            "فضای مذاکرات محافظه‌کارانه و با انتظارات محدود توصیف می‌شود؛ هرچند این کانال دیپلماتیک می‌تواند ریسک درگیری را کاهش دهد."
-        ],
-        "impact": "در صورت پیشرفت مذاکرات، احتمال کاهش تنش‌ها و کاهش فشار تحریمی وجود دارد، اما شکست یا کندی گفت‌وگوها می‌تواند وضعیت را به بن‌بست دیپلماتیک یا تشدید رویدادهای امنیتی سوق دهد.",
-        "tag": "دیپلماسی",
-        "urgency": 7,
-        "sentiment": 0.12,
-        "source": "Evrim Ağacı",
-        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQR2pqQnB4X0JwTGNwYnFoLXBMZlA1cFlaRGxzYTJmZnlNbUNKV2lPZllGemRvYUVTalpCM2tMbWhuaGctYXpmRXB5WC1IUkVvUWRRNjE2cTM2eTNzV0RWbEdGVk9KdzZfR3pXTE5kTHoxSFAwdjVybGM2VFhFcXFTb3BsSVV2ckVHd0s0?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sat, 07 Feb 2026 17:26:39 GMT",
-        "timestamp": 1770485199.0
     }
 ]
