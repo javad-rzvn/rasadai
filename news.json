@@ -1,5 +1,73 @@
 [
     {
+        "title_fa": "قیمت نفت کاهش یافت؛ گفتگوهای آمریکا و ایران نگرانی‌های عرضه را کاهش داد اما تنش‌های خاورمیانه پابرجاست",
+        "title_en": "Oil prices fall as U.S.-Iran talks ease supply fears, but Mideast tensions remain",
+        "summary": [
+            "گفتگوهای آمریکا و ایران باعث کاهش نگرانی‌ها درباره اختلال عرضه نفت شد و قیمت‌ها را پایین آورد.",
+            "با وجود افت قیمت‌ها، تنش‌ها در خاورمیانه همچنان باقی است که خطر نوسان دوباره بازار را نگه می‌دارد.",
+            "بازارها در کوتاه‌مدت از کاهش قیمت سود می‌برند اما چشم‌انداز بلندمدت به تحولات سیاسی منطقه وابسته است."
+        ],
+        "impact": "کاهش قیمت نفت می‌تواند فشار کوتاه‌مدت روی هزینه‌های انرژی را کم کند، اما ادامه تنش‌ها ریسک ناپایداری عرضه و بازگشت نوسانات قیمتی را حفظ می‌کند.",
+        "tag": "نفت",
+        "urgency": 6,
+        "sentiment": 0.05,
+        "source": "The Detroit News",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNRXk5bnRfZzMwNGp3VWstRFIxeXVmbl9XNWNIaXNXaUpMOFEzY2NjNXVXVWFaU0pOOHNKYkU2X21GQmd1UjRoRzFqMHB3TXBqSHZnZ2VNX0ZzU1RaQzF0MFdrS0lpLVNhOVBKX3NQaUdlM21fU3NyY1d2NzVMYXpWSExzTk54c19lX1ktOHI3WEJuclh0Y1gtVzdmb0dmaWp5Wko2LVhCNVdjbVphU2t5aVJ2aDE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Mon, 09 Feb 2026 02:05:00 GMT",
+        "timestamp": 1770602700.0
+    },
+    {
+        "title_fa": "گزارش کالاها: مذاکرات هسته‌ای آمریکا-ایران فشار بر نفت وارد می‌کند",
+        "title_en": "The Commodities Feed: US- Iran nuclear talks weigh on oil",
+        "summary": [
+            "پیشرفت‌ها در مذاکرات هسته‌ای میان آمریکا و ایران موجب کاهش ریسک ژئوپلیتیکی شده و فشار نزولی روی قیمت‌های نفت ایجاد کرده است.",
+            "بازارها در حال تعدیل پریمیوم ریسک عرضه هستند؛ سرمایه‌گذاران و تحلیلگران به تغییر انتظارات عرضه و ذخایر واکنش نشان می‌دهند.",
+            "تحلیل اقتصادی ING به پیامدهای مالی این تحولات و تاثیر بالقوه بر نوسان قیمت‌ها و تصمیمات تولید اوپک پلاس اشاره می‌کند."
+        ],
+        "impact": "در کوتاه‌مدت احتمال کاهش قیمت نفت و کم‌شدن پریمیوم ریسک ژئوپلیتیکی وجود دارد که می‌تواند درآمد کشورها و سیاست‌های عرضه اوپک پلاس را تحت فشار قرار دهد.",
+        "tag": "نفت",
+        "urgency": 6,
+        "sentiment": -0.4,
+        "source": "ING THINK economic and financial analysis | ING THINK",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxORWpNWFRYZThEbGY1aW9qSmxkTWpQeFdnUlpaT2xzTkhzTjI3LTNLS2tBRGV1bFJkTWE1QmcxYS04djJRMDh3NDc3SkpHalpFQXF6VDlTd3FpMVRqVHJJeGFwRzhsbUVMMUtFcXR1WFJQQXllZWp1WUx2TG96ZXdqdHJudTdoeFByS1MzcEJwaHk5bm1EZ3NBVg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Mon, 09 Feb 2026 02:03:31 GMT",
+        "timestamp": 1770602611.0
+    },
+    {
+        "title_fa": "بازداشت چهره‌های برجسته اصلاح‌طلب در ایران به اتهام ارتباط با آمریکا و اسرائیل",
+        "title_en": "Iran arrests prominent reformist politicians, cites links to US, Israel",
+        "summary": [
+            "مقامات ایرانی چند سیاست‌مدار برجسته جریان اصلاح‌طلب را بازداشت کردند.",
+            "نهادهای امنیتی ادعا کرده‌اند این افراد ارتباطاتی با نهادها یا سرویس‌های اطلاعاتی آمریکا و اسرائیل داشته‌اند.",
+            "این اقدام می‌تواند فضای سیاسی داخلی را تندتر کند و واکنش‌های داخلی و بین‌المللی را برانگیزد."
+        ],
+        "impact": "بازداشت‌ها احتمالاً جریان اصلاح‌طلب را تضعیف کرده، به تشدید تنش‌های سیاسی داخلی می‌انجامد و روابط تهران با بازیگران بین‌المللی را پیچیده‌تر خواهد کرد.",
+        "tag": "سیاست",
+        "urgency": 8,
+        "sentiment": -0.7,
+        "source": "Al Jazeera",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOMDFhNFVUVk1Qb0JkWXZqSVF4NlpZcTdtMDZqaDhERm1nYjU1WHR1M2QwckItczRvNXplcHgwUnZPR2Fpa0hSanhpRThnQ0I5TnBlU3lCTFhMVzd2OFNEbDl5WS1hU21RNEdlQ1I2NWV1b1hRa1ZhcVRnRjRYSlkzNFl6LWtnaExXemNiejFiMkozRUNGcDJyN3Q4bGRwTm9HSmfSAacBQVVfeXFMT08tNmFCNFZqc0FtVW4yZmpGSENyRWxIMkhjd3ZVa1p0OG1GakNVTUt0T0FMa0g0MmhiZ2R1SHdaQ2NxR0hmb2NkZ0owblhoQmN3UGVXU0ppSFRGVDdCTUxabV96NHh0ZGdncTl2U1k1U1RGMkNCSUMyd05uclJZVlloVDl6bk5xcnJwSkxCcV9wSlJCMTFIWnBTMkFaZTc0N1c0N0w4X1U?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Mon, 09 Feb 2026 01:54:49 GMT",
+        "timestamp": 1770602089.0
+    },
+    {
+        "title_fa": "گفت‌وگوهای هسته‌ای ایران: وزیر خارجه حقوق غنی‌سازی را کلید دیپلماسی آمریکا خواند",
+        "title_en": "Iran nuclear talks: Enrichment rights key to US diplomacy, says Foreign Minister",
+        "summary": [
+            "- وزیر امور خارجه ایران اعلام کرده حق غنی‌سازی، محور رویکرد دیپلماسی آمریکا در مذاکرات هسته‌ای است.",
+            "- این اظهارنظر می‌تواند مواضع طرف ایرانی را در مذاکره تقویت کرده و خواستاری از تضمین‌های حقوق غنی‌سازی باشد.",
+            "- اختلاف بر سر حق غنی‌سازی ممکن است پیچیدگی‌های مذاکرات را افزایش داده و روند احیای توافق را تحت‌تأثیر قرار دهد."
+        ],
+        "impact": "بیانیه وزیر خارجه می‌تواند به یکی از نقاط محوری اختلاف در مذاکرات تبدیل شده و شانس پیشرفت یا انعقاد توافق را به‌طور مستقیم تحت‌تأثیر قرار دهد.",
+        "tag": "دیپلماسی",
+        "urgency": 7,
+        "sentiment": -0.2,
+        "source": "ET EnergyWorld",
+        "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOZ1lOMnF6eTN4NXVUejdSSkk1QXU5RzNLbFg0aURqcGxOYmpnTDFfMnUtcU9mWXVEUE9nUkQ0dlYyWHpKbTMwZUt0WU1JVnI1SUhRZ3VvMnJ0RGRsRFdHazFFODVoYk96ZmpiR2FTdmdGR0xsLW0zUEFvZUVBekJueW5NeWdvdHhlMlRFYU5SdzN3d2lOSkw1MmJJN0hPTzMzMTg3anA1MmlIM1dSNVdUelU1ekpWWDcwLWljSWFVVEt2TkRoWlNFWlBEWmtFaWJjTXJDemRZdFpmZTQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Mon, 09 Feb 2026 01:45:37 GMT",
+        "timestamp": 1770601537.0
+    },
+    {
         "title_fa": "آمریکا و ایران از «گامی رو به جلو» در مذاکرات برنامه هسته‌ای خبر دادند",
         "title_en": "US and Iran say ‘step forward’ in talks over nuclear programme",
         "summary": [
@@ -1630,73 +1698,5 @@
         "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNQ1VwZzFIUG1rMHlpeUF1eDVDcXQ3M3E3RU04em5ha1BUVXZFMWtpRFVPYzkwZ0lhOGZQenZobnlrRWt0eC12MkRRMVJCZnhldWt2Mk9xVjhTUjhsSG1HMEdGNVlkN3JpQUxLcGVWMDJ0R0x3a3JhTzczTkpjTExDNFV5RXJaUklfYzY4VE5oTkdnYnlMZnZTUzhTSVA?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Sun, 08 Feb 2026 06:01:21 GMT",
         "timestamp": 1770530481.0
-    },
-    {
-        "title_fa": "ترامپ قصد دارد مناقشه با ایران را از طریق راه‌های مسالمت‌آمیز حل کند - سفیر آمریکا در اسرائیل",
-        "title_en": "Trump aims to resolve Iran conflict through peaceful means - US ambassador to Israel",
-        "summary": [
-            "سفیر آمریکا در اسرائیل اعلام کرد که ترامپ به دنبال حل مناقشه با ایران از طریق راه‌های مسالمت‌آمیز است.",
-            "این گفته‌ها می‌تواند نشان‌دهنده تغییر یا تأکید بر رویکرد دیپلماتیک واشنگتن برای کاهش تنش‌ها در منطقه باشد.",
-            "خبر به‌عنوان تازه‌ترین اطلاع از آذربایجان منتشر شده و ممکن است بر مناسبات آمریکا، اسرائیل و کشورهای منطقه تأثیر بگذارد."
-        ],
-        "impact": "اگر این رویکرد عملی شود، می‌تواند به کاهش تنش‌ها در خاورمیانه و تقویت گفت‌وگوهای دیپلماتیک بین بازیگران منطقه‌ای منجر شود.",
-        "tag": "سیاست",
-        "urgency": 6,
-        "sentiment": 0.35,
-        "source": "Latest news from Azerbaijan",
-        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQMnRwalYwdGJ5c1lRbGtETmpwVXVpcGFMYldSQ0wxY0dqRHRzQVRxQ0tScEdYT3EzMm5EWTNmNUR2Tk5qZ3dkUnZqM0VydVJnZG1MWkFHT2VsT2tINDRvZS1XMHlSa08yRWtMU0hieUxOUEl2UklXaFU2dXRDbG5zNjg1LWVLeDQ2VFRsYTlaY1lUZnlycVMzbjJVa2hIV25oMURwUjB3?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sun, 08 Feb 2026 05:38:59 GMT",
-        "timestamp": 1770529139.0
-    },
-    {
-        "title_fa": "ایران: در صورت حمله آمریکا، به پایگاه‌های آمریکایی در منطقه حمله خواهیم کرد",
-        "title_en": "If US attacks, Iran says it will strike US bases in the region",
-        "summary": [
-            "ایران هشدار داده که در صورت حمله نظامی آمریکا به هر هدفی، به پایگاه‌های آمریکایی در منطقه حمله خواهد کرد.",
-            "این اظهارات خطر افزایش تنش‌ها و احتمال رویارویی نظامی مستقیم میان تهران و واشینگتن را بالا می‌برد.",
-            "واکنش بازیگران منطقه‌ای و بین‌المللی و تلاش‌ها برای دیپلماسی و کاهش تنش در روزهای آتی تعیین‌کننده خواهد بود."
-        ],
-        "impact": "این تهدید می‌تواند امنیت منطقه را تضعیف کند، حضور نظامی آمریکا را هدف قرار دهد و خطر گسترش درگیری‌های فراملی را افزایش دهد.",
-        "tag": "امنیتی",
-        "urgency": 8,
-        "sentiment": -0.8,
-        "source": "WHTC",
-        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQcjNTY0Jyd0dRQ01aUUdFcF9mS0Z6RW9ybEs5UTl4RWVaemhNOVU4dmlSXzN4cEJsVHdoeGYxSDd2SGhXcG9US09lcUUwTmhMYllHWEZIdjZnVWtnNEhJOFE5MjBuVlFWMkVMV21uNWNMcVhNbnY0N1Zwd3NuWUtXWk1EN25ySUwzUTV2a3FmTGJ0UHRR?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sun, 08 Feb 2026 05:31:01 GMT",
-        "timestamp": 1770528661.0
-    },
-    {
-        "title_fa": "وزیر خارجه ایران: با آمریکا بر برگزاری دور بعدی مذاکرات «به‌زودی» توافق کردیم",
-        "title_en": "Iran FM says agreed with US to hold next round of talks 'soon'",
-        "summary": [
-            "وزیر خارجه ایران اعلام کرد که با طرف آمریکایی توافق شده دور بعدی گفت‌وگوها «به‌زودی» برگزار شود.",
-            "جزئیات مربوط به زمان، مکان و دستورکار مذاکرات اعلام نشده و هنوز مشخص نیست چه موضوعاتی مدنظر قرار دارند.",
-            "این اعلامیه می‌تواند نشانه‌ای از ازسرگیری کانال‌های دیپلماتیک باشد، اما پیامدها و واکنش‌های طرفین و بازیگران منطقه‌ای نامشخص است."
-        ],
-        "impact": "در صورت تحقق، این توافق می‌تواند مسیر کاهش تنش و ازسرگیری گفت‌وگوهای دیپلماتیک میان تهران و واشنگتن را هموار کند.",
-        "tag": "دیپلماسی",
-        "urgency": 6,
-        "sentiment": 0.3,
-        "source": "Space War News",
-        "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPU0RfVi1PU1B6ZHpWWUM1TWZkb293blROS1RRLTBWcGl6R3k0dG9fZF9uUUdLOU5pTVpSSzRlakZEMzZLNjFLdnAyMnZfTlRQc2k3U0l5dnRpckhfTTlESDktdnpUTEFDV0xabTBSNTBSbS1TZG1ibDA3OHZsYzlhb0Z1U08xaE1fT0VzOVhfNkUwcG1YLUFoT0FvWDNKMDZKaEtYVg?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sun, 08 Feb 2026 05:07:05 GMT",
-        "timestamp": 1770527225.0
-    },
-    {
-        "title_fa": "دایر: احتمال ادامه مرگ‌ومیر ایرانیان به‌دلیل تضاد میان واقعیت و روایت‌های ساختگی",
-        "title_en": "Dyer: Iranian deaths likely to continue as facts, fiction conflict",
-        "summary": [
-            "دایر هشدار داده که مرگ‌ومیر در ایران احتمالاً ادامه خواهد یافت زیرا حقایق با روایت‌های ساختگی و اطلاعات متناقض در تعارض هستند.",
-            "اختلاف میان گزارش‌های رسمی، شایعات و اطلاعات نادرست مانع شفافیت، پیگیری مسئولان و اقدامات پیشگیرانه می‌شود.",
-            "برای کاهش تلفات ضرورت دارد گزارش مستقل، دسترسی به اطلاعات قابل‌اعتماد و مقابله سازمان‌یافته با اطلاعات غلط تقویت شود."
-        ],
-        "impact": "ادامه این وضعیت می‌تواند به افزایش بی‌اعتمادی عمومی، کاهش اثربخشی پاسخ‌های سلامت و امنیت و تشدید بحران‌های سیاسی و اجتماعی منجر شود.",
-        "tag": "گمراهی",
-        "urgency": 8,
-        "sentiment": -0.7,
-        "source": "London Free Press",
-        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxObzF2WGZpaUV0U0pXQU1YYU9Bc2pzQThqcG10eURVQmk5ME1jTGQ2U3JWZHJsY1FnMkNnTFoxN1ZnVHlRNXJpeVp3d0thOTRGUW1uYUNLdW8zMnFUNFRFWU5SYW12SHpIa1hlMlF1RGhtMERxYXBLOEdJS3dVbjMxTW5mNjJ1bFRVQjdPYWJJVlBaQmhObDdJ?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Sun, 08 Feb 2026 05:05:49 GMT",
-        "timestamp": 1770527149.0
     }
 ]
