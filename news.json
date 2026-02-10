@@ -1,5 +1,39 @@
 [
     {
+        "title_fa": "دیدار حساس نتانیاهو و ترامپ برای بررسی مذاکرات با ایران، فشار نظامی و خطوط قرمز",
+        "title_en": "High-stakes Netanyahu–Trump meeting to discuss lran negotiations, military pressure and red lines",
+        "summary": [
+            "دیدار به‌منظور بحث درباره وضعیت مذاکرات با ایران، گزینه‌های فشار نظامی و تعیین خطوط قرمز طرفین برگزار می‌شود.",
+            "نشست ممکن است موضع آمریکا را نسبت به توافق هسته‌ای یا اقدام نظامی تغییر دهد و بر سیاست‌های اسرائیل تأثیر بگذارد.",
+            "پیامدهای احتمالی شامل افزایش تنش منطقه‌ای، تأثیر بر دیپلماسی بین‌المللی و بازتعریف اهرم‌های فشار است."
+        ],
+        "impact": "این دیدار می‌تواند سرنوشت تاکتیک‌ها و سیاست‌های آمریکا و اسرائیل در قبال ایران را تعیین کند و مسیر مذاکرات یا احتمال برخورد نظامی را تغییر دهد.",
+        "tag": "ایران",
+        "urgency": 8,
+        "sentiment": -0.25,
+        "source": "Ynetnews",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1sa1RXcmhXMHRmRUJRWnhqNGU5UkJ0aFNqWW4xLXI2endoVEloMEphVkFaZ1dJYWVDZzUxWDM2aHk1NXVvYlBhVjdDM3VaaFo1TmZDYUx3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Tue, 10 Feb 2026 23:07:40 GMT",
+        "timestamp": 1770764860.0
+    },
+    {
+        "title_fa": "آیا ترامپ در دام بلوف مذاکرات هسته‌ای ایران خواهد افتاد؟",
+        "title_en": "Will Trump Fall for Iran’s Nuclear Negotiations Bluff?",
+        "summary": [
+            "مقاله هشدار می‌دهد که پیشنهادات مذاکره‌ای ایران ممکن است تاکتیکی برای کاهش فشار بین‌المللی و برداشتن تحریم‌ها باشد نه تعهد واقعی به توقف پیشبرد هسته‌ای.",
+            "تصمیم ترامپ درباره پاسخ به این ابتکار می‌تواند نتیجه‌گیری‌هایی درباره رویکرد دولت او به دیپلماسی، فشار حداکثری و امنیت منطقه‌ای داشته باشد.",
+            "هرگونه خوش‌باوری زودهنگام می‌تواند منجر به تضعیف اهرم‌های تحریمی و افزایش بی‌اعتمادی متحدان آمریکا در خاورمیانه شود."
+        ],
+        "impact": "نتیجه‌گیری ترامپ درباره این «بلوف» می‌تواند جهت‌گیری سیاست خارجی آمریکا، سطح تحریم‌ها و ثبات منطقه‌ای را تحت تأثیر قرار دهد.",
+        "tag": "ایران",
+        "urgency": 7,
+        "sentiment": -0.3,
+        "source": "Middle East Forum",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPMUk5R1R2ZXJlLVMtUU5SUGpLdGNSeU9oT1pDMXhabmFXaHRoZ21HeTNxeGQ0c0xRbVBjenhoQ2pxb2dnd2J4cG4zT0RudEZqNnJoeWhSTFA5OE9HTTNXc0NIT3lfejhtc0Z2VzV3enJ5V2tScjNUWDRWM3c1UHRfTkhNemhDNWN4R1VkWC1mcnc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "date": "Tue, 10 Feb 2026 22:58:31 GMT",
+        "timestamp": 1770764311.0
+    },
+    {
         "title_fa": "مقام ارشد امنیتی ایران در عمان؛ محل مذاکرات احتمالی با آمریکا درباره پیام‌های هسته‌ای",
         "title_en": "Top Iran security official is in Oman, the site of talks with the U.S., likely over nuclear messages",
         "summary": [
@@ -1662,39 +1696,5 @@
         "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOUEZMc21IY0tuT1hwbTRGZkNHUTB6VVhTTS1FNzU5MEJJOVRCWkZ0SFBBNGQ3eVh2a0xVQ3ZfMGFCR3NjR2VvS3NqSXRTNnViNDBPMDNvWEdUU21Lc21uaUxsLXQyTE9tS01tVlozblN1bW9KSHdZOXhLS0ZjelgxZXpGT3dFOGFyR21GWFNPd29zMU4tdER3NXlMbw?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Mon, 09 Feb 2026 11:20:40 GMT",
         "timestamp": 1770636040.0
-    },
-    {
-        "title_fa": "نتانیاهو در واشنگتن نگرانی‌های اسرائیل درباره ایران را مطرح می‌کند؛ شاهدی جنایات هولناک رژیم علیه معترضان را روایت کرد",
-        "title_en": "Netanyahu to Press Israel's Iran Concerns in DC as Witness Recounts Regime's Horrific Crimes against Protesters",
-        "summary": [
-            "نخست‌وزیر اسرائیل در سفر به واشنگتن نگرانی‌های امنیتی و هسته‌ای تهران را با مقام‌های آمریکایی پیگیری خواهد کرد.",
-            "نقش‌آفرینی شاهدی که جزئیات سرکوب و جنایات رژیم ایران علیه معترضان را بازگو کرده، توجه رسانه‌ای و سیاسی را جلب کرده است.",
-            "دیدار می‌تواند برای تقویت هماهنگی دفاعی، فشار دیپلماتیک یا درخواست حمایت‌های جدید از سوی آمریکا به‌ویژه در برابر تهدیدات منطقه‌ای ایران استفاده شود."
-        ],
-        "impact": "این سفر می‌تواند هماهنگی سیاست‌های آمریکا و اسرائیل علیه ایران را تقویت کند و به افزایش فشار دیپلماتیک و احتمالا اقدام مشترک منجر شود.",
-        "tag": "ایران",
-        "urgency": 7,
-        "sentiment": -0.6,
-        "source": "cbn.com",
-        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOZUU0NFZoY054UkZockxOQkhwU0NkR2o3TnZCTUZXMldSbVlfMXA4LTZQTGg0RlktUVlwTDYzSE9wRVpsRkdHUWdOQ3MyNGRvSjB5LUJTTTlKdHFhUlpITzJOS3JGMDlLNWctZ1lpbldpb0pVYzhVUm90YjFOVWJUbGVGQjFlZjVXVENNMEJpRHdmUnU5dzZKc3ZCT01lSjdqRUVDM3JKQVNUdk9GcEE?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Mon, 09 Feb 2026 11:18:15 GMT",
-        "timestamp": 1770635895.0
-    },
-    {
-        "title_fa": "ویدئو | ایران: مذاکرات هسته‌ای در صورت نشان‌دادن «جدیت لازم» از سوی آمریکا ادامه خواهد یافت",
-        "title_en": "Video | Iran USA Latest News | Iran Says Nuclear Talks Will Continue If US Shows “Necessary Seriousness”",
-        "summary": [
-            "ایران اعلام کرده که مذاکرات هسته‌ای مشروط به نشان‌دادن «جدیت لازم» از سوی آمریکا ادامه پیدا می‌کند.",
-            "گزارش ویدئویی NDTV این اظهارات را پوشش داده و بر ماهیت مشروط پیشنهاد تهران تاکید می‌کند.",
-            "بیان شرط توسط تهران حاکی از آمادگی برای گفتگو به‌صورت مشروط و انتظار اقدام عملی از طرف آمریکاست."
-        ],
-        "impact": "این موضع می‌تواند درهای دیپلماسی را باز نگه دارد اما نتیجه نهایی به اقدامات عملی و قابل‌اعتماد آمریکا بستگی دارد.",
-        "tag": "دیپلماسی",
-        "urgency": 6,
-        "sentiment": 0.15,
-        "source": "NDTV",
-        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQSXpYanppR2Y4MlVMNXFobEMzVUpaZjlNY0o1NnpxM0tvYk1OOWNzaFplVW9DUm9QblhCZUhNV3FUclRlOVFvcGpldU5GVGktRF9HR2dWa24xZEUwbVk3TWhwYlF4WDVROURkamdmRmE2OGFkQS1jS2hjaEpvQ083NXhOUzhIVk90UjZTRG5OcXhTdGNwUHZXcWJsWk9Ed3BucEw2YXE3RV8wTGxYYmxCUktDaGhOdm9OMVdaRmZSNWF5UXNOWnc?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Mon, 09 Feb 2026 10:51:10 GMT",
-        "timestamp": 1770634270.0
     }
 ]
