@@ -41,7 +41,7 @@ class IranNewsRadar:
         self.api_key = CONFIG['POLLINATIONS_KEY']
         self.existing_news = self._load_existing_news()
         
-        # Load seen URLs (we expect these to be final URLs from previous runs)
+        # Load seen URLs
         self.seen_urls = {item.get('url') for item in self.existing_news if item.get('url')}
         self.seen_titles = {self._normalize_text(item.get('title_en', '')) for item in self.existing_news}
         
@@ -80,7 +80,6 @@ class IranNewsRadar:
             
             similarity = len(intersection) / len(union)
 
-            # >35% similarity OR >4 identical keywords
             if similarity > 0.35 or len(intersection) >= 4:
                 logger.info(f"🚫 Fuzzy Duplicate: '{new_title}' ~= '{existing_title}'")
                 return True
@@ -94,21 +93,14 @@ class IranNewsRadar:
                 return data if isinstance(data, list) else []
         except: return []
 
-    # --- NEW: URL RESOLVER ---
+    # --- URL RESOLVER ---
     def _resolve_final_url(self, gnews_url):
-        """
-        Follows the Google News redirect to get the actual site URL.
-        """
         if not gnews_url: return None
         try:
-            # We use a HEAD request first to be fast, or a GET with stream=True
-            # allowing redirects to let the library find the final destination.
             resp = self.scraper.get(gnews_url, allow_redirects=True, timeout=10, stream=True)
             final_url = resp.url
-            # Close connection immediately, we don't need body yet
             resp.close()
             
-            # If it still looks like a google url, it might have failed to decode, keep original
             if "news.google.com" in final_url and len(final_url) < 100:
                 return gnews_url
                 
@@ -162,7 +154,11 @@ class IranNewsRadar:
             f"{market_text}\n"
             f"➖➖➖➖➖➖➖➖➖➖\n\n"
         )
-        footer = "\n📊 <a href='https://itsyebekhe.github.io/rasadai/'>مشاهده داشبورد کامل</a>"
+        
+        footer = (
+            "\n🆔 @RasadAIOfficial"
+            "\n📊 <a href='https://itsyebekhe.github.io/rasadai/'>مشاهده داشبورد کامل</a>"
+        )
 
         messages_to_send = []
         current_chunk = header
@@ -220,9 +216,6 @@ class IranNewsRadar:
 
     # --- SCRAPER & AI ---
     def scrape_article_text(self, final_url, fallback_snippet):
-        """
-        Scrapes text from the already resolved URL.
-        """
         try:
             if final_url.lower().endswith('.pdf'): return fallback_snippet
             resp = self.scraper.get(final_url, timeout=15)
@@ -241,6 +234,18 @@ class IranNewsRadar:
         context = full_text if len(full_text) > 100 else headline
         fallback = {"title_fa": headline, "summary": ["تحلیل در دسترس نیست"], "impact": "بررسی نشده", "tag": "News", "urgency": 3, "sentiment": 0}
 
+        # --- UPDATED PROMPT FOR OPPOSITION / SHAHIST PERSPECTIVE ---
+        system_prompt = (
+            "You are a Senior Strategic Analyst for the Iranian Opposition (Pro-Pahlavi/Nationalist view). "
+            "Analyze the news from the perspective of Iran's National Interest, distinguishing it from the 'Islamic Republic Regime's interest'. "
+            "Guidelines: "
+            "1. Terminology: Refer to the government as 'The Regime' (رژیم) or 'The Clerical Rule'. Do not use honorifics for IR officials. "
+            "2. Focus: Highlight economic incompetence, IRGC corruption/terrorism, and the regime's isolation. "
+            "3. Tone: Serious, Critical, Patriotic (Iran-First). "
+            "4. Language: Persian (Farsi). "
+            "5. Output valid JSON: {title_fa, summary[3 bullet points], impact(1 sentence critical of regime's effect on people), tag(1 word), urgency(1-10), sentiment(float -1.0 to 1.0)}."
+        )
+
         try:
             resp = self.scraper.post(
                 "https://gen.pollinations.ai/v1/chat/completions",
@@ -249,12 +254,12 @@ class IranNewsRadar:
                     "model": "openai",
                     "messages": [{
                         "role": "system", 
-                        "content": "You are a Persian News Analyst. Output valid JSON: {title_fa, summary[3 bullet points], impact(1 sentence), tag(1 word), urgency(1-10), sentiment(float between -1.0 and 1.0)}."
+                        "content": system_prompt
                     }, {
                         "role": "user", 
                         "content": f"HEADLINE: {headline}\nTEXT: {context}"
                     }],
-                    "temperature": 0.1
+                    "temperature": 0.2 # Slightly higher creativity for political nuance
                 }, timeout=30
             )
             if resp.status_code == 200:
@@ -276,10 +281,10 @@ class IranNewsRadar:
             logger.info(f"🚫 Duplicate URL found: {final_url}")
             return None
 
-        # 3. Check Title against history (Backup check)
+        # 3. Check Title against history
         if self._normalize_text(raw_title) in self.seen_titles: return None
         
-        # 4. Scrape content using Final URL
+        # 4. Scrape content
         snippet = entry.get('description', raw_title)
         text = self.scrape_article_text(final_url, snippet)
         
@@ -299,7 +304,7 @@ class IranNewsRadar:
             "urgency": ai.get('urgency', 3),
             "sentiment": ai.get('sentiment', 0), 
             "source": entry.get('publisher', {}).get('title', 'Source'),
-            "url": final_url, # SAVE FINAL URL
+            "url": final_url, 
             "date": entry.get('published date'),
             "timestamp": ts
         }
@@ -315,23 +320,17 @@ class IranNewsRadar:
             logger.error(f"GNews Error: {e}")
             return
 
-        # --- BATCH PRE-FILTERING (FUZZY TITLE) ---
-        # Filter duplicates based on Title first (cheap) before resolving URLs (expensive)
+        # --- BATCH PRE-FILTERING ---
         unique_batch_results = []
         for item in results:
             title = item.get('title', '').rsplit(' - ', 1)[0]
-            
-            # Check Title vs History
             if self._is_duplicate_fuzzy(title, self.existing_news): continue
-            
-            # Check Title vs Current Batch
             if self._is_duplicate_fuzzy(title, unique_batch_results): continue
-                
             unique_batch_results.append(item)
 
         logger.info(f"Raw: {len(results)} | Unique Titles: {len(unique_batch_results)}")
 
-        # --- PROCESSING & URL RESOLUTION ---
+        # --- PROCESSING ---
         new_items = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=CONFIG['MAX_WORKERS']) as exc:
             futures = {exc.submit(self.process_item, i): i for i in unique_batch_results}
@@ -339,7 +338,6 @@ class IranNewsRadar:
                 res = fut.result()
                 if res:
                     new_items.append(res)
-                    # Add to local cache immediately to help subsequent threads if needed
                     self.seen_titles.add(self._normalize_text(res['title_en']))
                     self.seen_urls.add(res['url'])
                     self.existing_news.append(res)
@@ -348,16 +346,12 @@ class IranNewsRadar:
             new_items.sort(key=lambda x: (x.get('urgency', 0), x.get('timestamp', 0)), reverse=True)
             self.send_digest_to_telegram(new_items)
 
-            # Re-load full list for saving
             all_news = self._load_existing_news()
-            
-            # Add new items that aren't already in file (double safety)
             existing_urls_file = {x.get('url') for x in all_news}
             for ni in new_items:
                 if ni['url'] not in existing_urls_file:
                     all_news.append(ni)
 
-            # Sort by time
             all_news.sort(key=lambda x: x.get('timestamp', 0), reverse=True)
             
             with open(CONFIG['FILES']['NEWS'], 'w', encoding='utf-8') as f: 
