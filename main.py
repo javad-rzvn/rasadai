@@ -147,7 +147,7 @@ class IranNewsRadar:
                     'publisher': {'title': r.get('source')},
                     'published date': r.get('date'),
                     'description': r.get('body'),
-                    'image': r.get('image') # DDGS sometimes provides images too
+                    'image': r.get('image')
                 })
         except Exception as e:
             logger.error(f"DDG Error ({query}): {e}")
@@ -171,17 +171,13 @@ class IranNewsRadar:
                     match = re.search(r'[?&]url=([^&]+)', final_link)
                     if match: final_link = unquote(match.group(1))
 
-                # --- IMAGE EXTRACTION (NEW) ---
+                # Image Extraction
                 image_url = None
                 try:
-                    # feedparser handles namespaces, usually maps 'news:image' to 'news_image'
                     if hasattr(entry, 'news_image'):
                         raw_url = entry.news_image
-                        # Check if we have width/height data to replace placeholders
                         width = getattr(entry, 'news_imagemaxwidth', '700')
                         height = getattr(entry, 'news_imagemaxheight', '400')
-                        
-                        # Replace {0} and {1} in string like: ...&w={0}&h={1}&c=14
                         if '{0}' in raw_url:
                             image_url = raw_url.replace('{0}', str(width)).replace('{1}', str(height))
                         else:
@@ -195,7 +191,7 @@ class IranNewsRadar:
                     'publisher': {'title': publisher},
                     'published date': entry.published,
                     'description': entry.summary if hasattr(entry, 'summary') else entry.title,
-                    'image': image_url  # Add to result
+                    'image': image_url
                 })
         except Exception as e:
             logger.error(f"Bing RSS Error: {e}")
@@ -303,7 +299,7 @@ class IranNewsRadar:
     def process_item(self, entry):
         raw_title = entry.get('title', '').rsplit(' - ', 1)[0]
         publisher = entry.get('publisher', {}).get('title', 'Unknown')
-        image_url = entry.get('image') # Get extracted image
+        image_url = entry.get('image')
         
         logger.info(f"Processing: {publisher} | {raw_title[:20]}...")
         
@@ -315,7 +311,15 @@ class IranNewsRadar:
         text = self.scrape_article_text(final_url, snippet)
         
         ai = self.analyze_with_ai(raw_title, text, publisher)
-        if not ai: return None
+        if not ai: 
+            logger.info("Skipping item due to AI failure.")
+            return None
+        
+        # --- FIX: Safe integer conversion for urgency ---
+        try:
+            urgency_val = int(ai.get('urgency', 3))
+        except (ValueError, TypeError):
+            urgency_val = 3
 
         try: ts = parser.parse(entry.get('published date')).timestamp()
         except: ts = time.time()
@@ -326,10 +330,10 @@ class IranNewsRadar:
             "summary": ai.get('summary', [snippet]),
             "impact": ai.get('impact', '...'),
             "tag": ai.get('tag', 'General'),
-            "urgency": ai.get('urgency', 3),
+            "urgency": urgency_val, # Using safe integer
             "source": publisher,
             "url": final_url,
-            "image": image_url, # Pass image to result
+            "image": image_url,
             "timestamp": ts
         }
 
@@ -391,9 +395,6 @@ class IranNewsRadar:
             if isinstance(summary_raw, str): summary_raw = [summary_raw]
             safe_summary = "\n".join([f"▪️ {html.escape(str(s))}" for s in summary_raw])
 
-            # --- IMAGE EMBEDDING ---
-            # If an image exists, we add a hidden 0-width character link at the start of the title.
-            # Telegram's "Link Preview" feature will often pick this up and display the image at the top of the message.
             hidden_image = ""
             if img_link:
                 hidden_image = f"<a href='{img_link}'>&#8205;</a>"
@@ -418,7 +419,6 @@ class IranNewsRadar:
 
         api_url = f"https://api.telegram.org/bot{token}/sendMessage"
         for i, msg in enumerate(messages_to_send):
-            # disable_web_page_preview must be FALSE to show the image
             payload = {"chat_id": chat_id, "text": msg, "parse_mode": "HTML", "disable_web_page_preview": False}
             if i == len(messages_to_send) - 1 and reply_markup:
                 payload["reply_markup"] = reply_markup
@@ -456,6 +456,7 @@ class IranNewsRadar:
                     self.existing_news.append(res)
 
         if new_items:
+            # Sort is now safe because 'urgency' is guaranteed int
             new_items.sort(key=lambda x: x.get('urgency', 0), reverse=True)
             self.send_digest_to_telegram(new_items)
             
