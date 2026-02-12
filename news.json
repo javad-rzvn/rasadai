@@ -1,5 +1,35 @@
 [
     {
+        "title_fa": "ایران، جنگ و توهم کنترل",
+        "title_en": "Iran, war, and the illusion of control",
+        "summary": [
+            "رژیم تهران گمان می‌کند که از طریق عملیات نیابتی و محاسبات نظامی می‌تواند اوضاع منطقه را مدیریت کند؛ اما این احساس کنترل در برابر پیچیدگی‌های توأم با واکنش‌های متقابل یک توهم خطرناک است.",
+            "ماجراجویی نظامی و تشدید رویارویی‌ها می‌تواند اقتصاد، مشروعیت داخلی و ثبات اجتماعی را تضعیف کند و ریسک تبدیل بحران‌های منطقه‌ای به یک درگیری فراگیر را افزایش دهد.",
+            "اپوزیسیون باید از شکاف‌ها و هزینه‌های ناشی از این سیاست‌ها استفاده کند: با تقویت سازماندهی مدنی، افشای پیامدها و جلب حمایت بین‌المللی، فشار برای تغییر مسالمت‌آمیز را افزایش دهد و از تشدید خشونت جلوگیری کند."
+        ],
+        "impact": "ادامه توهمِ قابلیتِ کنترلِ نظامی می‌تواند ایران را به درگیری گسترده‌تری بکشد که هم رژیم را تضعیف کرده و هم به سرکوب داخلی و بحران انسانی دامن می‌زند.",
+        "tag": "تشدید",
+        "urgency": 8,
+        "source": "weeklyblitz.net",
+        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE10b3pTekRfOWhXTEw4YU96bjNaN00yMGRLMlA1bkJGSGlTOWpxV01CMWpYY2Zac2wxVmlTWkhQNmc5RGZIR2E5VVVDSGtmMXNfbm91X2JwTGZiRjZmNUdKb1lLclNOSlJuQVFWakdfTU5CUHp6cnZxX092bzc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "timestamp": 1770874315.0
+    },
+    {
+        "title_fa": "وزیر خارجه ترکیه: آمریکا و ایران در مورد توافق هسته‌ای انعطاف نشان می‌دهند",
+        "title_en": "US and Iran showing flexibility on nuclear deal, Turkey’s foreign minister says",
+        "summary": [
+            "مولود چاوش‌اوغلو، وزیر خارجه ترکیه، گفته است که آمریکا و ایران در مذاکرات احیای برجام انعطاف نشان می‌دهند که علامتی از احتمال نزدیک شدن به توافق است.",
+            "اگر این انعطاف منجر به پیشرفت مذاکرات شود، ممکن است راه برای رفع تحریم‌ها و تبادل تعهدات عملی باز شود، اما جزئیات، زمان‌بندی و تضمین‌های اجرای شفاف هنوز مشخص نیست.",
+            "برای اپوزیسیون ایران این روند دو وجه دارد: احتمال کاهش فشار اقتصادی و سیاسی بر رژیم و تقویت آن در برابر مطالبات داخلی، مگر اینکه بسته توافق با شروط حقوق بشر و بازرسی‌های شفاف همراه شود."
+        ],
+        "impact": "نزدیک شدن احتمالی به توافق هسته‌ای می‌تواند به تسهیل رفع تحریم‌ها منجر شود و همزمان ریسک تقویت سیاسی و اقتصادی رژیم جمهوری اسلامی را برای اپوزیسیون افزایش دهد.",
+        "tag": "هسته‌ای",
+        "urgency": 7,
+        "source": "Al Arabiya English",
+        "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQUzZtOWUyQlNyck8zMVRnQ1VVWWFFYmt1SDA4SFliRXRQMjFkNGlQbDVNY2VERVBTUVdsWHl6dld5Z016YmN2bWhOUGplQ0tENkpZNjFBUTI1OWF6Z051LVRUczJyMThRQXJ3eXBCeTVUY2Q1TGRNUjJwZEwwSG44dGZaRDVWdVlPdld2UWlfZU85M05WM3JXRFhCSVVKZHBHU3hqUDRhVE5YUnNpekxQZWlzTG5aQl9FWmt1bnhINzE5UTVOYW1DNVhRN05uMzRhTU5N0gHYAUFVX3lxTFAtZUdaOWx5TFhueUNVYWtiR3Zra3c4ejIwMlNKWENUX3g1b1laNXl3MTg3LUZxbkxxMGJlRGhfM3ktSHRtbXY0YUVWVVpaRUQtLWRFTVFOZ0o3Y1VGdHQ2amJSaWxhb1VVX3FnT2hzdjlCM1Y4d2dMUHBsSDJjVlFYVWY3cl93SnIwZlRlMVBYNjVDdEpwTUhBYlR2elNoMlZ2QXgtLW80NXFQZnA2bV9Vbl9qcmM2U3pzR3Itei1FWVk1Nzl5bjFvVmlOUlJfVU5Bd19aX0RpOA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "timestamp": 1770874200.0
+    },
+    {
         "title_fa": "دلایل «ترجیح» ترامپ برای مذاکره با ایران",
         "title_en": "The reasons behind Trump’s ‘preference’ for negotiations with Iran",
         "summary": [
@@ -192,6 +222,21 @@
         "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQNDZMSmEzckRFbFNyVTU1Nzc2YTRTNUxBTngwd0Q5SmhNV1NDb25QaXk3SmlKNURVbWxYb2NsYlZ4d25SWEhwb3huRlRGTXhEZ0w3UG5kMWxsZVdDbC1ldXNrYllzTVdxcDlkWlNYZXpHa0J3NkxLNDQxQ05JbHVmeWp5eGhZMkZsbVMwQ1pqNDU?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Wed, 11 Feb 2026 19:08:35 GMT",
         "timestamp": 1770836915.0
+    },
+    {
+        "title_fa": "ترامپ همچنان علیه ایران تند می‌گوید؛ گام بعدی چیست؟",
+        "title_en": "After weeks of tension, Trump is still talking tough on Iran. Here's what could happen next",
+        "summary": [
+            "پس از مذاکرات اخیر در عمان، تنش‌ها بین تهران و واشنگتن بالا مانده و دو طرف در بن‌بست قرار دارند؛ تحلیل‌گران حمله مستقیم گسترده آمریکا را به‌دلیل محدودیت‌های عملیاتی و هزینه‌های بالا غیرمحتمل می‌دانند.",
+            "تهدیدات لفظی ترامپ و افزایش فشارهای اقتصادی (از جمله تهدید به اعمال تعرفه و حضور نیروی دریایی بیشتر) هدفش را بر اجبار تهران به عقب‌نشینی از برنامه هسته‌ای و موشکی متمرکز کرده اما گزینه‌های نظامی «پاک» و سریع در دست نیست.",
+            "حذف یا هدف قرار دادن رهبری ایران عملاً پیچیده و مخاطره‌آمیز است و حتی در صورت موفقیت، خلا قدرت یا حکمرانی نظامی می‌تواند به سرکوب بیشتر داخلی یا بی‌ثباتی طولانی‌مدت منجر شود."
+        ],
+        "impact": "افزایش فشارهای واشنگتن ممکن است رژیم را از بیرون تحت فشار بگذارد و فرصت‌های سیاسی برای اپوزیسیون پدید آورد، اما خطر تشدید سرکوب داخلی و بی‌ثباتی منطقه‌ای را نیز بالا می‌برد.",
+        "tag": "تنش",
+        "urgency": 7,
+        "source": "Bing News",
+        "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=698d6ced7e3446c18581df4c83b285ae&url=https%3a%2f%2fwww.cnbc.com%2f2026%2f02%2f12%2ftrump-talking-tough-iran-analysts-nuclear-will-us-strike.html&c=890176183761843474&mkt=en-us",
+        "timestamp": 1770836280.0
     },
     {
         "title_fa": "هشدار رژیم به «جنگ گسترده» در قبال حمله، و محدود نگه داشتن گفتگوهای هسته‌ای به پرونده اتمی",
@@ -775,6 +820,21 @@
         "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOX2dSZ3RYWkZRU1RVOF93aE55MFh1RTFDOWQ5QnlUckJYS3BUcUZPbDVGMlctbjRvbHc3WHBKcDdCTG5mUkl2V1FkZVpfcHh1ZWZXWmhLNF9fUlJtMEZJcDZ0aTR2azVGRV80Z2x1UFptaWVBaWwzRnRmcWFzUEhCUHlMR0pFd1RmNFpsTHBpUWZYSlNmcHFsYnBTQ3g4RHJXcTZ3dWRqYUZJUE0tR05OMDVJYUhQLXVidHl4WmlBR3BfV1JsdjJGamFnNjA1djFBQkNyUmRwWFhjODZtdGJjMw?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Wed, 11 Feb 2026 09:11:04 GMT",
         "timestamp": 1770801064.0
+    },
+    {
+        "title_fa": "ترامپ به ایران هشدار نظامی شدیدی صادر کرد",
+        "title_en": "Trump issues dire warning to Iran",
+        "summary": [
+            "تهدید علنی رئیس‌جمهور آمریکا به مداخله نظامی در صورت عدم پیشرفت مذاکرات هسته‌ای، احتمال افزایش حضور و اقدامات نظامی واشنگتن در منطقه را بالا برده است.",
+            "این فشار می‌تواند مذاکرات هسته‌ای را مختل کند و همزمان به نفع جریان‌های تندرو در تهران باشد که از فضای امنیتی برای سرکوب داخلی و تقویت موقعیت خود استفاده می‌کنند.",
+            "برای اپوزیسیون، این وضعیت هم تهدید و هم انگیزه‌ای برای برجسته‌سازی ضرورت دیپلماسی، جلب پشتیبانی بین‌المللی و تلاش برای کاهش احتمال درگیری نظامی است."
+        ],
+        "impact": "تهدید ترامپ ریسک تشدید بحران و بن‌بست مذاکرات هسته‌ای را بالا می‌برد و می‌تواند به تقویت گفتمان امنیتی داخل ایران و افزایش سرکوب داخلی منجر شود.",
+        "tag": "تهدید",
+        "urgency": 8,
+        "source": "Bing News",
+        "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=698d6ced7e3446c18581df4c83b285ae&url=https%3a%2f%2fwww.msn.com%2fen-us%2fnews%2fworld%2ftrump-issues-dire-warning-to-iran%2far-AA1W9YUs&c=11561264323857322743&mkt=en-us",
+        "timestamp": 1770800989.0
     },
     {
         "title_fa": "یک کارشناس هشدار داد: توافق آمریکا و ایران اسرائیل را پوشش نخواهد داد",
@@ -1596,73 +1656,5 @@
         "url": "https://news.google.com/rss/articles/CBMiugNBVV95cUxPazdBckNzRnptSlR2OXpIbkRUYUtSSjZhRW9mWGlobWVDcUtaNExxLUhTbHAzNnRleXZyLW5qTWZtQ0RBZmY3cEJpMnFlS3hzU3k3ODZFZEFUMWZnczJZZW9nY2UxbkxfeUlZZ2wxaGJHVnNxV3JrYUhrd1BDZm5yUmpmOEd3MHVDZkpCLWVwTXFNcGFBMDVnQ0p5UVNjczFDbzFuVkpGOHQ3TFEtNVlncDd3b3dBa0dKNEFoSTR2OGo2OUhvdm9ZQlJwSVh1YTEtTGt4ZHlHRy1PcjFDNFBBendSTkNrcEVKTHJHUUR6MG9VTE9hYXlodnpCWGRZOEZMMDlKQW5TeW5Oa2Zla01KRThxTGFkNXE3NVZENmtrdVJuWkdlSDNkTVBWOW9GdmJ6NXBGWDdRRjNTRVg0ZDhNQjJ4SzRjSnIyS2FOZDAxWGVvbVNPYkkwUFNFYWxVSmpQUzFBemR3YmhxT0lKeVBPVVdwaHRoWmNKY0JFeDZ1NjBLZ294VVo3cFdKY2c3YmVRd1dVcERkNzJzRFZOR1pVMlNqcjI1aFRCbG9wb2RqSElRR19EbUtkTzFn?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Tue, 10 Feb 2026 16:14:00 GMT",
         "timestamp": 1770740040.0
-    },
-    {
-        "title_fa": "سفر شتاب‌زده نتانیاهو به آمریکا؛ تلاشی برای جهت‌دهی به سیاست‌گذاری درباره ایران",
-        "title_en": "Netanyahu’s hasty US visit signals Israel’s bid to shape Iran policy",
-        "summary": [
-            "نتانیاهو به‌طور ناگهانی و فوری عازم واشنگتن شد تا مستقیماً بر مواضع آمریکا در قبال ایران تأثیر بگذارد.",
-            "هدف‌های محتمل او شامل جلوگیری از بازگشت آمریکا به توافق هسته‌ای، فشار برای تشدید تحریم‌ها یا مطرح‌کردن گزینه‌های نظامی است و این سفر ممکن است با الزامات سیاست داخلی اسرائیل نیز هم‌زمان باشد.",
-            "این اقدام می‌تواند روابط واشنگتن-تل‌آویو را دستخوش تنش یا هماهنگی بیشتر کند و ریسک افزایش تنش‌ها و بی‌ثباتی در منطقه را بالا ببرد."
-        ],
-        "impact": "این سفر فوری نشان‌دهنده تلاش اسرائیل برای شکل‌دهی به سیاست آمریکا درباره ایران است که می‌تواند روابط دوجانبه را تحت‌فشار قرار دهد و احتمال تشدید تنش‌ها در خاورمیانه را افزایش دهد.",
-        "tag": "ایران",
-        "urgency": 8,
-        "sentiment": -0.25,
-        "source": "ایران اینترنشنال",
-        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE13V0Z6VnFsZ05XTlc1aWMwZ1Bid0JnT0ZYRmNQV2U2bmtZN2RBeFl3TE9XaXlKZnRaZDRUY3dlMzBHeXpqVGctWmdCWkN4Q0w1UUE?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Tue, 10 Feb 2026 16:14:00 GMT",
-        "timestamp": 1770740040.0
-    },
-    {
-        "title_fa": "ترامپ، ایران و اسرائیل: مخاطرات یک توافق هسته‌ای محدود",
-        "title_en": "Trump, Iran and Israel: The perils of a narrow nuclear deal",
-        "summary": [
-            "توافق محدود که تنها بخش‌هایی از برنامه هسته‌ای ایران را هدف قرار دهد، می‌تواند خلأهایی مانند برنامه موشکی، فعالیت‌های منطقه‌ای و بندهای بازگشت‌پذیر (sunset) را باقی بگذارد و راه‌های فرار و ازسرگیری برنامه را باز بگذارد.",
-            "رویکرد ترامپ به توافق‌های محدود می‌تواند حمایت متحدان منطقه‌ای مانند اسرائیل و کشورهای خلیج را تحت‌الشعاع قرار دهد و خطر انزوای دیپلماتیک یا تشدید اقدامات یک‌جانبه را افزایش دهد.",
-            "عدم گنجاندن مکانیسم‌های نظارتی قوی و دامنه‌دار، احتمال فعالیت‌های پنهان، رقابت منطقه‌ای و در نهایت افزایش ریسک برخورد نظامی را بیشتر می‌کند."
-        ],
-        "impact": "یک توافق هسته‌ای محدود احتمال تضعیف عدم اشاعه را دارد و می‌تواند تنش‌ها را بالا ببرد و شانس رویارویی نظامی بین ایران و اسرائیل و دخالت آمریکا را افزایش دهد.",
-        "tag": "امنیت",
-        "urgency": 8,
-        "sentiment": -0.6,
-        "source": "Israel National News",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9TRmt3T09lSEh1Z0N2UGZjaDdWWTVEeHV0MHNrR2tidmFKQXluTV8wbUM5Ulc0X1JSUDI4TjBWNVp3RGZZazVEVUxWN1NxZ1Z6ZHRJLW94ZkZDQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Tue, 10 Feb 2026 15:38:00 GMT",
-        "timestamp": 1770737880.0
-    },
-    {
-        "title_fa": "دیدار ترامپ با نتانیاهو برای گفت‌وگوهای حساس در بحبوحه تهدید درگیری با ایران",
-        "title_en": "Trump to meet Netanyahu for high-stakes talks as Iran conflict looms",
-        "summary": [
-            "دیدار برنامه‌ریزی‌شده ترامپ و نتانیاهو حول تنش‌های رو به رشد با ایران و احتمال تشدید نظامی است.",
-            "موضوعات اصلی احتمالی شامل هماهنگی امنیتی، گزینه‌های نظامی و دیپلماتیک، و راه‌های بازدارندگی علیه ایران خواهد بود.",
-            "نتایج این گفت‌وگو می‌تواند بر ثبات منطقه، تصمیمات سیاست خارجی واشنگتن و تل‌آویو، و همچنین بازارهای جهانی انرژی تأثیر بگذارد."
-        ],
-        "impact": "این دیدار می‌تواند همکاری نظامی و دیپلماتیک آمریکا و اسرائیل را تقویت کند اما همزمان احتمال افزایش خطر گسترش درگیری در خاورمیانه و نوسانات بازار انرژی را بالا ببرد.",
-        "tag": "ایران",
-        "urgency": 8,
-        "sentiment": -0.4,
-        "source": "Fox Business",
-        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5GWEtVZFJadjBGM0xnYzR5YlY4T3A2amI4OEZFdFBNYWs1akxLcm9qWkUyRi02ZS15NnJsM2ZqSVpObktXSTFRcUVHRm1IR2RLOEgweUVJaGF5ckU?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Tue, 10 Feb 2026 15:24:37 GMT",
-        "timestamp": 1770737077.0
-    },
-    {
-        "title_fa": "نتانیاهو به واشنگتن می‌رود تا درباره مذاکرات با ایران به ترامپ فشار بیاورد؛ تهران نسبت به فشار اسرائیل هشدار داد",
-        "title_en": "Netanyahu Heads to Washington to Press Trump on Iran Talks as Tehran Warns Against Israeli Pressure",
-        "summary": [
-            "نخست‌وزیر اسرائیل برای افزایش فشار بر دولت ترامپ در خصوص نحوه برخورد با مذاکرات و برنامه هسته‌ای ایران به واشنگتن سفر می‌کند.",
-            "نتانیاهو به‌دنبال جلب حمایت آمریکا یا تغییر مواضع واشنگتن در قبال توافق با ایران یا سیاست‌های تحریمی است.",
-            "تهران این مداخلات را محکوم و نسبت به تلاش‌های اسرائیل برای تأثیرگذاری بر تصمیمات آمریکا هشدار داده است."
-        ],
-        "impact": "این ملاقات می‌تواند تنش‌های سیاسی منطقه را تشدید کرده و روند مذاکرات ایران و آمریکا را تحت تأثیر قرار دهد.",
-        "tag": "دیپلماسی",
-        "urgency": 7,
-        "sentiment": -0.35,
-        "source": "Palestine Chronicle",
-        "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOcFBmQXEzTWktck1qSE5DeXhtM2J6WFBEWFR0OVFXNXE0Um1CTmliLUM0UEdpcHNqYmpiNE1fU0w5WHE0c1lfbkQ5Xy05Ujg3TllMcUd6dVN6RUlzSEczSkJIVEpvdFQ4RTZtSVRoazloQUEtMkJ2TVJscGl1dmVnMFJ1aGt4cXNBRldzeDlqUnh6WVVGSkgxSWxybjEwdFl2c3lZUzEwb0hlYkFGVkdVUXRyVmJTaC01a1ZTa2pZbUJPUWR4dEM2b2ZVcXFLakV1?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Tue, 10 Feb 2026 15:22:30 GMT",
-        "timestamp": 1770736950.0
     }
 ]
