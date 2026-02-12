@@ -232,6 +232,21 @@
         "timestamp": 1770827721.0
     },
     {
+        "title_fa": "فعالان: شمار کشته‌شدگان سرکوب اعتراضات در ایران دست‌کم ۷۰۰۲ نفر شد",
+        "title_en": "Deaths in Iran's crackdown on protests reach at least 7,000, activists say",
+        "summary": [
+            "فعالان می‌گویند آمار کشته‌شدگان سرکوب اعتراضات سراسری اخیر به دست‌کم ۷۰۰۲ نفر رسیده و تعداد واقعی می‌تواند بیشتر باشد.",
+            "افزایش آهسته شمار جان‌باختگان نشان‌دهنده موانع در جمع‌آوری اطلاعات، سانسور و احتمال دفن یا پنهان‌سازی قربانیان توسط نهادهای حکومتی است.",
+            "این سطح از تلفات می‌تواند تشکل‌یابی مخالفان در داخل و فشار بین‌المللی بر رژیم را تشدید کند و ریسک تشدید خشونت و بی‌ثباتی را بالا می‌برد."
+        ],
+        "impact": "آمار بسیار بالای جان‌باختگان مشروعیت رژیم را به شدت زیر سوال می‌برد، به تشدید نارضایتی داخلی و فشار بین‌المللی منجر می‌شود و می‌تواند نقطه عطفی در تحولات سیاسی-امنیتی ایران باشد.",
+        "tag": "سرکوب",
+        "urgency": 10,
+        "source": "Bing News",
+        "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=698d3da4245b41c0bbf7354a1af3af52&url=https%3a%2f%2fwww.msn.com%2fen-us%2fnews%2fworld%2fdeaths-in-irans-crackdown-on-protests-reach-at-least-7000-activists-say%2far-AA1Wae0j&c=2355802213191535434&mkt=en-us",
+        "timestamp": 1770827443.0
+    },
+    {
         "title_fa": "نتانیاهو وارد واشنگتن شد تا ترامپ را تحت فشار قرار دهد؛ همزمان با ازسرگیری گفت‌وگوهای ایران و آمریکا",
         "title_en": "Netanyahu arrives in Washington to press Trump as Iran–US talks resume",
         "summary": [
@@ -1657,22 +1672,5 @@
         "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxORXEzdmNlN2lNR3FzcGc3aTF5cW5aeU04WGtMVTdZYzBESWZhQmdtYkFsUTI5dkV2UzVFeE9oZWlqdXVLbXE4OVRLRVQ4cDhuNmZjYV91ZE1VLUVpeEVEZzFQOEhray0zTHd5Wl9tVG9SblhzUGtzWUktR0p6dWxZczBZY0VTdlF2?oc=5&hl=en-US&gl=US&ceid=US:en",
         "date": "Tue, 10 Feb 2026 13:46:18 GMT",
         "timestamp": 1770731178.0
-    },
-    {
-        "title_fa": "نتانیاهو: در سفر به آمریکا «دیدگاه اسرائیل» درباره مذاکرات با ایران را به ترامپ ارائه می‌دهم",
-        "title_en": "Netanyahu says he will present 'Israel’s vision' on Iran talks to Trump during US visit",
-        "summary": [
-            "نتانیاهو اعلام کرده در سفر به آمریکا دیدگاه اسرائیل درباره مذاکرات با ایران را به رئیس‌جمهور ترامپ ارائه خواهد کرد.",
-            "او به دنبال تاثیرگذاری بر مواضع واشینگتن در مذاکرات هسته‌ای و امنیتی با ایران و همسوسازی سیاست‌های اسرائیل و آمریکا است.",
-            "این دیدار می‌تواند پیامدهایی برای روند مذاکرات با ایران و وضعیت امنیتی منطقه داشته و حساسیت‌ها را افزایش دهد."
-        ],
-        "impact": "این دیدار می‌تواند جهت‌گیری سیاست آمریکا نسبت به مذاکرات با ایران را تحت تاثیر قرار دهد و به تغییر دیپلماسی منطقه‌ای و افزایش تنش‌ها منجر شود.",
-        "tag": "ایران",
-        "urgency": 6,
-        "sentiment": -0.1,
-        "source": "Anadolu Ajansı",
-        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOTzRSUTNaYjZyc0xib3RMMmVOUDNCeVNOSEUwVzFvRmg4eW0tOGFrSnVrNFEyMllrcEVlU0VkUGFyek5QUEhrTFZSemk1eXpNdE9rcDNfYkFQR1FEM0JyR0l3V203WTlTbnhhbHhITVlIVlVIcTV3aDJhS3ZEVUZtLU5lb2hLVVZwSWJTMDlPMG5GV2NWRU40NE1ucnNyUVBzQ1ZZcjdQLTBna3BIY2VpWUlGSmRmdVM0NG5qVGUyUGNrSVNiQUVST3Bn?oc=5&hl=en-US&gl=US&ceid=US:en",
-        "date": "Tue, 10 Feb 2026 13:13:18 GMT",
-        "timestamp": 1770729198.0
     }
 ]
